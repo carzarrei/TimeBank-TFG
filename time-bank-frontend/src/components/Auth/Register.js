@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [nombreCompleto, setNombreCompleto] = useState('');
@@ -9,6 +10,8 @@ const Register = () => {
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState('');
   const [habilidades, setHabilidades] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +26,7 @@ const Register = () => {
         habilidades,
       });
       console.log('Registration successful:', response.data);
+      navigate('/login');
     } catch (error) {
       console.error('Registration error:', error.response.data);
     }
@@ -30,54 +34,64 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <h1>Register</h1>
+      <div>
+        <input
         type="text"
         placeholder="Nombre Completo"
         value={nombreCompleto}
         onChange={(e) => setNombreCompleto(e.target.value)}
-        required
-      />
+        />
+      </div>
+      <div>
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        required
       />
+      </div>
+      <div>
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        required
       />
+      </div>
+      <div>
       <input
         type="text"
         placeholder="Localidad"
         value={localidad}
         onChange={(e) => setLocalidad(e.target.value)}
-        required
       />
+      </div>
+      <div>
       <input
         type="date"
         placeholder="Fecha de Nacimiento"
         value={fechaNacimiento}
         onChange={(e) => setFechaNacimiento(e.target.value)}
-        required
       />
+      </div>
+      <div>
       <input
-        type="text"
-        placeholder="Foto de Perfil"
-        value={fotoPerfil}
-        onChange={(e) => setFotoPerfil(e.target.value)}
+        type="file"
       />
+      </div>
+      <div>
       <input
         type="text"
         placeholder="Habilidades"
         value={habilidades}
         onChange={(e) => setHabilidades(e.target.value)}
       />
+      </div>
+      <br />
+      <div>
       <button type="submit">Register</button>
+      </div>
     </form>
   );
 };

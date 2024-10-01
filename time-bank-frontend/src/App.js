@@ -9,6 +9,7 @@ import RequestList from './components/Requests/RequestList';
 import RequestForm from './components/Requests/RequestForm';
 import MessageList from './components/Messages/MessageList';
 import MessageForm from './components/Messages/MessageForm';
+import Profile from './components/Auth/Profile';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/messages/new" element={<MessageForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={ <Profile />} />
       </Routes>
     </Router>
   );

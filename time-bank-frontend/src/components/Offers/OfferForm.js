@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../../api'; // Asegúrate de que la ruta sea correcta
 
 const OfferForm = () => {
@@ -6,8 +6,14 @@ const OfferForm = () => {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [tiempoIntercambio, setTiempoIntercambio] = useState('');
-  const [fechaPublicacion, setFechaPublicacion] = useState('');
-
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (!token) {
+      alert('No estás autenticado. Por favor, inicia sesión.');
+      window.location.href = '/login'; // Redirigir al login si no hay token
+      return;
+    }
+  }, [token]);
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,16 +24,19 @@ const OfferForm = () => {
         titulo,
         descripcion,
         tiempoIntercambio,
-        fechaPublicacion,
+      }, {
+        headers: {
+          Authorization: token,
+        },
       });
 
       // Manejar la respuesta del backend (por ejemplo, mostrar un mensaje o redirigir)
       console.log('Oferta creada:', response.data);
+      alert('Oferta creada con éxito');
       // Opcional: Limpiar el formulario
       setTitulo('');
       setDescripcion('');
       setTiempoIntercambio('');
-      setFechaPublicacion('');
     } catch (error) {
       console.error('Error al crear la oferta:', error.response ? error.response.data : error.message);
     }
@@ -63,16 +72,6 @@ const OfferForm = () => {
             type="number"
             value={tiempoIntercambio}
             onChange={(e) => setTiempoIntercambio(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="fechaPublicacion">Fecha de Publicación:</label>
-          <input
-            id="fechaPublicacion"
-            type="date"
-            value={fechaPublicacion}
-            onChange={(e) => setFechaPublicacion(e.target.value)}
             required
           />
         </div>

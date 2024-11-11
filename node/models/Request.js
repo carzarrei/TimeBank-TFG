@@ -21,9 +21,9 @@ const Request = db.define('requests', {
     allowNull: false,
   },
   estado: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('abierta', 'aceptada', 'cerrada'),
     allowNull: false,
-    defaultValue: 'pendiente',
+    defaultValue: 'abierta',
   },
   creadorId: {
     type: DataTypes.INTEGER,
@@ -41,6 +41,14 @@ const Request = db.define('requests', {
     },
     allowNull: true, // Puede estar vacío si es creado por un usuario individual
   },
+  aceptadaPor: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: true, // Puede estar vacío si no está aceptada
+  }
 }, {
   timestamps: true,
 });

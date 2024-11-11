@@ -4,27 +4,41 @@ import NavBar from './components/NavBar';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import OfferList from './components/Offers/OfferList';
+import OfferDetails from './components/Offers/OfferDetails';
 import OfferForm from './components/Offers/OfferForm';
 import RequestList from './components/Requests/RequestList';
 import RequestForm from './components/Requests/RequestForm';
-import MessageList from './components/Messages/MessageList';
+import SentMessageList from './components/Messages/SentMessagesList';
 import MessageForm from './components/Messages/MessageForm';
-import Profile from './components/Auth/Profile';
+import UserProfile from './components/Auth/UserProfile';
+import PersonalProfile from './components/Auth/PersonalProfile';
+import RequestDetails from './components/Requests/RequestDetails';
+import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
+import GroupsList from './components/Groups/GroupsList';
+import GroupForm from './components/Groups/GroupForm';
+import GroupDetails from './components/Groups/GroupDetails';
 
 function App() {
   return (
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<OfferList />} />
+        <Route path="/offers" element={<OfferList />} />
+        <Route path="/offers/details/*" element={<OfferDetails />} />
         <Route path="/offers/new" element={<OfferForm />} />
         <Route path="/requests" element={<RequestList />} />
+        <Route path="/requests/details/*" element={<RequestDetails />} />
         <Route path="/requests/new" element={<RequestForm />} />
-        <Route path="/messages" element={<MessageList />} />
+        <Route path="/messages/received" element={<ReceivedMessageList />} />
+        <Route path="/messages/sent" element={<SentMessageList />} />
         <Route path="/messages/new" element={<MessageForm />} />
+        <Route path="/groups" element={<GroupsList />} />
+        <Route path="/groups/details/*" element={<GroupDetails />} />
+        <Route path="/groups/new" element={<GroupForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={ <Profile />} />
+        <Route path="/profile/*" element={ <UserProfile />} />
+        <Route path="/my-profile" element={ <PersonalProfile />} />
       </Routes>
     </Router>
   );

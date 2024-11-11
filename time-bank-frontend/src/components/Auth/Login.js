@@ -5,14 +5,27 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const token = localStorage.getItem('token');
+      if (token) {
+        alert('Ya estás autenticado.');
+        window.location.href = '/profile'; // Redirigir al home si ya hay token
+      }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await api.post('/users/login', { email, password });
       console.log('Login successful:', response.data);
-      // Manejar el token aquí
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user.id);
+        window.location = '/my-profile';
+      } else {
+        console.error('Login error:', response.data);
+      }
     } catch (error) {
       console.error('Login error:', error.response.data);
+      alert(error.response.data.message);
     }
   };
 

@@ -34,7 +34,11 @@ const User = db.define('users', {
   habilidades: {
     type: DataTypes.TEXT,
     allowNull: true,
-  }
+  },
+  grupoId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
 }, {
   timestamps: true,
 });

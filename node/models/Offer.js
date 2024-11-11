@@ -20,9 +20,17 @@ const Offer = db.define('offers', {
     allowNull: false,
   },
   estado: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('abierta', 'aceptada', 'cerrada'),
     allowNull: false,
-    defaultValue: 'pendiente',
+    defaultValue: 'abierta',
+  },
+  aceptadaPor: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: true,
   },
   creadorId: {
     type: DataTypes.INTEGER,

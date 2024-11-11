@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-
-const Profile = () => {
+const PersonalProfile = () => {
     const [user, setUser] = useState([]);
-
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('No estás autenticado. Por favor, inicia sesión.');
+          window.location.href = '/login'; // Redirigir al login si no hay token
+          return;
+        }
         const fetchUser = async () => {
           try {
-            const response = await api.get('/users/28');
+            const id = localStorage.getItem('userId');
+            const response = await api.get(`/users/${id}`, {
+              headers: {
+                Authorization: token
+              }
+            });
             setUser(response.data);
           } catch (error) {
-            console.error('Error fetching offers:', error);
-          }
+            console.error('Error fetching user:', error);
         };
+      }
 
         fetchUser();
     }, []);
@@ -33,4 +42,4 @@ const Profile = () => {
       );
     };
 
-    export default Profile;
+    export default PersonalProfile;

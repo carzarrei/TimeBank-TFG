@@ -37,7 +37,7 @@ export const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ token });
+    res.status(200).json({ token, user});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -45,7 +45,6 @@ export const loginUser = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   const { id } = req.params;
-
   try {
     const user = await User.findByPk(id);
     if (!user) {
@@ -80,3 +79,68 @@ export const editUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getUserByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ where: { email } });
+    return user;
+  } catch (error) {
+    console.error('Error getting user by email:', error.message);
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    await user.destroy();
+    res.status(200).json({ message: 'Usuario eliminado' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const getAllUsersFromGroup = async (groupId) => {
+  try {
+    const users = await User.findAll({ where: { grupoId: groupId } });
+    return users;
+  } catch (error) {
+    console.error('Error getting users by group:', error.message);
+  }
+}
+
+export const addUserToGroup = async (userId, groupId) => {
+  try {
+    const user = await User.update({ grupoId: groupId }, { where: { id: userId } });
+    return user;
+  } catch (error) {
+    console.error('Error getting user by email:', error.message);
+  }
+}
+
+export const removeUserFromGroup = async (userId) => {
+  try {
+    const user = await User.update({ grupoId: null }, { where: { id: userId } });
+    return user;
+  } catch (error) {
+    console.error('Error getting user by email:', error.message);
+  }
+}
+
+export const exchangeTimeBetweenUsers = async (userId, otherUserId, time, transaction) => {
+  try {
+    const user = await User.findByPk(userId, { transaction });
+    const otherUser = await User.findByPk(otherUserId, { transaction });
+    if (!user || !otherUser) {
+      return;
+    }
+    await user.update({ horasGlobales: user.horasGlobales - time }, { transaction });
+    await otherUser.update({ horasGlobales: otherUser.horasGlobales + time }, { transaction });
+    return;
+  } catch (error) {
+    console.error('Error interchanging time:', error.message);
+  }
+}

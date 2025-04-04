@@ -3,18 +3,18 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const registerUser = async (req, res, next) => {
-  const { nombreCompleto, email, password, localidad, fechaNacimiento, fotoPerfil, habilidades } = req.body;
+  const { name, email, password, location, birth_date, profile_picture, skills } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      nombreCompleto,
+      name,
       email,
       password: hashedPassword,
-      localidad,
-      fechaNacimiento,
-      fotoPerfil,
-      habilidades,
+      location,
+      birth_date,
+      profile_picture,
+      skills
     });
     res.status(201).json(user);
   } catch (error) {
@@ -28,12 +28,12 @@ export const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(400).json({ message: 'Credenciales incorrectas' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Contraseña incorrecta' });
+      return res.status(400).json({ message: 'Credenciales incorrectas' });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });

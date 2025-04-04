@@ -3,12 +3,12 @@ import db from '../database/db.js';
 import User from './User.js';
 
 const Group = db.define('groups', {
-  nombre: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  administradorId: {
+  admin_id: {
     type: DataTypes.INTEGER,
     references: {
       model: User,
@@ -17,10 +17,8 @@ const Group = db.define('groups', {
     allowNull: false,
   },
 }, {
+  tableName: 'GROUPS',
   timestamps: true,
 });
-
-// Relación entre grupo y miembros
-Group.hasMany(User , { foreignKey: 'grupoId' });
 
 export default Group;

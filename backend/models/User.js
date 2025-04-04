@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import db from '../database/db.js';
 
 const User = db.define('users', {
-  nombreCompleto: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -15,32 +15,33 @@ const User = db.define('users', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  localidad: {
+  location: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  fechaNacimiento: {
+  birth_date: {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  fotoPerfil: {
+  profile_picture: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  horasGlobales: {
+  accumulated_time: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
-  habilidades: {
+  skills: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  grupoId: {
-    type: DataTypes.INTEGER,
+  is_admin: {
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
 }, {
-  timestamps: true,
+  tableName: 'USERS',
+  timestamps: false,
 });
 
 export default User;

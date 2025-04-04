@@ -8,8 +8,8 @@ const Login = () => {
   const token = localStorage.getItem('token');
       if (token) {
         alert('Ya estás autenticado.');
-        window.location.href = '/profile'; // Redirigir al home si ya hay token
-      }
+        window.location.href = '/my-profile'; // Redirigir al home si ya hay token
+      } 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

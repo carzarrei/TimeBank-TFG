@@ -10,9 +10,9 @@ const UserProfile = () => {
           return;
         }
         const userId = window.location.pathname.split('/').pop();
-        if (!userId) {
+        if (!(typeof userId !== 'undefined' && userId !== null && userId !== '')) {
           alert('No se ha especificado un usuario.');
-          window.location.href = '/users'; // Redirigir a la lista de usuarios si no hay id
+          window.location.href = '/my-profile'; // Redirigir alperfil personal si no hay id
           return;
         }
         const fetchUser = async () => {

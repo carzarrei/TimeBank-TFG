@@ -1,37 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/navBar.css'; // Importa los estilos
 import handleLogout from './Auth/Logout';
-import {listaGrupos, listaMensajes, listaOfertas, listaSolicitudes, login, nuevaOferta, nuevaSolicitud, nuevoGrupo, nuevoMensaje, perfilPersonal, register, } from '../routeNames.js';
+import {
+  listaGrupos,
+  listaMensajes,
+  listaOfertas,
+  listaSolicitudes,
+  login,
+  nuevaOferta,
+  nuevaSolicitud,
+  nuevoGrupo,
+  nuevoMensaje,
+  perfilPersonal,
+  register,
+} from '../routeNames.js';
 
 const NavBar = () => {
+  const token = localStorage.getItem('token');
+  const isAuthenticated = !!token
+
   return (
-    <nav>
-      <Link to={listaOfertas}>Ofertas</Link>
-      &nbsp;
-      <Link to={nuevaOferta}>Nueva Oferta</Link>
-      &nbsp;
-      <Link to={listaSolicitudes}>Solicitudes</Link>
-      &nbsp;
-      <Link to={nuevaSolicitud}>Nueva Solicitud</Link>
-      &nbsp;
-      <Link to={listaMensajes}>Mensajes</Link>
-      &nbsp;
-      <Link to={nuevoMensaje}>Nuevo Mensaje</Link>
-      &nbsp;
-      <Link to={nuevoGrupo}>Nuevo Grupo</Link>
-      &nbsp;
-      <Link to={listaGrupos}>Grupos</Link>
-      &nbsp;
-      <Link to={login}>Login</Link>
-      &nbsp;
-      <Link to={register}>Register</Link>
-      &nbsp;
-      <Link to={perfilPersonal}>Mi Perfil</Link>
-      &nbsp;
-    
-      <button onClick={() => {
-        handleLogout();
-      }}> Logout </button> 
+    <nav className="navbar">
+      
+      {!isAuthenticated && (
+        <>
+          <Link to={login}>Iniciar Sesion</Link>
+          <Link to={register}>Registro</Link>
+        </>
+      )}
+      
+      {isAuthenticated && (
+        <>
+        <Link to={listaOfertas}>Ofertas</Link>
+        <Link to={nuevaOferta}>Nueva Oferta</Link>
+        <Link to={listaSolicitudes}>Solicitudes</Link>
+        <Link to={nuevaSolicitud}>Nueva Solicitud</Link>
+        <Link to={listaMensajes}>Mensajes</Link>
+        <Link to={nuevoMensaje}>Nuevo Mensaje</Link>
+        <Link to={nuevoGrupo}>Nuevo Grupo</Link>
+        <Link to={listaGrupos}>Grupos</Link>
+        <Link to={perfilPersonal}>Mi Perfil</Link>
+        <button onClick={handleLogout}>Cerrar Sesion</button>
+        </>
+      )}
     </nav>
   );
 };

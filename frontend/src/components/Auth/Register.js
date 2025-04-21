@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
-import { useNavigate } from 'react-router-dom';
+import { login } from '../../RouteNames';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -10,8 +10,6 @@ const Register = () => {
   const [birth_date, setBirthDate] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [skills, setSkills] = useState('');
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +24,7 @@ const Register = () => {
         skills
       });
       console.log('Registration successful:', response.data);
-      navigate('/login');
+      window.location.href = login;
     } catch (error) {
       console.error('Registration error:', error.response.data);
     }

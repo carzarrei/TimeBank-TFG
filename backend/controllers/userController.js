@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { wrongCredentials, userNotFound } from "../errorMessages.js"
 
 export const registerUser = async (req, res, next) => {
   const { name, email, password, location, birth_date, profile_picture, skills } = req.body;
@@ -28,12 +29,12 @@ export const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(400).json({ message: 'Credenciales incorrectas' });
+      return res.status(400).json({ message: wrongCredentials });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Credenciales incorrectas' });
+      return res.status(400).json({ message: wrongCredentials });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -48,7 +49,7 @@ export const getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: userNotFound });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -63,7 +64,7 @@ export const editUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: userNotFound });
     }
     
     await user.update({
@@ -83,6 +84,9 @@ export const editUser = async (req, res) => {
 export const getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ message: wrongCredentials });
+    }
     return user;
   } catch (error) {
     console.error('Error getting user by email:', error.message);
@@ -94,7 +98,7 @@ export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: userNotFound });
     }
     await user.destroy();
     res.status(200).json({ message: 'Usuario eliminado' });

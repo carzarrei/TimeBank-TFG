@@ -17,6 +17,7 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
+import { login, perfilDeUsuario, perfilPersonal, register } from './RouteNames';
 
 function App() {
   return (
@@ -35,10 +36,10 @@ function App() {
         <Route path="/groups" element={<GroupsList />} />
         <Route path="/groups/details/*" element={<GroupDetails />} />
         <Route path="/groups/new" element={<GroupForm />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile/*" element={ <UserProfile />} />
-        <Route path="/my-profile" element={ <PersonalProfile />} />
+        <Route path={login} element={<Login />} />
+        <Route path={register} element={<Register />} />
+        <Route path={perfilDeUsuario+"/*"} element={ <UserProfile />} />
+        <Route path={perfilPersonal} element={ <PersonalProfile />} />
       </Routes>
     </Router>
   );

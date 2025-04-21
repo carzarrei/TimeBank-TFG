@@ -1,3 +1,4 @@
+import { login } from "../../RouteNames";
 
 const token = localStorage.getItem('token');
 
@@ -10,7 +11,7 @@ const handleLogout = () => {
   if (confirm) {
     localStorage.removeItem('token'); // O `localStorage.clear()` si tienes más datos
     // Redirigir al usuario a la página de inicio de sesión
-    window.location.href = '/login';
+    window.location.href = login;
   }
 };
 

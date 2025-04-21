@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import { login, perfilPersonal } from '../../RouteNames';
 const UserProfile = () => {
     const [user, setUser] = useState([]);
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
           alert('No estás autenticado. Por favor, inicia sesión.');
-          window.location.href = '/login'; // Redirigir al login si no hay token
+          window.location.href = login; // Redirigir al login si no hay token
           return;
         }
         const userId = window.location.pathname.split('/').pop();
         if (!(typeof userId !== 'undefined' && userId !== null && userId !== '')) {
           alert('No se ha especificado un usuario.');
-          window.location.href = '/my-profile'; // Redirigir alperfil personal si no hay id
+          window.location.href = perfilPersonal; // Redirigir alperfil personal si no hay id
           return;
         }
         const fetchUser = async () => {

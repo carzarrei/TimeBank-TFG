@@ -1,6 +1,6 @@
 import express from 'express';
 import { registerUser, loginUser , getUserById, editUser} from '../controllers/userController.js';
-import verifyLogin from '../middlewares/verify.js';
+import verifyLogin from '../middlewares/CheckAuth.js';
 const router = express.Router();
 
 router.get('/:id', verifyLogin , getUserById);

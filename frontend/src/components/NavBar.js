@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import handleLogout from './Auth/Logout';
-import {listaGrupos, listaMensajes, listaOfertas, listaSolicitudes, login, nuevaOferta, nuevaSolicitud, nuevoGrupo, nuevoMensaje, perfilPersonal, register, } from '../routeNames';
+import {listaGrupos, listaMensajes, listaOfertas, listaSolicitudes, login, nuevaOferta, nuevaSolicitud, nuevoGrupo, nuevoMensaje, perfilPersonal, register, } from '../RouteNames';
 
 const NavBar = () => {
   return (

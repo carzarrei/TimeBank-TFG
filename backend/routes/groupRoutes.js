@@ -1,6 +1,6 @@
 import express from 'express';
 import { createGroup, getAllGroups, getGroupById, getGroupMembers, joinGroup, leaveGroup } from '../controllers/groupController.js';
-import verifyLogin from '../middlewares/verify.js';
+import verifyLogin from '../middlewares/CheckAuth.js';
 
 const router = express.Router();
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
+import { perfilPersonal } from '../../RouteNames';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,7 +9,7 @@ const Login = () => {
   const token = localStorage.getItem('token');
       if (token) {
         alert('Ya estás autenticado.');
-        window.location.href = '/my-profile'; // Redirigir al home si ya hay token
+        window.location.href = perfilPersonal; // Redirigir al home si ya hay token
       } 
 
   const handleSubmit = async (e) => {
@@ -19,7 +20,7 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user.id);
-        window.location = '/my-profile';
+        window.location = perfilPersonal;
       } else {
         console.error('Login error:', response.data);
       }

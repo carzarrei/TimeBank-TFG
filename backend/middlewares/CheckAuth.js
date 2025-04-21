@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { invalidAuth } from '../errorMessages';
+import { invalidAuth } from '../errorMessages.js';
 
 const verifyLogin = (req, res, next) => {
     const token = req.headers['authorization'];

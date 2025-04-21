@@ -17,7 +17,7 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, perfilDeUsuario, perfilPersonal, register } from './RouteNames';
+import { login, perfilDeUsuario, perfilPersonal, register } from './routeNames.js';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
-import { perfilPersonal } from '../../RouteNames';
+import { perfilPersonal } from '../../routeNames.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');

@@ -1,4 +1,4 @@
-import { login } from "../../RouteNames";
+import { login } from "../../routeNames.js";
 
 const token = localStorage.getItem('token');
 

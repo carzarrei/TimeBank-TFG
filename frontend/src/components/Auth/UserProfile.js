@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-import { login, perfilPersonal } from '../../RouteNames';
+import { login, perfilPersonal } from '../../routeNames.js';
 const UserProfile = () => {
     const [user, setUser] = useState([]);
     useEffect(() => {

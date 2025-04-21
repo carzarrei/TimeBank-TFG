@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
-import { login } from '../../RouteNames';
+import { login } from '../../routeNames.js';
 
 const Register = () => {
   const [name, setName] = useState('');

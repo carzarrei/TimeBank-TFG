@@ -3,23 +3,26 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { wrongCredentials, userNotFound } from "../errorMessages.js"
 
-export const registerUser = async (req, res, next) => {
-  const { name, email, password, location, birth_date, profile_picture, skills } = req.body;
-
+export const registerUser = async (req, res) => {
   try {
+    const { name, email, password, location, birth_date, skills } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    const profilePicture = req.file ? req.file.filename : null;
+    const newUser = new User({
       name,
       email,
       password: hashedPassword,
       location,
       birth_date,
-      profile_picture,
+      profile_picture: profilePicture,
       skills
     });
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+
+    await newUser.save();
+    res.status(201).json({ message: 'Usuario registrado correctamente' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al registrar usuario' });
   }
 };
 

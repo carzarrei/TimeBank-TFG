@@ -12,7 +12,7 @@ import {
   nuevaSolicitud,
   nuevoGrupo,
   nuevoMensaje,
-  perfilPersonal,
+  personalProfile,
   register,
 } from '../routeNames.js';
 
@@ -40,7 +40,7 @@ const NavBar = () => {
         <Link to={nuevoMensaje}>Nuevo Mensaje</Link>
         <Link to={nuevoGrupo}>Nuevo Grupo</Link>
         <Link to={listaGrupos}>Grupos</Link>
-        <Link to={perfilPersonal}>Mi Perfil</Link>
+        <Link to={personalProfile}>Mi Perfil</Link>
         <button onClick={handleLogout}>Cerrar Sesion</button>
         </>
       )}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/Auth/login.css'; // importa los estilos
 import api from '../../api';
-import { perfilPersonal } from '../../routeNames.js';
+import { personalProfile } from '../../routeNames.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +10,8 @@ const Login = () => {
   const token = localStorage.getItem('token');
   if (token) {
     alert('Ya estás autenticado.');
-    window.location.href = perfilPersonal;
+    window.location.href = personalProfile;
+  
   }
 
   const handleSubmit = async (e) => {
@@ -20,7 +21,8 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user.id);
-        window.location = perfilPersonal;
+        window.location = personalProfile;
+      
       } else {
         console.error('Login error:', response.data);
       }

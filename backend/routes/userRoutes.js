@@ -8,5 +8,6 @@ router.get('/:id', verifyLogin , getUserById);
 router.post('/register', upload.single('profilePicture'), registerUser);
 router.post('/login', loginUser);
 router.post('/edit/:id', editUser);
+router.post('/edit-profile', verifyLogin, upload.none(), editUser);
 
 export default router;

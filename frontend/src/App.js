@@ -12,12 +12,14 @@ import SentMessageList from './components/Messages/SentMessagesList';
 import MessageForm from './components/Messages/MessageForm';
 import UserProfile from './components/Auth/UserProfile';
 import PersonalProfile from './components/Auth/PersonalProfile';
+import EditProfile from './components/Auth/EditProfile.js';
 import RequestDetails from './components/Requests/RequestDetails';
 import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, perfilDeUsuario, perfilPersonal, register } from './routeNames.js';
+import { login, userProfile, personalProfile, register, editProfile } from './routeNames.js';
+
 
 function App() {
   return (
@@ -38,8 +40,9 @@ function App() {
         <Route path="/groups/new" element={<GroupForm />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
-        <Route path={perfilDeUsuario+"/*"} element={ <UserProfile />} />
-        <Route path={perfilPersonal} element={ <PersonalProfile />} />
+        <Route path={userProfile+"/*"} element={ <UserProfile />} />
+        <Route path={personalProfile} element={ <PersonalProfile />} />
+        <Route path={editProfile} element={ <EditProfile />} />
       </Routes>
     </Router>
   );

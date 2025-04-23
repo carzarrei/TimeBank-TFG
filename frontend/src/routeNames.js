@@ -8,9 +8,10 @@ const listaMensajes = '/messages/received';
 const nuevoMensaje = '/messages/new';
 const login = '/login';
 const register = '/register';
-const perfilPersonal = '/my-profile';
-const perfilDeUsuario = '/profile'
+const personalProfile = '/my-profile';
+const editProfile = '/edit-profile';
+const userProfile = '/profile'
 const nuevoGrupo = '/groups/new';
 const listaGrupos = '/groups';
 
-export { listaOfertas, detallesOferta, nuevaOferta, listaSolicitudes, detallesSolicitud, nuevaSolicitud, listaMensajes, nuevoMensaje, login, register, perfilPersonal, perfilDeUsuario, nuevoGrupo, listaGrupos };
+export { listaOfertas, detallesOferta, nuevaOferta, listaSolicitudes, detallesSolicitud, nuevaSolicitud, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, nuevoGrupo, listaGrupos };

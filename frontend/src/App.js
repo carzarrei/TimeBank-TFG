@@ -18,7 +18,9 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, userProfile, personalProfile, register, editProfile } from './routeNames.js';
+import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword } from './routeNames.js';
+import ForgotPassword from './components/Auth/ForgotPassword.js';
+import ResetPassword from './components/Auth/ResetPassword.js';
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
         <Route path={userProfile+"/*"} element={ <UserProfile />} />
         <Route path={personalProfile} element={ <PersonalProfile />} />
         <Route path={editProfile} element={ <EditProfile />} />
+        <Route path={forgotPassword} element={ <ForgotPassword />} />
+        <Route path={resetPassword} element={ <ResetPassword />} />
+
       </Routes>
     </Router>
   );

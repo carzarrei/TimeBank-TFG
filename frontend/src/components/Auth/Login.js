@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/Auth/login.css'; // importa los estilos
 import api from '../../api';
-import { personalProfile } from '../../routeNames.js';
+import { forgotPassword, personalProfile } from '../../routeNames.js';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -62,6 +63,8 @@ const Login = () => {
         <button type="submit" className="login-button">
           Entrar
         </button>
+
+        <Link to={forgotPassword}>He olvidado mi contraseña</Link>
       </form>
     </div>
   );

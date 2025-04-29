@@ -32,7 +32,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     fetchUser();
-  });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

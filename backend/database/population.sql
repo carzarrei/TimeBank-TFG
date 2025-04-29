@@ -15,6 +15,8 @@ CREATE TABLE USERS (
     is_admin BOOLEAN DEFAULT FALSE,
     profile_picture VARCHAR(255),
     skills TEXT
+    reset_token VARCHAR(255),
+    reset_token_expiry DATE
 );
 
 CREATE TABLE `GROUPS` (

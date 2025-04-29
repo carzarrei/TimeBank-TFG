@@ -1,6 +1,6 @@
 import express from 'express';
 import { createOffer, getAllOffers, getOfferById, acceptOffer, completeOffer, getOpenOffers} from '../controllers/offerController.js';
-import verifyLogin from '../middlewares/verify.js';
+import verifyLogin from '../middlewares/CheckAuth.js';
 
 const router = express.Router();
 

@@ -12,11 +12,16 @@ import SentMessageList from './components/Messages/SentMessagesList';
 import MessageForm from './components/Messages/MessageForm';
 import UserProfile from './components/Auth/UserProfile';
 import PersonalProfile from './components/Auth/PersonalProfile';
+import EditProfile from './components/Auth/EditProfile.js';
 import RequestDetails from './components/Requests/RequestDetails';
 import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
+import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword } from './routeNames.js';
+import ForgotPassword from './components/Auth/ForgotPassword.js';
+import ResetPassword from './components/Auth/ResetPassword.js';
+
 
 function App() {
   return (
@@ -35,10 +40,14 @@ function App() {
         <Route path="/groups" element={<GroupsList />} />
         <Route path="/groups/details/*" element={<GroupDetails />} />
         <Route path="/groups/new" element={<GroupForm />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile/*" element={ <UserProfile />} />
-        <Route path="/my-profile" element={ <PersonalProfile />} />
+        <Route path={login} element={<Login />} />
+        <Route path={register} element={<Register />} />
+        <Route path={userProfile+"/*"} element={ <UserProfile />} />
+        <Route path={personalProfile} element={ <PersonalProfile />} />
+        <Route path={editProfile} element={ <EditProfile />} />
+        <Route path={forgotPassword} element={ <ForgotPassword />} />
+        <Route path={resetPassword} element={ <ResetPassword />} />
+
       </Routes>
     </Router>
   );

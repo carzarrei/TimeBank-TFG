@@ -1,6 +1,6 @@
 import express from 'express';
 import { createRequest, getAllRequests, getRequestById, acceptRequest, completeRequest} from '../controllers/requestController.js';
-import verifyLogin from '../middlewares/verify.js';
+import verifyLogin from '../middlewares/CheckAuth.js';
 
 const router = express.Router();
 

@@ -10,6 +10,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [location, setLocation] = useState('');
   const [birth_date, setBirthDate] = useState('');
+  const [file, setFile] = useState(null);
   const [skills, setSkills] = useState('');
   const [error, setError] = useState('');
 
@@ -22,15 +23,20 @@ const Register = () => {
     }
 
     try {
-      const response = await api.post('/users/register', {
-        name,
-        email,
-        password,
-        location,
-        birth_date,
-        skills,
-      });
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('location', location);
+      formData.append('birth_date', birth_date);
+      formData.append('skills', skills);
+      formData.append('profilePicture', file); // aquí va el archivo
 
+      const response = await api.post('/users/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       window.location.href = login;
     } catch (error) {
         setError(error.response.data.message);
@@ -92,6 +98,8 @@ const Register = () => {
         onChange={(e) => setBirthDate(e.target.value)}
         className="register-input"
       />
+  
+      <input name="profilePicture" type="file" className='register-input' onChange={(e) => setFile(e.target.files[0])} />  
 
       <input
         type="text"

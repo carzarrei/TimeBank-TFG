@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import { login } from '../../routeNames';
 
 const RequestList = () => {
     const [requests, setRequests] = useState([]);
@@ -8,7 +9,7 @@ const RequestList = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('No estás autenticado. Por favor, inicia sesión.');
-            window.location.href = '/login'; // Redirigir al login si no hay token
+            window.location.href = login; // Redirigir al login si no hay token
             return;
         }
         const fetchRequests = async () => {
@@ -34,10 +35,10 @@ const RequestList = () => {
                 {requests.map((request) => (
                     <li key={request.id}>
                         <a href={`/requests/details/${request.id}`}>
-                            <h2>{request.titulo}</h2>
-                            <p>{request.descripcion}</p>
-                            <p>Tiempo a intercambiar: {request.tiempoIntercambio}</p>
-                            <p>Fecha de publicación: {new Date(request.fechaPublicacion).toLocaleDateString()}</p>
+                            <h2>{request.title}</h2>
+                            <p>{request.description}</p>
+                            <p>Tiempo a intercambiar: {request.requested_time}</p>
+                            <p>Fecha de publicación: {new Date(request.publication_date).toLocaleDateString()}</p>
                         </a>
                     </li>
                 ))}

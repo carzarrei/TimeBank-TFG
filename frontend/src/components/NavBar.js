@@ -6,10 +6,10 @@ import {
   listaGrupos,
   listaMensajes,
   listaOfertas,
-  listaSolicitudes,
+  requestsList,
   login,
   nuevaOferta,
-  nuevaSolicitud,
+  newRequest,
   nuevoGrupo,
   nuevoMensaje,
   personalProfile,
@@ -34,8 +34,8 @@ const NavBar = () => {
         <>
         <Link to={listaOfertas}>Ofertas</Link>
         <Link to={nuevaOferta}>Nueva Oferta</Link>
-        <Link to={listaSolicitudes}>Solicitudes</Link>
-        <Link to={nuevaSolicitud}>Nueva Solicitud</Link>
+        <Link to={requestsList}>Solicitudes</Link>
+        <Link to={newRequest}>Nueva Solicitud</Link>
         <Link to={listaMensajes}>Mensajes</Link>
         <Link to={nuevoMensaje}>Nuevo Mensaje</Link>
         <Link to={nuevoGrupo}>Nuevo Grupo</Link>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api'; // Asegúrate de que la ruta sea correcta
 import { Link } from 'react-router-dom';
+import { login } from '../../routeNames';
+import { useParams } from 'react-router-dom';
 
 const RequestDetails = () => {
   const [request, setRequest] = useState([]);
-  const requestId = window.location.pathname.split('/').pop();
+  const {requestId} = useParams();
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
 
@@ -12,45 +14,31 @@ const RequestDetails = () => {
     
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = '/login'; // Redirigir al login si no hay token
+      window.location.href = login; // Redirigir al login si no hay token
       return;
     }
 
-    const fetchRequest = async () => {
+    const fetchData = async () => {
       try {
-      const response = await api.get('/requests/'+requestId, {
+      const response = await api.get(`requests/${requestId}`, {
         headers: {
         Authorization: token,
         },
       });
-      let creatorResponse = null;
-      if (response.data.creadorId) {
-        creatorResponse = await api.get('/users/'+response.data.creadorId, {
-          headers: {
-          Authorization: token,
-          },
-        });
-      } else {
-        creatorResponse = await api.get('/users/'+response.data.grupoId, {
-          headers: {
-          Authorization: token,
-          },
-        });
-      }
-      response.data.creadorNombre = creatorResponse.data.nombreCompleto;
       setRequest(response.data);
       } catch (error) {
       console.error('Error fetching requests:', error);
       }
     };
   
-    fetchRequest();
+    fetchData();
     
     }, [requestId, token]);
 
+    /*
     const handleAccept = async () => {
       try {
-        const response = await api.post('/requests/'+requestId+'/accept', {}, {
+        const response = await api.post('/requests/'+${requestId}+'/accept', {}, {
           headers: {
             Authorization: localStorage.getItem('token'),
           },
@@ -77,26 +65,28 @@ const RequestDetails = () => {
         console.error('Error completing offer:', error);
       }
     }
-
+    */
     return (
     <div>
       <h1>Detalles de la Solicitud</h1>
       <ul>
       <li key={request.id}>
-        <h2>{request.titulo}</h2>
-        {request.creadorId ? <Link to={'/profile/'+request.creadorId}><h3>{request.creadorNombre}</h3></Link> : null}
-        {request.grupoId ? <Link to={'/groups/'+request.grupoId}><h3>{request.grupoId}</h3></Link> : null}
-        <p>{request.descripcion}</p>
-        <p>Tiempo a intercambiar: {request.tiempoIntercambio}</p>
-        <p>Fecha de publicación: {new Date(request.fechaPublicacion).toLocaleDateString()}</p>
-        <p>Estado: {request.estado}</p>
-        {request.aceptadaPor && (<p>Aceptada por: {request.aceptadaPor}</p>)}
+        <h2>{request.title}</h2>
+        {request.creator_id ? <Link to={'/profile/'+request.creator_id}><h3>{request.creator_id}</h3></Link> : null}
+        {request.group_creator_id ? <Link to={'/groups/'+request.group_creator_id}><h3>{request.group_creator_id}</h3></Link> : null}
+        <p>{request.description}</p>
+        <p>Tiempo a intercambiar: {request.requested_time}</p>
+        <p>Fecha de publicación: {new Date(request.publication_date).toLocaleDateString()}</p>
+        <p>Estado: {request.status}</p>
+        {request.accepted_by && (<p>Aceptada por: {request.accepted_by}</p>)}
       </li>
       </ul>
-      {(request.creadorId!=userId)&&(request.estado ==='abierta')&&(<button onClick={handleAccept}>Aceptar Solicitud</button>)}
-      {(request.aceptadaPor==userId)&&(request.estado ==='aceptada')&&(<button onClick={handleComplete}>Completar Solicitud</button>)}
+     
     </div>
     );
 }
+
+// {(request.creator_id!==userId)&&(request.status ==='Abierta')&&(<button onClick={handleAccept}>Aceptar Solicitud</button>)}
+// {(request.accepted_by==userId)&&(request.status ==='Aceptada')&&(<button onClick={handleComplete}>Completar Solicitud</button>)}
 
 export default RequestDetails;

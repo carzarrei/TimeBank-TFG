@@ -9,14 +9,6 @@ const Request = db.define('requests', {
       autoIncrement: true,
       primaryKey: true
   },
-  group_creator_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-          model: Group,
-          key: 'id'
-      }
-  },
   creator_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -25,6 +17,22 @@ const Request = db.define('requests', {
           key: 'id'
       }
   },
+    group_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Group,
+            key: 'id'
+        }
+    },
+    accepted_by: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
   title: {
       type: DataTypes.STRING(255),
       allowNull: false
@@ -37,16 +45,21 @@ const Request = db.define('requests', {
       type: DataTypes.INTEGER,
       allowNull: false
   },
+    publication_date: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    },
   status: {
-      type: DataTypes.ENUM('OPEN', 'ACCEPTED', 'CLOSED'),
-      defaultValue: 'OPEN'
+      type: DataTypes.ENUM('Abierta', 'Aceptada', 'Cerrada'),
+      defaultValue: 'Abierta'
   }
 }, {
   tableName: 'REQUESTS',
   timestamps: false
 });
 
-Request.belongsTo(User, { foreignKey: 'creadorId', allowNull: true });
-Request.belongsTo(Group, { foreignKey: 'grupoId', allowNull: true });
+Request.belongsTo(User, { foreignKey: 'creator_id', allowNull: true });
+Request.belongsTo(Group, { foreignKey: 'group_id', allowNull: true });
+
 
 export default Request;

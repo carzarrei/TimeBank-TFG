@@ -18,7 +18,7 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword } from './routeNames.js';
+import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword, requestsList, requestDetails, newRequest } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import ResetPassword from './components/Auth/ResetPassword.js';
 
@@ -31,9 +31,9 @@ function App() {
         <Route path="/offers" element={<OfferList />} />
         <Route path="/offers/details/*" element={<OfferDetails />} />
         <Route path="/offers/new" element={<OfferForm />} />
-        <Route path="/requests" element={<RequestList />} />
-        <Route path="/requests/details/*" element={<RequestDetails />} />
-        <Route path="/requests/new" element={<RequestForm />} />
+        <Route path={requestsList} element={<RequestList />} />
+        <Route path={requestDetails} element={<RequestDetails />} />
+        <Route path={newRequest} element={<RequestForm />} />
         <Route path="/messages/received" element={<ReceivedMessageList />} />
         <Route path="/messages/sent" element={<SentMessageList />} />
         <Route path="/messages/new" element={<MessageForm />} />
@@ -42,7 +42,7 @@ function App() {
         <Route path="/groups/new" element={<GroupForm />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
-        <Route path={userProfile+"/*"} element={ <UserProfile />} />
+        <Route path={userProfile} element={ <UserProfile />} />
         <Route path={personalProfile} element={ <PersonalProfile />} />
         <Route path={editProfile} element={ <EditProfile />} />
         <Route path={forgotPassword} element={ <ForgotPassword />} />

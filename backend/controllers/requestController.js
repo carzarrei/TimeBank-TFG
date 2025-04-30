@@ -1,16 +1,25 @@
 import Request from '../models/Request.js';
 
 export const createRequest = async (req, res) => {
-  const { titulo, descripcion, tiempoIntercambio, creadorId, grupoId } = req.body;
+  const { title, description, requestedTime, creadorId } = req.body;
   const userId = req.user.id;
+  if (!title || !description || !requestedTime) {
+    return res.status(400).json({ message: 'Faltan datos requeridos' });
+  }
+  if (requestedTime <= 0) {
+    return res.status(400).json({ message: 'El tiempo solicitado debe ser mayor a 0' });
+  }
+  if (!userId) {
+    return res.status(400).json({ message: 'El usuario no está autenticado' });
+  }
   try {
     const solicitud = await Request.create({
-      titulo,
-      descripcion,
-      tiempoIntercambio,
-      fechaPublicacion: new Date(),
-      creadorId: userId || null,
-      grupoId: grupoId || null,
+      title,
+      description,
+      requested_time: requestedTime,
+      status: 'Abierta',
+      publication_date: new Date(),
+      creator_id: userId,
     });
     res.status(201).json(solicitud);
   } catch (error) {

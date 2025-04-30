@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api'; // Asegúrate de que la ruta sea correcta
+import { login } from '../../routeNames';
 
 const RequestForm = () => {
   // Estado para los campos del formulario
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [tiempoIntercambio, setTiempoIntercambio] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [requestedTime, setRequestedTime] = useState('');
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = '/login'; // Redirigir al login si no hay token
+      window.location.href = login; // Redirigir al login si no hay token
       return;
     }
   }, [token]);
@@ -21,9 +22,9 @@ const RequestForm = () => {
     try {
       // Enviar los datos al backend
       const response = await api.post('/requests', {
-        titulo,
-        descripcion,
-        tiempoIntercambio,
+        title,
+        description,
+        requestedTime,
       }, {
         headers: {
           Authorization: token,
@@ -34,9 +35,9 @@ const RequestForm = () => {
       console.log('Solicitud creada:', response.data);
       alert('Solicitud creada con éxito');
       // Opcional: Limpiar el formulario
-      setTitulo('');
-      setDescripcion('');
-      setTiempoIntercambio('');
+      setTitle('');
+      setDescription('');
+      setRequestedTime('');
     } catch (error) {
       console.error('Error al crear la solicitud:', error.response ? error.response.data : error.message);
     }
@@ -47,31 +48,31 @@ const RequestForm = () => {
       <h1>Crear Nueva Solicitud</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="titulo">Título:</label>
+          <label htmlFor="title">Título:</label>
           <input
-            id="titulo"
+            id="title"
             type="text"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="descripcion">Descripción:</label>
+          <label htmlFor="description">Descripción:</label>
           <textarea
-            id="descripcion"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           ></textarea>
         </div>
         <div>
-          <label htmlFor="tiempoIntercambio">Tiempo a Intercambiar (horas):</label>
+          <label htmlFor="requestedTime">Tiempo a Intercambiar (horas):</label>
           <input
-            id="tiempoIntercambio"
+            id="requestedTime"
             type="number"
-            value={tiempoIntercambio}
-            onChange={(e) => setTiempoIntercambio(e.target.value)}
+            value={requestedTime}
+            onChange={(e) => setRequestedTime(e.target.value)}
             required
           />
         </div>

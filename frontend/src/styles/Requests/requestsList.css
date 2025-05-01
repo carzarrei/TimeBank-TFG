@@ -1,52 +1,65 @@
 .request-list-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .request-list-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: #333;
-  }
-  
-  .request-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .request-item {
-    background: #f8f9fa;
-    margin-bottom: 1rem;
-    padding: 1.2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: background 0.3s ease;
-  }
-  
-  .request-item:hover {
-    background: #e9ecef;
-  }
-  
-  .request-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .request-title {
-    margin: 0;
-    font-size: 1.3rem;
-    color: #007bff;
-  }
-  
-  .request-description,
-  .request-time,
-  .request-date {
-    margin: 0.4rem 0;
-    color: #555;
-    font-size: 0.95rem;
-  }
-  
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.request-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.request-list-header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.request-list-actions .btn {
+  margin-left: 1rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.btn.primary {
+  background-color: #1976d2;
+}
+
+.btn.secondary {
+  background-color: #26a69a;
+}
+
+.request-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.request-card {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.request-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.request-card p {
+  margin: 0.4rem 0;
+}

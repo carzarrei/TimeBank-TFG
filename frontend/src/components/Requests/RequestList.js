@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
 import { login } from '../../routeNames';
+import { Link } from 'react-router-dom';
 import '../../styles/Requests/requestsList.css';
 
 const RequestList = () => {
@@ -13,6 +14,7 @@ const RequestList = () => {
       window.location.href = login;
       return;
     }
+
     const fetchRequests = async () => {
       try {
         const response = await api.get('/requests', {
@@ -29,19 +31,23 @@ const RequestList = () => {
 
   return (
     <div className="request-list-container">
-      <h1 className="request-list-title">Solicitudes Disponibles</h1>
-      <ul className="request-list">
+      <div className="request-list-header">
+        <h1>Solicitudes Abiertas</h1>
+        <div className="request-list-actions">
+          <Link to="/requests/create" className="btn primary">Crear nueva solicitud</Link>
+          <Link to="/requests/filters" className="btn secondary">Filtros avanzados</Link>
+        </div>
+      </div>
+
+      <div className="request-grid">
         {requests.map((request) => (
-          <li className="request-item" key={request.id}>
-            <a href={`/requests/details/${request.id}`} className="request-link">
-              <h2 className="request-title">{request.title}</h2>
-              <p className="request-description">{request.description}</p>
-              <p className="request-time">Tiempo a intercambiar: {request.requested_time}</p>
-              <p className="request-date">Fecha: {new Date(request.publication_date).toLocaleDateString()}</p>
-            </a>
-          </li>
+          <Link to={`/requests/details/${request.id}`} key={request.id} className="request-card">
+            <h3>{request.title}</h3>
+            <p>{request.description.slice(0, 80)}...</p>
+            <p><strong>{request.requested_time} h</strong></p>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

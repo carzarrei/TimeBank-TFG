@@ -1,53 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api'; // Asegúrate de que la ruta sea correcta
+import api from '../../api';
 import { login } from '../../routeNames';
+import '../../styles/Requests/requestForm.css';
 
 const RequestForm = () => {
-  // Estado para los campos del formulario
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [requestedTime, setRequestedTime] = useState('');
   const token = localStorage.getItem('token');
+
   useEffect(() => {
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = login; // Redirigir al login si no hay token
+      window.location.href = login;
       return;
     }
   }, [token]);
-  // Función para manejar el envío del formulario
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
-      // Enviar los datos al backend
-      const response = await api.post('/requests', {
-        title,
-        description,
-        requestedTime,
-      }, {
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      // Manejar la respuesta del backend (por ejemplo, mostrar un mensaje o redirigir)
-      console.log('Solicitud creada:', response.data);
-      alert('Solicitud creada con éxito');
-      // Opcional: Limpiar el formulario
+      const response = await api.post(
+        '/requests',
+        { title, description, requestedTime },
+        { headers: { Authorization: token } }
+      );
+      alert(response.data.message || 'Solicitud creada con éxito');
       setTitle('');
       setDescription('');
       setRequestedTime('');
     } catch (error) {
-      console.error('Error al crear la solicitud:', error.response ? error.response.data : error.message);
+      console.error('Error al crear la solicitud:', error.response?.data || error.message);
     }
   };
 
   return (
-    <div>
-      <h1>Crear Nueva Solicitud</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="request-form-container">
+      <h1 className="request-form-title">Crear Nueva Solicitud</h1>
+      <form className="request-form" onSubmit={handleSubmit}>
+        <div className="form-group">
           <label htmlFor="title">Título:</label>
           <input
             id="title"
@@ -57,7 +48,7 @@ const RequestForm = () => {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="description">Descripción:</label>
           <textarea
             id="description"
@@ -66,7 +57,7 @@ const RequestForm = () => {
             required
           ></textarea>
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="requestedTime">Tiempo a Intercambiar (horas):</label>
           <input
             id="requestedTime"
@@ -76,7 +67,7 @@ const RequestForm = () => {
             required
           />
         </div>
-        <button type="submit">Crear Solicitud</button>
+        <button className="submit-button" type="submit">Crear Solicitud</button>
       </form>
     </div>
   );

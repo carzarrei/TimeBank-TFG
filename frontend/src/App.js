@@ -7,6 +7,8 @@ import OfferList from './components/Offers/OfferList';
 import OfferDetails from './components/Offers/OfferDetails';
 import OfferForm from './components/Offers/OfferForm';
 import RequestList from './components/Requests/RequestList';
+import UserRequestsList from './components/Requests/UserRequestsList';
+import UserAcceptedRequestsList from './components/Requests/UserAcceptedRequestsList';
 import RequestForm from './components/Requests/RequestForm';
 import SentMessageList from './components/Messages/SentMessagesList';
 import MessageForm from './components/Messages/MessageForm';
@@ -18,9 +20,11 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword, requestsList, requestDetails, newRequest } from './routeNames.js';
+import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import ResetPassword from './components/Auth/ResetPassword.js';
+import RequestUpdateForm from './components/Requests/RequestUpdateForm.js';
+
 
 
 function App() {
@@ -32,8 +36,11 @@ function App() {
         <Route path="/offers/details/*" element={<OfferDetails />} />
         <Route path="/offers/new" element={<OfferForm />} />
         <Route path={requestsList} element={<RequestList />} />
+        <Route path={myRequests} element={<UserRequestsList />} />
+        <Route path={myAcceptedRequests} element={<UserAcceptedRequestsList />} />
         <Route path={requestDetails} element={<RequestDetails />} />
         <Route path={newRequest} element={<RequestForm />} />
+        <Route path={editRequest} element={<RequestUpdateForm />} />
         <Route path="/messages/received" element={<ReceivedMessageList />} />
         <Route path="/messages/sent" element={<SentMessageList />} />
         <Route path="/messages/new" element={<MessageForm />} />

@@ -129,6 +129,13 @@ const RequestDetails = () => {
         <button className="btn btn-orange" onClick={handleReopen}>Reabrir solicitud</button>
       )}
 
+      {/* Botón para editar */}
+      {(request.creator_id === Number(userId) && request.status === 'Abierta') && (
+        <Link to={`/requests/edit/${requestId}`} className="btn btn-yellow">Editar solicitud</Link>
+      )}
+
+      {/* Botón para enviar negociación */}
+
       {/* {(request.status === 'Abierta') && (
         <button className="btn btn-yellow">Enviar negociación</button>
       )} */}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-import { login, requestsList } from '../../routeNames';
+import { login } from '../../routeNames';
 import '../../styles/Requests/requestForm.css';
+import { useParams } from 'react-router-dom';
 
-const RequestForm = () => {
+const RequestUpdateForm = () => {
+  const {requestId} = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [requestedTime, setRequestedTime] = useState('');
@@ -14,22 +16,36 @@ const RequestForm = () => {
       alert('No estás autenticado. Por favor, inicia sesión.');
       window.location.href = login;
       return;
+    } else {
+      const fetchRequestData = async () => {
+        try {
+          const response = await api.get(`/requests/${requestId}`, {
+            headers: { Authorization: token },
+          });
+          const { title, description, requested_time } = response.data;
+          setTitle(title);
+          setDescription(description);
+          setRequestedTime(requested_time);
+        } catch (error) {
+          console.error('Error fetching request data:', error.response?.data || error.message);
+        }
+      };
+      fetchRequestData();
     }
   }, [token]);
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await api.post(
-        '/requests',
+        `/requests/${requestId}`,
         { title, description, requestedTime },
         { headers: { Authorization: token } }
       );
-      alert(response.data.message || 'Solicitud creada con éxito');
-      setTitle('');
-      setDescription('');
-      setRequestedTime('');
-      window.location.href = requestsList;
+      alert(response.data.message || 'Solicitud actualizada con éxito');
+      window.location.href = `/requests/details/${requestId}`;
     } catch (error) {
       console.error('Error al crear la solicitud:', error.response?.data || error.message);
     }
@@ -37,7 +53,7 @@ const RequestForm = () => {
 
   return (
     <div className="request-form-container">
-      <h1 className="request-form-title">Crear Nueva Solicitud</h1>
+      <h1 className="request-form-title">Editar Solicitud</h1>
       <form className="request-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Título:</label>
@@ -68,10 +84,10 @@ const RequestForm = () => {
             required
           />
         </div>
-        <button className="submit-button" type="submit">Crear Solicitud</button>
+        <button className="submit-button" type="submit">Actualizar Solicitud</button>
       </form>
     </div>
   );
 };
 
-export default RequestForm;
+export default RequestUpdateForm;

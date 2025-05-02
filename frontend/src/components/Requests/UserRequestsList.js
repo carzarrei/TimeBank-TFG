@@ -4,7 +4,7 @@ import { login } from '../../routeNames';
 import { Link } from 'react-router-dom';
 import '../../styles/Requests/requestsList.css';
 
-const RequestList = () => {
+const UserRequestsList = () => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const RequestList = () => {
 
     const fetchRequests = async () => {
       try {
-        const response = await api.get('/requests', {
+        const response = await api.get('/requests/my-requests', {
           headers: { Authorization: token },
         });
         setRequests(response.data);
@@ -32,7 +32,7 @@ const RequestList = () => {
   return (
     <div className="request-list-container">
       <div className="request-list-header">
-        <h1>Solicitudes Abiertas</h1>
+        <h1>Tus Solicitudes</h1>
         <div className="request-list-actions">
           <Link to="/requests/new" className="btn primary">Crear nueva solicitud</Link>
           <Link to="/requests/filters" className="btn secondary">Filtros avanzados</Link>
@@ -52,4 +52,4 @@ const RequestList = () => {
   );
 };
 
-export default RequestList;
+export default UserRequestsList;

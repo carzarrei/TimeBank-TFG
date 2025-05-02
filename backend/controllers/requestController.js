@@ -30,9 +30,43 @@ export const createRequest = async (req, res) => {
 };
 
 export const getAllRequests = async (req, res) => {
+  const userId = req.user.id;
   try {
+    const user = await User.findByPk(userId);
+    if (!user.is_admin) {
+      return res.status(403).json({ message: 'No tienes permiso para ver todas las solicitudes' });
+    }
     const solicitudes = await Request.findAll();
     res.status(200).json(solicitudes);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const getOpenRequests = async (req, res) => {
+  try {
+    const openRequests = await Request.findAll({ where: { status: 'Abierta' } });
+    res.status(200).json(openRequests);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const getUserRequests = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const userRequests = await Request.findAll({ where: { creator_id: userId } });
+    res.status(200).json(userRequests);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const getUserAcceptedRequests = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const acceptedRequests = await Request.findAll({ where: { accepted_by: userId, status: 'Aceptada' } });
+    res.status(200).json(acceptedRequests);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -46,6 +80,28 @@ export const getRequestById = async (req, res) => {
     if (!request) {
       return res.status(404).json({ message: 'Solicitud no encontrada' });
     }
+    res.status(200).json(request);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const updateRequest = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, requestedTime } = req.body;
+  const userId = req.user.id;
+  try {
+    const request = await Request.findByPk(id);
+    if (!request) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    if (request.creator_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para editar esta solicitud' });
+    }
+    if (title) request.title = title;
+    if (description) request.description = description;
+    if (requestedTime) request.requested_time = requestedTime;
+    await request.save();
     res.status(200).json(request);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -101,6 +157,24 @@ export const completeRequest = async (req, res) => {
       await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
     });
     res.status(200).json({ result, message: 'Solicitud completada' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const reopenRequest = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const request = await Request.findByPk(id);
+    if (!request) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    if (request.creator_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para reabrir esta solicitud' });
+    }
+    await request.update({ status: 'Abierta' });
+    res.status(200).json({ message: 'Solicitud reabierta' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

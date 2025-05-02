@@ -50,7 +50,7 @@ const Request = db.define('requests', {
         defaultValue: DataTypes.NOW
     },
   status: {
-      type: DataTypes.ENUM('Abierta', 'Aceptada', 'Confirmada', 'Cerrada'),
+      type: DataTypes.ENUM('Abierta', 'Aceptada', 'Confirmada', 'Cancelada', 'Cerrada'),
       defaultValue: 'Abierta'
   }
 }, {

@@ -123,6 +123,42 @@ export const acceptRequest = async (req, res) => {
   }
 };
 
+export const cancelRequest = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const request = await Request.findByPk(id);
+    if (!request) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    if (request.accepted_by !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para cancelar esta solicitud' });
+    }
+    await request.update({ status: 'Cancelada', accepted_by: null });
+    res.status(200).json({ message: 'Solicitud cancelada' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const confirmCancelationRequest = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const request = await Request.findByPk(id);
+    if (!request) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    if (request.creator_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para confirmar la cancelación de esta solicitud' });
+    }
+    await request.update({ status: 'Abierta', accepted_by: null });
+    res.status(200).json({ message: 'Solicitud cancelada' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 export const confirmRequest = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;

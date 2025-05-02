@@ -44,6 +44,18 @@ const RequestDetails = () => {
     }
   };
 
+  const handleCancel = async () => {
+    try {
+      const response = await api.post(`/requests/${requestId}/cancel`, {}, {
+        headers: { Authorization: token },
+      });
+      alert('Solicitud cancelada con éxito');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error canceling request:', error);
+    }
+  }
+
   const handleConfirm = async () => {
     try {
       const response = await api.post(`/requests/${requestId}/confirm`, {}, {
@@ -53,6 +65,18 @@ const RequestDetails = () => {
       window.location.reload();
     } catch (error) {
       console.error('Error confirming request:', error);
+    }
+  };
+
+  const handleConfirmCancelation = async () => {
+    try {
+      const response = await api.post(`/requests/${requestId}/confirm-cancelation`, {}, {
+        headers: { Authorization: token },
+      });     
+      alert('Cancelación confirmada con éxito');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error confirming cancelation:', error);
     }
   };
 
@@ -111,6 +135,16 @@ const RequestDetails = () => {
         {/* Botón para aceptar */}
         {(request.creator_id !== Number(userId) && request.status === 'Abierta') && (
           <button className="btn btn-blue" onClick={handleAccept}>Aceptar solicitud</button>
+        )}
+
+        {/* Botón para cancelar */}
+        {(request.accepted_by === Number(userId) && request.status === 'Aceptada') && (
+          <button className="btn btn-red" onClick={handleCancel}>Cancelar solicitud</button>
+        )}
+
+        {/* Botón para confirmar cancelación */}
+        {(request.creator_id === Number(userId) && request.status === 'Cancelada') && (
+          <button className="btn btn-red" onClick={handleConfirmCancelation}>Confirmar cancelación</button>
         )}
 
         {/* Botón para confirmar */}

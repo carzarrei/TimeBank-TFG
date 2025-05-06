@@ -1,6 +1,7 @@
 import Request from '../models/Request.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 import db from '../database/db.js';
+import User from '../models/User.js';
 
 export const createRequest = async (req, res) => {
   const { title, description, requestedTime, creadorId } = req.body;

@@ -6,6 +6,7 @@ import nodemailer from 'nodemailer';
 import { Op } from 'sequelize';
 import { wrongCredentials, userNotFound } from "../errorMessages.js"
 
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -126,6 +127,19 @@ export const getUserById = async (req, res) => {
   }
 }
 
+export const getUsernameById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id, { attributes: ['name'] }); 
+    if (!user) {
+      return res.status(404).json({ message: userNotFound }); 
+    }
+    res.status(200).json(user.name);  
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 export const editUser = async (req, res) => {
   const id = req.user.id;
   const { name, email, location, birth_date, skills } = req.body;
@@ -208,16 +222,19 @@ export const removeUserFromGroup = async (userId) => {
 }
 
 export const exchangeTimeBetweenUsers = async (userId, otherUserId, time, transaction) => {
-  try {
-    const user = await User.findByPk(userId, { transaction });
-    const otherUser = await User.findByPk(otherUserId, { transaction });
-    if (!user || !otherUser) {
-      return;
-    }
-    await user.update({ horasGlobales: user.horasGlobales - time }, { transaction });
-    await otherUser.update({ horasGlobales: otherUser.horasGlobales + time }, { transaction });
-    return;
-  } catch (error) {
-    console.error('Error interchanging time:', error.message);
+  const user = await User.findByPk(userId, { transaction });
+  const otherUser = await User.findByPk(otherUserId, { transaction });
+
+  if (!user || !otherUser) {
+    throw new Error('Uno o ambos usuarios no existen.');
   }
-}
+
+  await user.update(
+    { accumulated_time: Number(user.accumulated_time - time) },
+    { transaction }
+  );
+  await otherUser.update(
+    { accumulated_time: Number(otherUser.accumulated_time + time) },
+    { transaction }
+  );
+};

@@ -14,7 +14,7 @@ CREATE TABLE USERS (
     accumulated_time INT DEFAULT 0,
     is_admin BOOLEAN DEFAULT FALSE,
     profile_picture VARCHAR(255),
-    skills TEXT
+    skills TEXT,
     reset_token VARCHAR(255),
     reset_token_expiry DATE
 );
@@ -37,18 +37,18 @@ CREATE TABLE MEMBERS (
 
 CREATE TABLE REQUESTS (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    group_creator_id INT,
     creator_id INT,
     title VARCHAR(255),
     description TEXT,
     requested_time INT,
     group_id INT,
-    status ENUM('OPEN', 'ACCEPTED', 'CLOSED') DEFAULT 'OPEN',
-    manager_id INT,
+    status ENUM('Abierta', 'Aceptada', 'Cerrada') DEFAULT 'Abierta',
+    accepted_by INT,
+    publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (group_creator_id) REFERENCES `GROUPS`(id),
     FOREIGN KEY (creator_id) REFERENCES USERS(id),
     FOREIGN KEY (group_id) REFERENCES `GROUPS`(id),
-    FOREIGN KEY (manager_id) REFERENCES USERS(id)
+    FOREIGN KEY (accepted_by) REFERENCES USERS(id)
 );
 
 CREATE TABLE OFFERS (
@@ -103,6 +103,8 @@ CREATE TABLE REPORTS (
     FOREIGN KEY (creator_id) REFERENCES USERS(id)
 );
 
+/* 
+
 -- Insertar datos de prueba
 INSERT INTO USERS (name, email, password, location, birth_date, is_admin, skills)
 VALUES ('Juan Perez', 'juan@example.com', '1234', 'Madrid', '1990-05-15', TRUE, 'Programming, Design'),
@@ -128,3 +130,5 @@ VALUES (1, 2, 'Interested in the request', 'Hello, I can help you with the logo.
 
 INSERT INTO REPORTS (creator_id, reason, message)
 VALUES (2, 'INAPPROPRIATE_USER', 'This user is sending offensive messages.');
+    
+*/

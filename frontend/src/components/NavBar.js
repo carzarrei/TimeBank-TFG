@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
+import { useNavigate } from 'react-router-dom';
 import {
   listaGrupos,
   listaMensajes,
@@ -19,6 +19,7 @@ import {
 } from '../routeNames.js';
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const isAuthenticated = !!token;
   const [openMenu, setOpenMenu] = useState(null);
@@ -42,8 +43,8 @@ const NavBar = () => {
     <nav className="navbar" ref={navRef}>
       {!isAuthenticated && (
         <>
-          <Link to={login}>Iniciar Sesión</Link>
-          <Link to={register}>Registro</Link>
+          <li onClick={() => navigate(login)}>Iniciar Sesión</li>
+          <li onClick={() => navigate(register)}>Registro</li>
         </>
       )}
 
@@ -54,8 +55,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('ofertas')}>Ofertas</button>
               {openMenu === 'ofertas' && (
                 <ul className="dropdown">
-                  <li><Link to={listaOfertas}>Ver Ofertas</Link></li>
-                  <li><Link to={nuevaOferta}>Nueva Oferta</Link></li>
+                  <li onClick={() => navigate(listaOfertas)}>Ver Ofertas</li>
+                  <li onClick={() => navigate(nuevaOferta)}>Nueva Oferta</li>
                 </ul>
               )}
             </div>
@@ -64,10 +65,10 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('solicitudes')}>Solicitudes</button>
               {openMenu === 'solicitudes' && (
                 <ul className="dropdown">
-                  <li><Link to={newRequest}>Nueva Solicitud</Link></li>
-                  <li><Link to={requestsList}>Ver Solicitudes Abiertas</Link></li>
-                  <li><Link to={myRequests}>Mis Solicitudes</Link></li>
-                  <li><Link to={myAcceptedRequests}>Mis Solicitudes Aceptadas</Link></li>
+                  <li onClick={() => navigate(newRequest)}>Nueva Solicitud</li>
+                  <li onClick={() => navigate(requestsList)}>Ver Solicitudes Abiertas</li>
+                  <li onClick={() => navigate(myRequests)}>Mis Solicitudes</li>
+                  <li onClick={() => navigate(myAcceptedRequests)}>Mis Solicitudes Aceptadas</li>
                 </ul>
               )}
             </div>
@@ -76,8 +77,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('mensajes')}>Mensajes</button>
               {openMenu === 'mensajes' && (
                 <ul className="dropdown">
-                  <li><Link to={listaMensajes}>Ver Mensajes</Link></li>
-                  <li><Link to={nuevoMensaje}>Nuevo Mensaje</Link></li>
+                  <li onClick={() => navigate(listaMensajes)}>Ver Mensajes</li>
+                  <li onClick={() => navigate(nuevoMensaje)}>Nuevo Mensaje</li>
                 </ul>
               )}
             </div>
@@ -86,8 +87,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('grupos')}>Grupos</button>
               {openMenu === 'grupos' && (
                 <ul className="dropdown">
-                  <li><Link to={listaGrupos}>Ver Grupos</Link></li>
-                  <li><Link to={nuevoGrupo}>Nuevo Grupo</Link></li>
+                  <li onClick={() => navigate(listaGrupos)}>Ver Grupos</li>
+                  <li onClick={() => navigate(nuevoGrupo)}>Nuevo Grupo</li>
                 </ul>
               )}
             </div>
@@ -97,9 +98,9 @@ const NavBar = () => {
             <div className="dropdown-wrapper">
               <button className="navbar-item" onClick={() => toggleMenu('perfil')}>Perfil</button>
               {openMenu === 'perfil' && (
-                <ul className="dropdown">
-                  <li><Link to={personalProfile}>Mi Perfil</Link></li>
-                  <li><button onClick={handleLogout}>Cerrar Sesión</button></li>
+                <ul className="dropdown dropdown-right">
+                  <li onClick={() => navigate(personalProfile)}>Mi Perfil</li>
+                  <li onClick={handleLogout} className="logout-item">Cerrar Sesión</li>
                 </ul>
               )}
             </div>

@@ -17,18 +17,30 @@ const RequestDetails = () => {
       window.location.href = login;
       return;
     }
-
+  
     const fetchData = async () => {
       try {
         const response = await api.get(`requests/${requestId}`, {
           headers: { Authorization: token },
         });
-        setRequest(response.data);
+  
+        const requestData = response.data;
+        setRequest(requestData);
+  
+        // Una vez que tenemos el requestData, usamos su creator_id
+        const userResponse = await api.get(`users/username/${requestData.creator_id}`, {
+          headers: { Authorization: token },
+        });
+  
+        setRequest((prevRequest) => ({
+          ...prevRequest,
+          creator_username: userResponse.data,
+        }));
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error('Error al cargar la solicitud o el usuario:', error);
       }
     };
-
+  
     fetchData();
   }, [requestId, token]);
 
@@ -121,7 +133,7 @@ const RequestDetails = () => {
         <div className="creator-box">
           <p><strong>Creador:</strong></p>
           {request.creator_id && (
-            <p><Link to={`/profile/${request.creator_id}`}>Ver perfil del creador</Link></p>
+            <p><Link to={`/profile/${request.creator_id}`}>{request.creator_username}</Link></p>
           )}
           {request.group_creator_id && (
             <p><Link to={`/groups/${request.group_creator_id}`}>Ver grupo creador</Link></p>

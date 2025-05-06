@@ -127,6 +127,19 @@ export const getUserById = async (req, res) => {
   }
 }
 
+export const getUsernameById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id, { attributes: ['name'] }); 
+    if (!user) {
+      return res.status(404).json({ message: userNotFound }); 
+    }
+    res.status(200).json(user.name);  
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
 export const editUser = async (req, res) => {
   const id = req.user.id;
   const { name, email, location, birth_date, skills } = req.body;

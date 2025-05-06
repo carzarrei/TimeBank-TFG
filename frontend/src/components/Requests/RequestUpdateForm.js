@@ -32,7 +32,7 @@ const RequestUpdateForm = () => {
       };
       fetchRequestData();
     }
-  }, [token]);
+  }, [token, requestId]);
 
   
 

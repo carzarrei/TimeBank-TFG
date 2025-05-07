@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-import { login, newOffer } from '../../routeNames';
+import { login } from '../../routeNames';
 import { Link } from 'react-router-dom';
 import '../../styles/Offers/offersList.css';
 
-const OfferList = () => {
+const UserOffersList = () => {
   const [offers, setOffers] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const OfferList = () => {
 
     const fetchOffers = async () => {
       try {
-        const response = await api.get('/offers', {
+        const response = await api.get('/offers/my-offers', {
           headers: { Authorization: token },
         });
         setOffers(response.data);
@@ -32,9 +32,9 @@ const OfferList = () => {
   return (
     <div className="offer-list-container">
       <div className="offer-list-header">
-        <h1>Ofertas Abiertas</h1>
+        <h1>Tus Ofertas</h1>
         <div className="offer-list-actions">
-          <Link to={newOffer} className="btn primary">Crear nueva oferta</Link>
+          <Link to="/offers/new" className="btn primary">Crear nueva oferta</Link>
           <Link to="/offers/filters" className="btn secondary">Filtros avanzados</Link>
         </div>
       </div>
@@ -52,4 +52,4 @@ const OfferList = () => {
   );
 };
 
-export default OfferList;
+export default UserOffersList;

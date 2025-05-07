@@ -64,7 +64,7 @@ const OfferDetails = () => {
       alert('Oferta cancelada con éxito');
       window.location.reload();
     } catch (error) {
-      console.error('Error canceling offer:', error);
+      console.error('Error canceling offer:', error.response.data.message);
     }
   }
 
@@ -150,22 +150,22 @@ const OfferDetails = () => {
         )}
 
         {/* Botón para cancelar */}
-        {(offer.accepted_by === Number(userId) && offer.status === 'Aceptada') && (
+        {(offer.creator_id === Number(userId) && offer.status === 'Aceptada') && (
           <button className="btn btn-red" onClick={handleCancel}>Cancelar oferta</button>
         )}
 
         {/* Botón para confirmar cancelación */}
-        {(offer.creator_id === Number(userId) && offer.status === 'Cancelada') && (
+        {(offer.accepted_by === Number(userId) && offer.status === 'Cancelada') && (
           <button className="btn btn-red" onClick={handleConfirmCancelation}>Confirmar cancelación</button>
         )}
 
         {/* Botón para confirmar */}
-        {(offer.creator_id === Number(userId) && offer.status === 'Aceptada') && (
+        {(offer.accepted_by === Number(userId) && offer.status === 'Aceptada') && (
           <button className="btn btn-lightblue" onClick={handleConfirm}>Confirmar oferta</button>
         )}
 
         {/* Botón para completar */}
-        {(offer.accepted_by === Number(userId) && offer.status === 'Confirmada') && (
+        {(offer.creator_id === Number(userId) && offer.status === 'Confirmada') && (
           <button className="btn btn-green" onClick={handleComplete}>Completar oferta</button>
         )}
       </div>

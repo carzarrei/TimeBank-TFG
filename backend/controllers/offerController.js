@@ -71,39 +71,6 @@ export const getOfferById = async (req, res) => {
   }
 };
 
-export const acceptOffer = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id;
-  try {
-    const offer = await Offer.findByPk(id);
-    if (!offer) {
-      return res.status(404).json({ message: 'Offer not found' });
-    }
-    await offer.update({ accepted_by: userId, status: 'accepted' });
-    res.status(200).json({ message: 'Offer accepted' });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-export const completeOffer = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id;
-  try {
-    const offer = await Offer.findByPk(id);
-    if (!offer) {
-      return res.status(404).json({ message: 'Offer not found' });
-    }
-    const result = await db.transaction(async (t) => {
-      await exchangeTimeBetweenUsers( offer.creator_id, userId, offer.offered_time, t);
-      await offer.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
-    });
-    res.status(200).json({ result, message: 'Offer completed' });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 export const updateOffer = async (req, res) => {
   const { id } = req.params;
   const { title, description, offeredTime } = req.body;
@@ -125,6 +92,45 @@ export const updateOffer = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }   
+};
+
+export const acceptOffer = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const offer = await Offer.findByPk(id);
+    if (!offer) {
+      return res.status(404).json({ message: 'Offer not found' });
+    }
+    if (userId === offer.creator_id) {
+      return res.status(403).json({ message: 'You cannot accept your own offer' });
+    }
+    await offer.update({ accepted_by: userId, status: 'Aceptada' });
+    res.status(200).json({ message: 'Offer accepted' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const completeOffer = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  try {
+    const offer = await Offer.findByPk(id);
+    if (!offer) {
+      return res.status(404).json({ message: 'Offer not found' });
+    }
+    if (offer.creator_id !== userId) {
+      return res.status(403).json({ message: 'You are not authorized to confirm this offer' });
+    }
+    const result = await db.transaction(async (t) => {
+      await exchangeTimeBetweenUsers( offer.creator_id, userId, offer.offered_time, t);
+      await offer.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+    });
+    res.status(200).json({ result, message: 'Offer completed' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 export const confirmOffer = async (req, res) => {

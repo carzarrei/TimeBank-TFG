@@ -31,7 +31,7 @@ const OfferForm = () => {
       setOfferedTime('');
       window.location.href = offersList;
     } catch (error) {
-      console.error('Error al crear la solicitud:', error.response?.data || error.message);
+      console.error('Error al crear la oferta:', error.response?.data || error.message);
     }
   };
 

@@ -20,7 +20,7 @@ const OfferDetails = () => {
   
     const fetchData = async () => {
       try {
-        const response = await api.get(`offers/${offerId}`, {
+        const response = await api.get(`/offers/${offerId}`, {
           headers: { Authorization: token },
         });
   

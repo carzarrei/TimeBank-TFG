@@ -20,8 +20,31 @@ import ReceivedMessageList from './components/Messages/ReceivedMessagesList';
 import GroupsList from './components/Groups/GroupsList';
 import GroupForm from './components/Groups/GroupForm';
 import GroupDetails from './components/Groups/GroupDetails';
-import { login, userProfile, personalProfile, register, editProfile, resetPassword, forgotPassword, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest } from './routeNames.js';
+import { 
+  login, 
+  userProfile, 
+  personalProfile, 
+  register, 
+  editProfile, 
+  resetPassword, 
+  forgotPassword, 
+  requestsList, 
+  myRequests, 
+  myAcceptedRequests, 
+  requestDetails, 
+  newRequest, 
+  editRequest, 
+  offersList, 
+  myOffers, 
+  myAcceptedOffers, 
+  offerDetails, 
+  newOffer, 
+  editOffer 
+} from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
+import UserOffersList from './components/Offers/UserOffersList';
+import UserAcceptedOffersList from './components/Offers/UserAcceptedOffersList';
+import OfferUpdateForm from './components/Offers/OfferUpdateForm';
 import ResetPassword from './components/Auth/ResetPassword.js';
 import RequestUpdateForm from './components/Requests/RequestUpdateForm.js';
 
@@ -32,9 +55,12 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/offers" element={<OfferList />} />
-        <Route path="/offers/details/*" element={<OfferDetails />} />
-        <Route path="/offers/new" element={<OfferForm />} />
+      <Route path={offersList} element={<OfferList />} />
+        <Route path={myOffers} element={<UserOffersList />} />
+        <Route path={myAcceptedOffers} element={<UserAcceptedOffersList />} />
+        <Route path={offerDetails} element={<OfferDetails />} />
+        <Route path={newOffer} element={<OfferForm />} />
+        <Route path={editOffer} element={<OfferUpdateForm />} />
         <Route path={requestsList} element={<RequestList />} />
         <Route path={myRequests} element={<UserRequestsList />} />
         <Route path={myAcceptedRequests} element={<UserAcceptedRequestsList />} />

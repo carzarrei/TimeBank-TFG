@@ -3,19 +3,21 @@ import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
 import { useNavigate } from 'react-router-dom';
 import {
-  listaGrupos,
-  listaMensajes,
-  listaOfertas,
+  offersList,
   requestsList,
   myRequests,
   myAcceptedRequests,
   login,
-  nuevaOferta,
   newRequest,
   nuevoGrupo,
   nuevoMensaje,
   personalProfile,
   register,
+  newOffer,
+  myOffers,
+  myAcceptedOffers,
+  listaGrupos,
+  listaMensajes,
 } from '../routeNames.js';
 
 const NavBar = () => {
@@ -55,8 +57,10 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('ofertas')}>Ofertas</button>
               {openMenu === 'ofertas' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(listaOfertas)}>Ver Ofertas</li>
-                  <li onClick={() => navigate(nuevaOferta)}>Nueva Oferta</li>
+                  <li onClick={() => navigate(offersList)}>Ver Ofertas</li>
+                  <li onClick={() => navigate(newOffer)}>Nueva Oferta</li>
+                  <li onClick={() => navigate(myOffers)}>Mis Ofertas</li>
+                  <li onClick={() => navigate(myAcceptedOffers)}>Mis Ofertas Aceptadas</li>
                 </ul>
               )}
             </div>

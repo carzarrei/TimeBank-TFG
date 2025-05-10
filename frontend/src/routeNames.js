@@ -1,6 +1,9 @@
-const listaOfertas = '/offers';
-const detallesOferta = '/offers/details'
-const nuevaOferta = '/offers/new';
+const offersList = '/offers';
+const myOffers = '/offers/my-offers';
+const myAcceptedOffers = '/offers/my-offers/accepted';
+const offerDetails = '/offers/details/:offerId';
+const editOffer = '/offers/edit/:offerId';
+const newOffer = '/offers/new';
 const requestsList = '/requests';
 const myRequests = '/requests/my-requests';
 const myAcceptedRequests = '/requests/my-requests/accepted';
@@ -19,4 +22,4 @@ const resetPassword ='/reset-password/:tokenResetPassword';
 const nuevoGrupo = '/groups/new';
 const listaGrupos = '/groups';
 
-export { listaOfertas, detallesOferta, nuevaOferta, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, nuevoGrupo, listaGrupos };
+export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, nuevoGrupo, listaGrupos };

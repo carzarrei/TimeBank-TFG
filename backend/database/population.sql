@@ -45,7 +45,6 @@ CREATE TABLE REQUESTS (
     status ENUM('Abierta', 'Aceptada', 'Cerrada') DEFAULT 'Abierta',
     accepted_by INT,
     publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (group_creator_id) REFERENCES `GROUPS`(id),
     FOREIGN KEY (creator_id) REFERENCES USERS(id),
     FOREIGN KEY (group_id) REFERENCES `GROUPS`(id),
     FOREIGN KEY (accepted_by) REFERENCES USERS(id)
@@ -53,18 +52,17 @@ CREATE TABLE REQUESTS (
 
 CREATE TABLE OFFERS (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    group_creator_id INT,
+    creator_id INT,
     title VARCHAR(255),
     description TEXT,
     offered_time INT,
     group_id INT,
-    status ENUM('OPEN', 'ACCEPTED', 'CLOSED') DEFAULT 'OPEN',
-    requester_id INT,
-    FOREIGN KEY (user_id) REFERENCES USERS(id),
-    FOREIGN KEY (group_creator_id) REFERENCES `GROUPS`(id),
+    status ENUM('Abierta', 'Aceptada', 'Cerrada', 'Confirmada', 'Cancelada') DEFAULT 'Abierta',
+    accepted_by INT,
+    publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (creator_id) REFERENCES USERS(id),
     FOREIGN KEY (group_id) REFERENCES `GROUPS`(id),
-    FOREIGN KEY (requester_id) REFERENCES USERS(id)
+    FOREIGN KEY (accepted_by) REFERENCES USERS(id)
 );
 
 CREATE TABLE NEGOTIATIONS (

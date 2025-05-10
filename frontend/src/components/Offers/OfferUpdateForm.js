@@ -47,7 +47,7 @@ const OfferUpdateForm = () => {
       alert(response.data.message || 'Solicitud actualizada con éxito');
       window.location.href = `/offers/details/${offerId}`;
     } catch (error) {
-      console.error('Error al crear la solicitud:', error.response?.data || error.message);
+      console.error('Error al actualizar la oferta:', error.response?.data || error.message);
     }
   };
 

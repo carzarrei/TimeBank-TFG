@@ -55,7 +55,7 @@ CREATE TABLE OFFERS (
     creator_id INT,
     title VARCHAR(255),
     description TEXT,
-    requested_time INT,
+    offered_time INT,
     group_id INT,
     status ENUM('Abierta', 'Aceptada', 'Cerrada') DEFAULT 'Abierta',
     accepted_by INT,

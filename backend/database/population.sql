@@ -57,7 +57,7 @@ CREATE TABLE OFFERS (
     description TEXT,
     offered_time INT,
     group_id INT,
-    status ENUM('Abierta', 'Aceptada', 'Cerrada') DEFAULT 'Abierta',
+    status ENUM('Abierta', 'Aceptada', 'Cerrada', 'Confirmada', 'Cancelada') DEFAULT 'Abierta',
     accepted_by INT,
     publication_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES USERS(id),

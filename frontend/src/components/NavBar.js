@@ -9,15 +9,15 @@ import {
   myAcceptedRequests,
   login,
   newRequest,
-  nuevoGrupo,
   nuevoMensaje,
   personalProfile,
   register,
   newOffer,
   myOffers,
   myAcceptedOffers,
-  listaGrupos,
   listaMensajes,
+  newGroup,
+  groupsList,
 } from '../routeNames.js';
 
 const NavBar = () => {
@@ -91,8 +91,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('grupos')}>Grupos</button>
               {openMenu === 'grupos' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(listaGrupos)}>Ver Grupos</li>
-                  <li onClick={() => navigate(nuevoGrupo)}>Nuevo Grupo</li>
+                  <li onClick={() => navigate(groupsList)}>Ver Grupos</li>
+                  <li onClick={() => navigate(newGroup)}>Nuevo Grupo</li>
                 </ul>
               )}
             </div>

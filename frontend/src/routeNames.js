@@ -19,7 +19,8 @@ const editProfile = '/edit-profile';
 const userProfile = '/profile/:userId';
 const forgotPassword = '/forgot-password';
 const resetPassword ='/reset-password/:tokenResetPassword';
-const nuevoGrupo = '/groups/new';
-const listaGrupos = '/groups';
+const newGroup = '/groups/new';
+const groupsList = '/groups';
+const groupDetails = '/groups/:groupId';
 
-export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, nuevoGrupo, listaGrupos };
+export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, newGroup, groupsList, groupDetails };

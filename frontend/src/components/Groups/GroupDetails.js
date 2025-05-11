@@ -1,105 +1,104 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
 import { Link } from 'react-router-dom';
+import { login } from '../../routeNames';
+import '../../styles/Groups/groupDetails.css';
 
 const GroupDetails = () => {
-    const [group, setGroup] = useState(null);
-    const [members, setMembers] = useState([]);
-    const groupId = window.location.pathname.split('/').pop();
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+  const [group, setGroup] = useState(null);
+  const [members, setMembers] = useState([]);
+  const groupId = window.location.pathname.split('/').pop();
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
-    useEffect(() => {
-        if (!token) {
-            alert('No estás autenticado. Por favor, inicia sesión.');
-            window.location.href = '/login'; // Redirigir al login si no hay token
-            return;
-        }
-        // Fetch group details
-        api.get(`/groups/${groupId}`, {
-            headers: {
-                Authorization: token,
-            },
-        }
-        )
-            .then(response => {
-                setGroup(response.data);
-            })
-            .catch(error => {
-                console.error('There was an error fetching the group details!', error);
-            });
-
-        // Fetch group members
-        api.get(`/groups/${groupId}/members`, {
-            headers: {
-                Authorization: token,
-            },
-        }
-        )
-            .then(response => {
-                setMembers(response.data);
-            })
-            .catch(error => {
-                console.error('There was an error fetching the group members!', error);
-            });
-            
-            
-    }, [groupId, token]);
-
-    const joinGroup = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await api.post(`/groups/${groupId}/join`, {}, {
-                headers: {
-                    Authorization: token,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error joining group:', error);
-        }
+  useEffect(() => {
+    if (!token) {
+      alert('No estás autenticado. Por favor, inicia sesión.');
+      window.location.href = login;
+      return;
     }
 
-    const leaveGroup = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await api.post(`/groups/${groupId}/leave`, {}, {
-                headers: {
-                    Authorization: token,
-                },
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error leaving group:', error);
-        }
+    const fetchGroupDetails = async () => {
+      try {
+        const response = await api.get(`/groups/${groupId}`, {
+          headers: { Authorization: token },
+        });
+        setGroup(response.data);
+      } catch (error) {
+        console.error('Error fetching group details:', error);
+      }
+    };
+
+    const fetchGroupMembers = async () => {
+      try {
+        const response = await api.get(`/groups/${groupId}/members`, {
+          headers: { Authorization: token },
+        });
+        setMembers(response.data);
+      } catch (error) {
+        console.error('Error fetching group members:', error);
+      }
+    };
+
+    fetchGroupDetails();
+    fetchGroupMembers();
+  }, [groupId, token]);
+
+  const joinGroup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post(`/groups/${groupId}/join`, {}, {
+        headers: { Authorization: token },
+      });
+      console.log(response.data);
+      window.location.reload(); // Refrescar para mostrar cambios
+    } catch (error) {
+      console.error('Error joining group:', error);
     }
+  };
 
-    const esMiembro = members.some(
-        (miembro) => miembro.id == userId);
-
-    if (!group) {
-        return <div>Loading...</div>;
+  const leaveGroup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post(`/groups/${groupId}/leave`, {}, {
+        headers: { Authorization: token },
+      });
+      console.log(response.data);
+      window.location.reload(); // Refrescar para mostrar cambios
+    } catch (error) {
+      console.error('Error leaving group:', error);
     }
+  };
 
-    return (
-        <div>
-            <h1>{group.nombre}</h1>
-            <h2>Members</h2>
-            <ul>
-                {members.map(member => (
-                    <Link to={`/profile/${member.id}`} key={member.id}><li>{member.nombreCompleto}</li></Link>
-                ))}
-            </ul>
-            <div>
-                {!esMiembro && (
-                    <button onClick={joinGroup}>Join group</button>)}
-            </div>
-            <div>
-                {esMiembro && (
-                    <button onClick={leaveGroup}>Leave group</button>)}
-            </div>
-        </div>
-    );
+  const isMember = members.some(member => member.id == userId);
+
+  if (!group) return <div className="group-loading">Cargando grupo...</div>;
+
+  return (
+    <div className="group-details-container">
+      <h1 className="group-name">{group.nombre}</h1>
+      
+      <h2 className="members-title">Miembros del grupo</h2>
+      <ul className="members-list">
+        {members.map(member => (
+            <li key={member.id} className="member-item">
+            <Link to={`/profile/${member.id}`} className="member-link">
+                {member.name}
+            </Link>
+            <span className="member-hours">{member.accumulated_time} horas grupales</span>
+            </li>
+        ))}
+      </ul>
+
+      <div className="group-actions">
+        {!isMember ? (
+          <button onClick={joinGroup} className="join-btn">Unirse al grupo</button>
+        ) : (
+          <button onClick={leaveGroup} className="leave-btn">Salir del grupo</button>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default GroupDetails;

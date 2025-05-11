@@ -29,7 +29,7 @@ const User = db.define('users', {
   },
   accumulated_time: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   skills: {
     type: DataTypes.TEXT,

@@ -39,7 +39,10 @@ import {
   myAcceptedOffers, 
   offerDetails, 
   newOffer, 
-  editOffer 
+  editOffer, 
+  newGroup,
+  groupsList,
+  groupDetails
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -70,9 +73,9 @@ function App() {
         <Route path="/messages/received" element={<ReceivedMessageList />} />
         <Route path="/messages/sent" element={<SentMessageList />} />
         <Route path="/messages/new" element={<MessageForm />} />
-        <Route path="/groups" element={<GroupsList />} />
-        <Route path="/groups/details/*" element={<GroupDetails />} />
-        <Route path="/groups/new" element={<GroupForm />} />
+        <Route path={groupsList} element={<GroupsList />} />
+        <Route path={groupDetails} element={<GroupDetails />} />
+        <Route path={newGroup} element={<GroupForm />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
         <Route path={userProfile} element={ <UserProfile />} />

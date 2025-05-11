@@ -1,0 +1,90 @@
+.group-details-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1e1e2f;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.group-name {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.members-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+.members-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 0.3rem;
+  background-color: #2a2a3d;
+  border-radius: 4px;
+}
+
+.member-hours {
+  font-size: 0.95rem;
+  color: #ddd;
+  margin-left: 1rem;
+}
+
+.member-link {
+  text-decoration: none;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.member-link:hover {
+  text-decoration: underline;
+}
+
+.group-actions {
+  text-align: center;
+}
+
+.join-btn, .leave-btn {
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.join-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.join-btn:hover {
+  background-color: #43a047;
+}
+
+.leave-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.leave-btn:hover {
+  background-color: #e53935;
+}
+
+.group-loading {
+  color: white;
+  text-align: center;
+  margin-top: 2rem;
+}

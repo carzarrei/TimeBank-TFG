@@ -1,6 +1,6 @@
 import Group from '../models/Group.js';
 import Member from '../models/Member.js';
-import {getAllUsersFromGroup} from './userController.js';
+import {getAllJoinRequestUsersFromGroup, getAllUsersFromGroup} from './userController.js';
 
 export const createGroup = async (req, res) => {
   const { name } = req.body;
@@ -21,7 +21,8 @@ export const createGroup = async (req, res) => {
     Member.create({
       user_id: userId,
       group_id: group.id,
-      accumulated_time: 1
+      accumulated_time: 1,
+      status: 'Miembro'
     });
     res.status(201).json("Grupo creado con éxito");
   } catch (error) {
@@ -66,7 +67,24 @@ export const getGroupMembers = async (req, res) => {
   }
 }
 
-export const joinGroup = async (req, res) => {
+export const getGroupJoinRequests = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const group = await Group.findByPk(id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+    if (group.admin_id !== req.user.id) {
+      return res.status(403).json({ message: 'No tienes permiso para ver las solicitudes de unión' });
+    }
+    const requests = await getAllJoinRequestUsersFromGroup(id);
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const requestJoinGroup = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
   try {
@@ -74,8 +92,56 @@ export const joinGroup = async (req, res) => {
     if (!group) {
       return res.status(404).json({ message: 'Grupo no encontrado' });
     }
-    await addUserToGroup(userId, id);
+    await createUnionRequest(userId, id);
     res.status(200).json({ message: 'Usuario añadido al grupo' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const acceptJoinRequest = async (req, res) => {
+  const { memberId } = req.params;
+  const userId = req.user.id;
+  try {
+    const member = await Member.findByPk(memberId);
+    if (!member) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    const group = await Group.findByPk(member.group_id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+    if (group.admin_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para aceptar esta solicitud' });
+    }
+    if (member.status === 'Miembro') {
+      return res.status(400).json({ message: 'El usuario ya es miembro del grupo' });
+    }
+    await member.update({ status: 'Miembro' });
+    await member.save();
+    res.status(200).json({ message: 'Solicitud de union aceptada' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const rejectJoinRequest = async (req, res) => {
+  const { memberId } = req.params;
+  const userId = req.user.id;
+  try {
+    const member = await Member.findByPk(memberId);
+    if (!member) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    const group = await Group.findByPk(member.group_id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+    if (group.admin_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para rechazar esta solicitud' });
+    }
+    await member.destroy();
+    res.status(200).json({ message: 'Solicitud de union rechazada' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -96,15 +162,16 @@ export const leaveGroup = async (req, res) => {
   }
 }
 
-const addUserToGroup = async (userId, groupId) => {
+const createUnionRequest = async (userId, groupId) => {
   try {
     const member = await Member.create({
       user_id: userId,
       group_id: groupId,
-      accumulated_time: 1
+      accumulated_time: 1,
+      status: 'Solicitud'
     });
   } catch (error) {
-    console.error('Error al añadir al usuario al grupo', error.message);
+    console.error('Error al enviar la solicitud de union', error.message);
   }
 }
 

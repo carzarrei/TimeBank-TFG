@@ -22,5 +22,6 @@ const resetPassword ='/reset-password/:tokenResetPassword';
 const newGroup = '/groups/new';
 const groupsList = '/groups';
 const groupDetails = '/groups/:groupId';
+const groupJoinRequests = '/groups/:groupId/joinRequests';
 
-export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, newGroup, groupsList, groupDetails };
+export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, newGroup, groupsList, groupDetails, groupJoinRequests };

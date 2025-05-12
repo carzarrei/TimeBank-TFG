@@ -29,6 +29,10 @@ const Member = db.define('members', {
     accumulated_time: {
         type: DataTypes.INTEGER,
         defaultValue: 1
+    },
+    status: {
+        type: DataTypes.ENUM('Solicitud', 'Miembro'),
+        defaultValue: 'Solicitud'
     }
 }, {
     tableName: 'MEMBERS',

@@ -38,7 +38,7 @@ const GroupsList = () => {
           <li
             key={group.id}
             className="group-item"
-            onClick={() => navigate(`/groups/details/${group.id}`)}
+            onClick={() => navigate(`/groups/${group.id}`)}
           >
             {group.name}
           </li>

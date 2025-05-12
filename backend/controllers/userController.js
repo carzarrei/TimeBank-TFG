@@ -198,7 +198,7 @@ export const deleteUser = async (req, res) => {
 export const getAllUsersFromGroup = async (groupId) => {
   try {
     const users = await Member.findAll({
-      where: { group_id: groupId },
+      where: { group_id: groupId, status: 'Miembro' },
       include: [
         {
           model: User,
@@ -206,7 +206,6 @@ export const getAllUsersFromGroup = async (groupId) => {
         },
       ],
     });
-    console.log(users);
     return users.map(member => ({
       id: member.user_id,
       name: member.user.name,
@@ -217,6 +216,23 @@ export const getAllUsersFromGroup = async (groupId) => {
       skills: member.user.skills,
       accumulated_time: member.accumulated_time,
     }));
+  } catch (error) {
+    console.error('Error getting users by group:', error.message);
+  }
+}
+
+export const getAllJoinRequestUsersFromGroup = async (groupId) => {
+  try {
+    const users = await Member.findAll({
+      where: { group_id: groupId, status: 'Solicitud' },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+    return users;
   } catch (error) {
     console.error('Error getting users by group:', error.message);
   }

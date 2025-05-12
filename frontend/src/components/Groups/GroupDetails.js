@@ -9,7 +9,7 @@ const GroupDetails = () => {
   const [members, setMembers] = useState([]);
   const groupId = window.location.pathname.split('/').pop();
   const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId');
+  const userId = Number(localStorage.getItem('userId'));
 
   useEffect(() => {
     if (!token) {
@@ -91,11 +91,16 @@ const GroupDetails = () => {
       </ul>
 
       <div className="group-actions">
-        {!isMember ? (
-          <button onClick={joinGroup} className="join-btn">Unirse al grupo</button>
-        ) : (
+        {!isMember && (
+          <button onClick={joinGroup} className="join-btn">Solicitar Unirse al grupo</button>
+        )}
+        {(isMember && group.admin_id !== userId) && (
           <button onClick={leaveGroup} className="leave-btn">Salir del grupo</button>
         )}
+        {(group.admin_id == userId) && (
+          <Link to={`/groups/${groupId}/joinRequests`} className="requests-btn">Ver Solicitudes de unión</Link>
+        )}
+        
       </div>
     </div>
   );

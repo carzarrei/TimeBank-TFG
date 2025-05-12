@@ -42,7 +42,8 @@ import {
   editOffer, 
   newGroup,
   groupsList,
-  groupDetails
+  groupDetails,
+  groupJoinRequests
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -50,6 +51,7 @@ import UserAcceptedOffersList from './components/Offers/UserAcceptedOffersList';
 import OfferUpdateForm from './components/Offers/OfferUpdateForm';
 import ResetPassword from './components/Auth/ResetPassword.js';
 import RequestUpdateForm from './components/Requests/RequestUpdateForm.js';
+import GroupJoinRequests from './components/Groups/GroupJoinRequests.js';
 
 
 
@@ -76,6 +78,7 @@ function App() {
         <Route path={groupsList} element={<GroupsList />} />
         <Route path={groupDetails} element={<GroupDetails />} />
         <Route path={newGroup} element={<GroupForm />} />
+        <Route path={groupJoinRequests} element={<GroupJoinRequests />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
         <Route path={userProfile} element={ <UserProfile />} />

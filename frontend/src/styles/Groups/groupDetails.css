@@ -84,7 +84,98 @@
 }
 
 .group-loading {
-  color: white;
+  color: black;
   text-align: center;
   margin-top: 2rem;
+}
+
+.request-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.group-requests-container {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+}
+
+.group-requests-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.group-requests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.group-request-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.group-request-item span {
+  font-weight: 500;
+  color: #444;
+}
+
+.group-request-item button {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.group-request-item button:first-of-type {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.group-request-item button:last-of-type {
+  background-color: #f44336;
+  color: white;
+}
+
+.group-loading {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+  margin-top: 1rem;
+}
+
+.requests-btn {
+  display: inline-block;
+  background-color: #2196F3; /* Light blue */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.requests-btn:hover {
+  background-color: #1976D2; /* Darker blue on hover */
 }

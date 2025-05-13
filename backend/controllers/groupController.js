@@ -1,5 +1,6 @@
 import Group from '../models/Group.js';
 import Member from '../models/Member.js';
+import { createGroupRequest, getGroupRequests } from './requestController.js';
 import {getAllJoinRequestUsersFromGroup, getAllUsersFromGroup} from './userController.js';
 
 export const createGroup = async (req, res) => {
@@ -52,6 +53,24 @@ export const getGroupById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getUserGroup = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const member = await Member.findOne({ where: { user_id: userId } });
+    if (!member) {
+      return res.status(404).json({ message: 'El usuario no pertenece a ningun grupo' });
+    }
+    const group = await Group.findByPk(member.group_id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });      
+    }
+    res.status(200).json(group);
+  } catch (error) { 
+    res.status(400).json({ error: error.message });
+  }
+};
+  
 
 export const getGroupMembers = async (req, res) => {
   const { id } = req.params;
@@ -184,5 +203,38 @@ const removeUserFromGroup = async (userId) => {
     await member.destroy();
   } catch (error) {
     console.error('Error al quitar al usuario del grupo', error.message);
+  }
+}
+
+export const newGroupRequest = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const { title, description, requestedTime } = req.body;
+  try {
+    const group = await Group.findByPk(id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+    const requestData = {
+      title,
+      description,
+      requestedTime: requestedTime,
+      creatorId: userId
+    };
+    const request= await createGroupRequest(requestData, id);
+    res.status(201).json({request, message: 'Solicitud grupal creada con éxito' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const getOpenGroupRequests = async (req, res) => {
+  const userId = req.user.id;
+  const id = req.params.id;
+  try {
+    const openRequests = await getGroupRequests(id)
+    res.status(200).json(openRequests);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 }

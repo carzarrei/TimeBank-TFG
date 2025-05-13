@@ -22,6 +22,41 @@ const resetPassword ='/reset-password/:tokenResetPassword';
 const newGroup = '/groups/new';
 const groupsList = '/groups';
 const groupDetails = '/groups/:groupId';
+const userGroupDetails = '/groups/userGroup';
 const groupJoinRequests = '/groups/:groupId/joinRequests';
+const groupRequests = '/groups/:groupId/requests';
+const newGroupRequest = '/groups/:groupId/requests/new';
+const groupOffers = '/groups/:groupId/offers';
+const newGroupOffer = '/groups/:groupId/offers/new';
 
-export { offersList, myOffers, myAcceptedOffers, offerDetails, editOffer, newOffer, requestsList, myRequests, myAcceptedRequests, requestDetails, newRequest, editRequest, listaMensajes, nuevoMensaje, login, register, personalProfile, editProfile, userProfile, forgotPassword, resetPassword, newGroup, groupsList, groupDetails, groupJoinRequests };
+export { offersList, 
+    myOffers, 
+    myAcceptedOffers, 
+    offerDetails, 
+    editOffer, 
+    newOffer, 
+    requestsList, 
+    myRequests, 
+    myAcceptedRequests, 
+    requestDetails, 
+    newRequest, 
+    editRequest, 
+    listaMensajes, 
+    nuevoMensaje, 
+    login, 
+    register, 
+    personalProfile, 
+    editProfile, 
+    userProfile, 
+    forgotPassword, 
+    resetPassword, 
+    newGroup, 
+    groupsList, 
+    groupDetails, 
+    groupJoinRequests, 
+    groupRequests, 
+    newGroupRequest,
+    groupOffers,
+    newGroupOffer, 
+    userGroupDetails
+};

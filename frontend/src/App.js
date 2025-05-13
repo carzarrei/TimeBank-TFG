@@ -43,7 +43,12 @@ import {
   newGroup,
   groupsList,
   groupDetails,
-  groupJoinRequests
+  groupJoinRequests,
+  groupRequests,
+  newGroupRequest,
+  groupOffers,
+  newGroupOffer,
+  userGroupDetails
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -52,6 +57,9 @@ import OfferUpdateForm from './components/Offers/OfferUpdateForm';
 import ResetPassword from './components/Auth/ResetPassword.js';
 import RequestUpdateForm from './components/Requests/RequestUpdateForm.js';
 import GroupJoinRequests from './components/Groups/GroupJoinRequests.js';
+import GroupRequestsList from './components/Groups/GroupRequestsList.js';
+import GroupRequestForm from './components/Groups/GroupRequestForm.js';
+import UserGroupDetails from './components/Groups/UserGroupDetails.js';
 
 
 
@@ -77,8 +85,11 @@ function App() {
         <Route path="/messages/new" element={<MessageForm />} />
         <Route path={groupsList} element={<GroupsList />} />
         <Route path={groupDetails} element={<GroupDetails />} />
+        <Route path={userGroupDetails} element={<UserGroupDetails />} />
         <Route path={newGroup} element={<GroupForm />} />
         <Route path={groupJoinRequests} element={<GroupJoinRequests />} />
+        <Route path={groupRequests} element={<GroupRequestsList />} />
+        <Route path={newGroupRequest} element={<GroupRequestForm />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
         <Route path={userProfile} element={ <UserProfile />} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   offersList,
   requestsList,
@@ -18,7 +18,9 @@ import {
   listaMensajes,
   newGroup,
   groupsList,
+  userGroupDetails,
 } from '../routeNames.js';
+import api from '../api';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -26,6 +28,8 @@ const NavBar = () => {
   const isAuthenticated = !!token;
   const [openMenu, setOpenMenu] = useState(null);
   const navRef = useRef(null);
+  const userId = localStorage.getItem('userId');
+  const [userGroup, setUserGroup] = useState(null);
 
   const toggleMenu = (menu) => {
     setOpenMenu((prev) => (prev === menu ? null : menu));
@@ -37,6 +41,7 @@ const NavBar = () => {
         setOpenMenu(null);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -91,6 +96,7 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('grupos')}>Grupos</button>
               {openMenu === 'grupos' && (
                 <ul className="dropdown">
+                  <li onClick={() => navigate(userGroupDetails)}>Mi grupo</li>
                   <li onClick={() => navigate(groupsList)}>Ver Grupos</li>
                   <li onClick={() => navigate(newGroup)}>Nuevo Grupo</li>
                 </ul>

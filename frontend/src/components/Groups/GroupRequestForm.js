@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-import { login, requestsList } from '../../routeNames';
+import { groupRequests, login, requestsList } from '../../routeNames';
 import '../../styles/Requests/requestForm.css';
+import { useParams } from 'react-router-dom';
 
-const RequestForm = () => {
+const GroupRequestForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [requestedTime, setRequestedTime] = useState('');
   const token = localStorage.getItem('token');
+  const {groupId} = useParams();
 
   useEffect(() => {
     if (!token) {
@@ -21,7 +23,7 @@ const RequestForm = () => {
     e.preventDefault();
     try {
       const response = await api.post(
-        '/requests',
+        `/groups/${groupId}/requests/new`,
         { title, description, requestedTime },
         { headers: { Authorization: token } }
       );
@@ -29,7 +31,7 @@ const RequestForm = () => {
       setTitle('');
       setDescription('');
       setRequestedTime('');
-      window.location.href = requestsList;
+      window.location.href = `/groups/${groupId}/requests`;
     } catch (error) {
       console.error('Error al crear la solicitud:', error.response?.data || error.message);
     }
@@ -74,4 +76,4 @@ const RequestForm = () => {
   );
 };
 
-export default RequestForm;
+export default GroupRequestForm;

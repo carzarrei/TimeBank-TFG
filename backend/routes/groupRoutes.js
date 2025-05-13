@@ -1,5 +1,17 @@
 import express from 'express';
-import { createGroup, getAllGroups, getGroupById, getGroupMembers, requestJoinGroup, acceptJoinRequest, getGroupJoinRequests, rejectJoinRequest, leaveGroup } from '../controllers/groupController.js';
+import { createGroup, 
+    getAllGroups, 
+    getGroupById, 
+    getGroupMembers, 
+    requestJoinGroup, 
+    acceptJoinRequest, 
+    getGroupJoinRequests, 
+    rejectJoinRequest, 
+    leaveGroup, 
+    getUserGroup,
+    newGroupRequest,
+    getOpenGroupRequests
+} from '../controllers/groupController.js';
 import verifyLogin from '../middlewares/CheckAuth.js';
 
 const router = express.Router();
@@ -13,5 +25,8 @@ router.get('/', verifyLogin, getAllGroups);
 router.get('/:id', verifyLogin, getGroupById);
 router.get('/:id/members', verifyLogin, getGroupMembers);
 router.get('/:id/joinRequests', verifyLogin, getGroupJoinRequests);
+router.get('/:id/requests', verifyLogin, getOpenGroupRequests);
+router.post('/:id/requests/new', verifyLogin, newGroupRequest);
+router.get('/user/group', verifyLogin, getUserGroup);
 
 export default router;

@@ -125,7 +125,7 @@ export const completeOffer = async (req, res) => {
     }
     const result = await db.transaction(async (t) => {
       await exchangeTimeBetweenUsers( offer.creator_id, userId, offer.offered_time, t);
-      await offer.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+      await offer.update({ accepted_by: null, status: 'Abierta' }, { transaction: t });
     });
     res.status(200).json({ result, message: 'Offer completed' });
   } catch (error) {

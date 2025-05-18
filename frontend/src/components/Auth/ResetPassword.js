@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { personalProfile } from '../../routeNames';
+import '../../styles/Auth/resetPassword.css';
 
 const ResetPassword = () => {
   const { tokenResetPassword } = useParams();

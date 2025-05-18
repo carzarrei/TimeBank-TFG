@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api';
 import { personalProfile } from '../../routeNames';
+import '../../styles/Auth/forgotPassword.css'; // Ruta correcta según tu estructura
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -18,12 +19,12 @@ const ForgotPassword = () => {
       const response = await api.post('/users/forgot-password', { email });
       setMsg(response?.data?.message);
     } catch (error) {
-      setMsg(error?.response?.data?.message);
+      setMsg(error?.response?.data?.message || 'Ocurrió un error');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="forgot-password-container">
       <h1>Recuperar Contraseña</h1>
       <input
         type="email"

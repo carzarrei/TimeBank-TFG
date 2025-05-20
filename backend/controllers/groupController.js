@@ -215,6 +215,10 @@ export const newGroupRequest = async (req, res) => {
     if (!group) {
       return res.status(404).json({ message: 'Grupo no encontrado' });
     }
+    const member = await Member.findOne({ where: { user_id: userId, group_id: id } });
+    if (!member) {
+      return res.status(404).json({ message: 'El usuario no pertenece a este grupo' });
+    }
     const requestData = {
       title,
       description,
@@ -232,9 +236,31 @@ export const getOpenGroupRequests = async (req, res) => {
   const userId = req.user.id;
   const id = req.params.id;
   try {
+    const member = await Member.findOne({ where: { user_id: userId, group_id: id } });
+    if (!member) {
+      return res.status(404).json({ message: 'El usuario no pertenece a este grupo' });
+    }
     const openRequests = await getGroupRequests(id)
     res.status(200).json(openRequests);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 }
+
+export const exchangeTimeBetweenMembers = async (memberId, secondMemberId, groupId, time, transaction) => {
+  const member = await Member.findOne({ where: { user_id: memberId, group_id: groupId } },{ transaction });
+  const secondMember = await Member.findByPk({ where: { user_id: secondMemberId, group_id: groupId } },{ transaction });
+
+  if (!member || !secondMember) {
+    throw new Error('Uno o ambos usuarios no existen.');
+  }
+
+  await member.update(
+    { accumulated_time: Number(member.accumulated_time - time) },
+    { transaction }
+  );
+  await secondMember.update(
+    { accumulated_time: Number(secondMember.accumulated_time + time) },
+    { transaction }
+  );
+};

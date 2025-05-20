@@ -3,6 +3,8 @@ import { exchangeTimeBetweenUsers } from './userController.js';
 import db from '../database/db.js';
 import User from '../models/User.js';
 import Member from '../models/Member.js';
+import { exchangeTimeBetweenMembers } from './groupController.js';
+import e from 'cors';
 
 export const createRequest = async (req, res) => {
   const { title, description, requestedTime } = req.body;
@@ -216,11 +218,23 @@ export const completeRequest = async (req, res) => {
     if (request.accepted_by !== userId) {
       return res.status(403).json({ message: 'No tienes permiso para completar esta request' });
     }
-    const result = await db.transaction(async (t) => {
-      await exchangeTimeBetweenUsers(request.creator_id, request.accepted_by, request.requested_time, t);
-      await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
-    });
-    res.status(200).json({ result, message: 'Solicitud completada' });
+    const result = null;
+    if (request.group_id === null) {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenUsers(request.creator_id, request.accepted_by, request.requested_time, t);
+        await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+      });
+    } else {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenMembers(request.creator_id, request.accepted_by, request.requested_time, t);
+        await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+      });
+    } 
+    if (!result) {
+      return res.status(400).json({ message: 'Error al completar la solicitud' });
+    } else {
+      res.status(200).json({ result, message: 'Solicitud completada' });
+    }    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

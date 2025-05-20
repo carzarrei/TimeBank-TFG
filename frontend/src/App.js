@@ -60,6 +60,8 @@ import GroupJoinRequests from './components/Groups/GroupJoinRequests.js';
 import GroupRequestsList from './components/Groups/GroupRequestsList.js';
 import GroupRequestForm from './components/Groups/GroupRequestForm.js';
 import UserGroupDetails from './components/Groups/UserGroupDetails.js';
+import GroupOfferForm from './components/Groups/GroupOfferForm.js';
+import GroupOffersList from './components/Groups/GroupOffersList.js';
 
 
 
@@ -90,6 +92,8 @@ function App() {
         <Route path={groupJoinRequests} element={<GroupJoinRequests />} />
         <Route path={groupRequests} element={<GroupRequestsList />} />
         <Route path={newGroupRequest} element={<GroupRequestForm />} />
+        <Route path={groupOffers} element={<GroupOffersList />} />
+        <Route path={newGroupOffer} element={<GroupOfferForm />} />
         <Route path={login} element={<Login />} />
         <Route path={register} element={<Register />} />
         <Route path={userProfile} element={ <UserProfile />} />

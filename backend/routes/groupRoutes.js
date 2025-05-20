@@ -29,7 +29,7 @@ router.get('/:id/members', verifyLogin, getGroupMembers);
 router.get('/:id/joinRequests', verifyLogin, getGroupJoinRequests);
 router.get('/:id/requests', verifyLogin, getOpenGroupRequests);
 router.post('/:id/requests/new', verifyLogin, newGroupRequest);
-router.get('/user/offers', verifyLogin, getOpenGroupOffers);
+router.get('/:id/offers', verifyLogin, getOpenGroupOffers);
 router.post('/:id/offers/new', verifyLogin, newGroupOffer);
 router.get('/user/group', verifyLogin, getUserGroup);
 

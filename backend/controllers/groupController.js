@@ -249,7 +249,7 @@ export const getOpenGroupRequests = async (req, res) => {
 
 export const exchangeTimeBetweenMembers = async (memberId, secondMemberId, groupId, time, transaction) => {
   const member = await Member.findOne({ where: { user_id: memberId, group_id: groupId } },{ transaction });
-  const secondMember = await Member.findByPk({ where: { user_id: secondMemberId, group_id: groupId } },{ transaction });
+  const secondMember = await Member.findOne({ where: { user_id: secondMemberId, group_id: groupId } },{ transaction });
 
   if (!member || !secondMember) {
     throw new Error('Uno o ambos usuarios no existen.');

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../api';
-import { groupRequests, login, requestsList } from '../../routeNames';
+import { login } from '../../routeNames';
 import '../../styles/Requests/requestForm.css';
 import { useParams } from 'react-router-dom';
 

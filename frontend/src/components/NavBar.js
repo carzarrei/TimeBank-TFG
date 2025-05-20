@@ -49,10 +49,10 @@ const NavBar = () => {
   return (
     <nav className="navbar" ref={navRef}>
       {!isAuthenticated && (
-        <>
+        <div className="navbar-center">
           <li onClick={() => navigate(login)}>Iniciar Sesión</li>
           <li onClick={() => navigate(register)}>Registro</li>
-        </>
+        </div>
       )}
 
       {isAuthenticated && (

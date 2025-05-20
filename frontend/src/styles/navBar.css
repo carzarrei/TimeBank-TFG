@@ -83,3 +83,23 @@
 .logout-item:hover {
   background-color: #b71c1c;
 }
+
+.navbar-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navbar-center li {
+  list-style: none;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.navbar-center li:hover {
+  color: #4dabf7;
+}

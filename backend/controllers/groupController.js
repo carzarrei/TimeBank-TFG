@@ -2,6 +2,7 @@ import Group from '../models/Group.js';
 import Member from '../models/Member.js';
 import { createGroupRequest, getGroupRequests } from './requestController.js';
 import {getAllJoinRequestUsersFromGroup, getAllUsersFromGroup} from './userController.js';
+import { createGroupOffer, getGroupOffers } from './offerController.js';
 
 export const createGroup = async (req, res) => {
   const { name } = req.body;
@@ -242,6 +243,47 @@ export const getOpenGroupRequests = async (req, res) => {
     }
     const openRequests = await getGroupRequests(id)
     res.status(200).json(openRequests);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const newGroupOffer = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const { title, description, offeredTime } = req.body;
+  try {
+    const group = await Group.findByPk(id);
+    if (!group) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+    const member = await Member.findOne({ where: { user_id: userId, group_id: id } });
+    if (!member) {
+      return res.status(404).json({ message: 'El usuario no pertenece a este grupo' });
+    }
+    const offerData = {
+      title,
+      description,
+      offeredTime: offeredTime,
+      creatorId: userId
+    };
+    const offer= await createGroupOffer(offerData, id);
+    res.status(201).json({offer, message: 'Solicitud grupal creada con éxito' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const getOpenGroupOffers = async (req, res) => {
+  const userId = req.user.id;
+  const id = req.params.id;
+  try {
+    const member = await Member.findOne({ where: { user_id: userId, group_id: id } });
+    if (!member) {
+      return res.status(404).json({ message: 'El usuario no pertenece a este grupo' });
+    }
+    const openOffers = await getGroupOffers(id)
+    res.status(200).json(openOffers);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

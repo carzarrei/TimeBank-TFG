@@ -1,5 +1,7 @@
 import db from '../database/db.js';
+import Member from '../models/Member.js';
 import Offer from '../models/Offer.js';
+import { exchangeTimeBetweenMembers } from './groupController.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 
 export const createOffer = async (req, res) => {
@@ -105,6 +107,12 @@ export const acceptOffer = async (req, res) => {
     if (userId === offer.creator_id) {
       return res.status(403).json({ message: 'You cannot accept your own offer' });
     }
+    if (offer.group_id) {
+      const member = await Member.findOne({ where: { user_id: userId, group_id: offer.group_id, status: 'Miembro' } });
+      if (!member) {
+        return res.status(403).json({ message: 'No tienes permiso para aceptar esta solicitud' });
+      }
+    }
     await offer.update({ accepted_by: userId, status: 'Aceptada' });
     res.status(200).json({ message: 'Offer accepted' });
   } catch (error) {
@@ -123,15 +131,27 @@ export const completeOffer = async (req, res) => {
     if (offer.creator_id !== userId) {
       return res.status(403).json({ message: 'You are not authorized to confirm this offer' });
     }
-    const result = await db.transaction(async (t) => {
-      await exchangeTimeBetweenUsers( offer.creator_id, userId, offer.offered_time, t);
-      await offer.update({ accepted_by: null, status: 'Abierta' }, { transaction: t });
-    });
-    res.status(200).json({ result, message: 'Offer completed' });
+    var result = null;
+    if (offer.group_id === null) {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenUsers(offer.creator_id, offer.accepted_by, offer.offered_time, t);
+        await offer.update({ accepted_by: null, status: 'Abierta' }, { transaction: t });
+      });
+    } else {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenMembers(offer.creator_id, offer.accepted_by, offer.group_id, offer.offered_time, t);
+        await offer.update({ accepted_by: null, status: 'Abierta' }, { transaction: t });
+      });
+    } 
+    if (result === null) {
+      return res.status(400).json({ message: 'Error al completar la oferta' });
+    } else {
+      res.status(200).json({ result, message: 'Oferta completada' });
+    }    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
 export const confirmOffer = async (req, res) => {
   const { id } = req.params;
@@ -207,3 +227,33 @@ export const reopenOffer = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
+export const getGroupOffers = async (groupId) => {
+  try {
+    const offers = await Offer.findAll({
+      where: { group_id: groupId, status: 'Abierta' },
+    });
+    return offers;
+  } catch (error) {
+    console.error('Error getting offers by group:', error.message);
+  }
+}
+
+export const createGroupOffer = async (offerData, groupId) => {
+  const { title, description, offeredTime, creatorId } = offerData;
+  try {
+    const offer = await Offer.create({
+      title,
+      description,
+      offered_time: offeredTime,
+      status: 'Abierta',
+      publication_date: new Date(),
+      creator_id: creatorId,
+      group_id: groupId,
+    });
+    return offer;
+  } catch (error) {
+    console.error('Error creating group offer:', error.message);
+  }
+}

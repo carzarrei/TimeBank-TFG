@@ -136,8 +136,8 @@ export const acceptRequest = async (req, res) => {
     if (request.creator_id === userId) {
       return res.status(403).json({ message: 'No puedes aceptar tu propia solicitud' });
     }
-    if (request.groupId) {
-      const member = await Member.findOne({ where: { user_id: userId, group_id: request.groupId, status: 'Miembro' } });
+    if (request.group_id) {
+      const member = await Member.findOne({ where: { user_id: userId, group_id: request.group_id, status: 'Miembro' } });
       if (!member) {
         return res.status(403).json({ message: 'No tienes permiso para aceptar esta solicitud' });
       }

@@ -48,7 +48,8 @@ import {
   newGroupRequest,
   groupOffers,
   newGroupOffer,
-  userGroupDetails
+  userGroupDetails,
+  groupMembers
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -62,6 +63,7 @@ import GroupRequestForm from './components/Groups/GroupRequestForm.js';
 import UserGroupDetails from './components/Groups/UserGroupDetails.js';
 import GroupOfferForm from './components/Groups/GroupOfferForm.js';
 import GroupOffersList from './components/Groups/GroupOffersList.js';
+import GroupMembers from './components/Groups/GroupMembers.js';
 
 
 
@@ -90,6 +92,7 @@ function App() {
         <Route path={userGroupDetails} element={<UserGroupDetails />} />
         <Route path={newGroup} element={<GroupForm />} />
         <Route path={groupJoinRequests} element={<GroupJoinRequests />} />
+        <Route path={groupMembers} element={<GroupMembers />} />
         <Route path={groupRequests} element={<GroupRequestsList />} />
         <Route path={newGroupRequest} element={<GroupRequestForm />} />
         <Route path={groupOffers} element={<GroupOffersList />} />

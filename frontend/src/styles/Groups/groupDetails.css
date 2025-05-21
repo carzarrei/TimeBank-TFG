@@ -2,10 +2,10 @@
   max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #1e1e2f;
-  color: white;
+  background-color: #ffffff;
+  color: #333;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .group-name {
@@ -17,7 +17,7 @@
 .members-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #ccc;
+  color: #444;
 }
 
 .members-list {
@@ -30,21 +30,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 0.5rem;
   margin-bottom: 0.3rem;
-  background-color: #2a2a3d;
+  background-color: #f3f3f3;
   border-radius: 4px;
 }
 
 .member-hours {
   font-size: 0.95rem;
-  color: #ddd;
+  color: #666;
   margin-left: 1rem;
 }
 
 .member-link {
   text-decoration: none;
-  color: #4caf50;
+  color: #2196F3;
   font-weight: bold;
 }
 
@@ -53,21 +54,32 @@
 }
 
 .group-actions {
-  text-align: center;
+  display: flex;
+  margin-top: 1.5rem;
+  gap: 1rem;
 }
 
-.join-btn, .leave-btn {
-  padding: 0.8rem 1.5rem;
+.group-actions a,
+.group-actions button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
   font-weight: bold;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
+  background-color: #2196F3;
+  color: white;
   transition: background-color 0.3s ease;
+}
+
+.group-actions a:hover,
+.group-actions button:hover {
+  background-color: #1976D2;
 }
 
 .join-btn {
   background-color: #4caf50;
-  color: white;
 }
 
 .join-btn:hover {
@@ -76,7 +88,6 @@
 
 .leave-btn {
   background-color: #f44336;
-  color: white;
 }
 
 .leave-btn:hover {
@@ -84,7 +95,7 @@
 }
 
 .group-loading {
-  color: black;
+  color: #555;
   text-align: center;
   margin-top: 2rem;
 }
@@ -93,13 +104,6 @@
   display: flex;
   gap: 10px;
   margin-top: 8px;
-}
-
-.member-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .group-requests-container {
@@ -166,16 +170,63 @@
 
 .requests-btn {
   display: inline-block;
-  background-color: #2196F3; /* Light blue */
+  background-color: #2196F3;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   text-decoration: none;
   font-size: 0.95rem;
-  margin-top: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .requests-btn:hover {
-  background-color: #1976D2; /* Darker blue on hover */
+  background-color: #1976D2;
+}
+
+.group-summary {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.group-summary p {
+  margin: 0.5rem 0;
+}
+
+.group-links {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.group-link {
+  background-color: #2196F3;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: background-color 0.3s;
+}
+
+.group-link:hover {
+  background-color: #1976D2;
+}
+
+.group-actions-left,
+.group-actions-right {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.group-actions-left {
+  justify-content: center;
+}
+
+.group-actions-right {
+  justify-content: center;
+  margin-left: auto;
 }

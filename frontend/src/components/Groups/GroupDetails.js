@@ -11,47 +11,70 @@ const GroupDetails = () => {
   const token = localStorage.getItem('token');
   const userId = Number(localStorage.getItem('userId'));
 
-  useEffect(() => {
-    if (!token) {
-      alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = login;
-      return;
+  // Primer useEffect: obtiene el grupo y miembros
+useEffect(() => {
+  if (!token) {
+    alert('No estás autenticado. Por favor, inicia sesión.');
+    window.location.href = login;
+    return;
+  }
+
+  const fetchGroupDetails = async () => {
+    try {
+      const response = await api.get(`/groups/${groupId}`, {
+        headers: { Authorization: token },
+      });
+      setGroup(response.data);
+    } catch (error) {
+      console.error('Error fetching group details:', error);
     }
+  };
 
-    const fetchGroupDetails = async () => {
-      try {
-        const response = await api.get(`/groups/${groupId}`, {
-          headers: { Authorization: token },
-        });
-        setGroup(response.data);
-      } catch (error) {
-        console.error('Error fetching group details:', error);
-      }
-    };
+  const fetchGroupMembers = async () => {
+    try {
+      const response = await api.get(`/groups/${groupId}/members`, {
+        headers: { Authorization: token },
+      });
+      setMembers(response.data);
+    } catch (error) {
+      console.error('Error fetching group members:', error);
+    }
+  };
 
-    const fetchGroupMembers = async () => {
-      try {
-        const response = await api.get(`/groups/${groupId}/members`, {
-          headers: { Authorization: token },
-        });
-        setMembers(response.data);
-      } catch (error) {
-        console.error('Error fetching group members:', error);
-      }
-    };
+  fetchGroupDetails();
+  fetchGroupMembers();
+}, [groupId, token]);
 
-    fetchGroupDetails();
-    fetchGroupMembers();
-  }, [groupId, token]);
+// Segundo useEffect: espera a que group esté disponible para traer el admin
+useEffect(() => {
+  if (!group || !group.admin_id) return;
+
+  const fetchGroupAdmin = async () => {
+    try {
+      const response = await api.get(`/users/${group.admin_id}`, {
+        headers: { Authorization: token },
+      });
+      setGroup((prevGroup) => ({
+        ...prevGroup,
+        admin_name: response.data.name,
+        location: response.data.location,
+      }));
+    } catch (error) {
+      console.error('Error fetching group admin:', error);
+    }
+  };
+
+  fetchGroupAdmin();
+}, [group, token]);
+
 
   const joinGroup = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(`/groups/${groupId}/join`, {}, {
+      await api.post(`/groups/${groupId}/join`, {}, {
         headers: { Authorization: token },
       });
-      console.log(response.data);
-      window.location.reload(); // Refrescar para mostrar cambios
+      window.location.reload();
     } catch (error) {
       console.error('Error joining group:', error);
     }
@@ -60,49 +83,52 @@ const GroupDetails = () => {
   const leaveGroup = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(`/groups/${groupId}/leave`, {}, {
+      await api.post(`/groups/${groupId}/leave`, {}, {
         headers: { Authorization: token },
       });
-      console.log(response.data);
-      window.location.reload(); // Refrescar para mostrar cambios
+      window.location.reload();
     } catch (error) {
       console.error('Error leaving group:', error);
     }
   };
 
-  const isMember = members.some(member => member.id == userId);
+  const isMember = members.some(member => member.id === userId);
 
   if (!group) return <div className="group-loading">Cargando grupo...</div>;
 
   return (
     <div className="group-details-container">
-      <h1 className="group-name">{group.nombre}</h1>
+      <h1 className="group-name">{group.name}</h1>
+
+      <div className="group-summary">
+        <p><strong>Administrador:</strong> {group.admin_name}</p>
+        <p><strong>Número de miembros:</strong> {members.length}</p>
+        <p><strong>Loacalización:</strong> {group.location}</p>
+      </div>
+
       
-      <h2 className="members-title">Miembros del grupo</h2>
-      <ul className="members-list">
-        {members.map(member => (
-            <li key={member.id} className="member-item">
-            <Link to={`/profile/${member.id}`} className="member-link">
-                {member.name}
-            </Link>
-            <span className="member-hours">{member.accumulated_time} horas grupales</span>
-            </li>
-        ))}
-      </ul>
 
       <div className="group-actions">
+        <div className="group-actions">
+          <div className="group-actions-left">
+            <Link to={`/groups/${groupId}/members`} className="group-link">👥 Ver miembros del grupo</Link>
+            {(group.admin_id === userId) && (
+              <Link to={`/groups/${groupId}/joinRequests`} className="requests-btn">📨 Ver Solicitudes de unión</Link>
+            )}
+          </div>
+          <div className="group-actions-right">
+            <Link to={`/groups/${groupId}/offers`} className="group-link">Ofertas del grupo</Link>
+            <Link to={`/groups/${groupId}/requests`} className="group-link">Solicitudes del grupo</Link>
+          </div>
+        </div>
         {!isMember && (
           <button onClick={joinGroup} className="join-btn">Solicitar Unirse al grupo</button>
         )}
         {(isMember && group.admin_id !== userId) && (
           <button onClick={leaveGroup} className="leave-btn">Salir del grupo</button>
         )}
-        {(group.admin_id == userId) && (
-          <Link to={`/groups/${groupId}/joinRequests`} className="requests-btn">Ver Solicitudes de unión</Link>
-        )}
-        
+        </div>
       </div>
-    </div>
   );
 };
 

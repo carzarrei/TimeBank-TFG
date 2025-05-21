@@ -24,6 +24,7 @@ const groupsList = '/groups';
 const groupDetails = '/groups/:groupId';
 const userGroupDetails = '/groups/userGroup';
 const groupJoinRequests = '/groups/:groupId/joinRequests';
+const groupMembers = '/groups/:groupId/members';
 const groupRequests = '/groups/:groupId/requests';
 const newGroupRequest = '/groups/:groupId/requests/new';
 const groupOffers = '/groups/:groupId/offers';
@@ -58,5 +59,6 @@ export { offersList,
     newGroupRequest,
     groupOffers,
     newGroupOffer, 
-    userGroupDetails
+    userGroupDetails,
+    groupMembers,
 };

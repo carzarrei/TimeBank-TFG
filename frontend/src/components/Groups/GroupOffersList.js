@@ -23,7 +23,7 @@ const GroupOffersList = () => {
         });
         setOffers(response.data);
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error('Error fetching offers:', error);
       }
     };
 

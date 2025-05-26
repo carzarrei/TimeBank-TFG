@@ -2,9 +2,10 @@ import Request from '../models/Request.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 import db from '../database/db.js';
 import User from '../models/User.js';
-
+import Member from '../models/Member.js';
+import { exchangeTimeBetweenMembers } from './groupController.js';
 export const createRequest = async (req, res) => {
-  const { title, description, requestedTime, creadorId } = req.body;
+  const { title, description, requestedTime } = req.body;
   const userId = req.user.id;
   if (!title || !description || !requestedTime) {
     return res.status(400).json({ message: 'Faltan datos requeridos' });
@@ -24,7 +25,7 @@ export const createRequest = async (req, res) => {
       publication_date: new Date(),
       creator_id: userId,
     });
-    res.status(201).json(request);
+    res.status(201).json({request,  message: 'Solicitud creada' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -46,7 +47,14 @@ export const getAllRequests = async (req, res) => {
 
 export const getOpenRequests = async (req, res) => {
   try {
-    const openRequests = await Request.findAll({ where: { status: 'Abierta' } });
+    const userId = req.user.id;
+    const openRequests = await Request.findAll({ 
+      where: { 
+      status: 'Abierta', 
+      group_id: null, 
+      creator_id: { [db.Sequelize.Op.ne]: userId } 
+      } 
+    });
     res.status(200).json(openRequests);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -80,6 +88,12 @@ export const getRequestById = async (req, res) => {
     const request = await Request.findByPk(id);
     if (!request) {
       return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+    if (request.groupId) {
+      const member = await Member.findOne({ where: { user_id: req.user.id, group_id: request.groupId, status: 'Miembro' } });
+      if (!member) {
+        return res.status(403).json({ message: 'No tienes permiso para ver esta solicitud' });
+      }
     }
     res.status(200).json(request);
   } catch (error) {
@@ -117,6 +131,19 @@ export const acceptRequest = async (req, res) => {
     if (!request) {
       return res.status(404).json({ message: 'Solicitud no encontrada' });
     }
+    if (request.creator_id === userId) {
+      return res.status(403).json({ message: 'No puedes aceptar tu propia solicitud' });
+    }
+    if (request.group_id) {
+      const member = await Member.findOne({ where: { user_id: userId, group_id: request.group_id, status: 'Miembro' } });
+      if (!member) {
+        return res.status(403).json({ message: 'No tienes permiso para aceptar esta solicitud' });
+      }
+    }
+    if (request.status !== 'Abierta') {
+      return res.status(400).json({ message: 'Solo se pueden aceptar solicitudes abiertas' });
+    }
+    
     await request.update({ accepted_by: userId, status: 'Aceptada' });
     res.status(200).json({ message: 'Solicitud aceptada' });
   } catch (error) {
@@ -189,11 +216,23 @@ export const completeRequest = async (req, res) => {
     if (request.accepted_by !== userId) {
       return res.status(403).json({ message: 'No tienes permiso para completar esta request' });
     }
-    const result = await db.transaction(async (t) => {
-      await exchangeTimeBetweenUsers(request.creator_id, request.accepted_by, request.requested_time, t);
-      await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
-    });
-    res.status(200).json({ result, message: 'Solicitud completada' });
+    var result = null;
+    if (request.group_id === null) {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenUsers(request.creator_id, request.accepted_by, request.requested_time, t);
+        await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+      });
+    } else {
+      result = await db.transaction(async (t) => {
+        await exchangeTimeBetweenMembers(request.creator_id, request.accepted_by, request.group_id, request.requested_time, t);
+        await request.update({ accepted_by: null, status: 'Cerrada' }, { transaction: t });
+      });
+    } 
+    if (result === null) {
+      return res.status(400).json({ message: 'Error al completar la solicitud' });
+    } else {
+      res.status(200).json({ result, message: 'Solicitud completada' });
+    }    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -214,5 +253,34 @@ export const reopenRequest = async (req, res) => {
     res.status(200).json({ message: 'Solicitud reabierta' });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+}
+
+export const getGroupRequests = async (groupId) => {
+  try {
+    const requests = await Request.findAll({
+      where: { group_id: groupId, status: 'Abierta' },
+    });
+    return requests;
+  } catch (error) {
+    console.error('Error getting requests by group:', error.message);
+  }
+}
+
+export const createGroupRequest = async (requestData, groupId) => {
+  const { title, description, requestedTime, creatorId } = requestData;
+  try {
+    const request = await Request.create({
+      title,
+      description,
+      requested_time: requestedTime,
+      status: 'Abierta',
+      publication_date: new Date(),
+      creator_id: creatorId,
+      group_id: groupId,
+    });
+    return request;
+  } catch (error) {
+    console.error('Error creating group request:', error.message);
   }
 }

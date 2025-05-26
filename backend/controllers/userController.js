@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import { Op } from 'sequelize';
 import { wrongCredentials, userNotFound } from "../errorMessages.js"
+import Member from '../models/Member.js';
 
 
 const transporter = nodemailer.createTransport({
@@ -196,28 +197,44 @@ export const deleteUser = async (req, res) => {
 
 export const getAllUsersFromGroup = async (groupId) => {
   try {
-    const users = await User.findAll({ where: { grupoId: groupId } });
-    return users;
+    const users = await Member.findAll({
+      where: { group_id: groupId, status: 'Miembro' },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name', 'email', 'location', 'birth_date', 'profile_picture', 'skills'],
+        },
+      ],
+    });
+    return users.map(member => ({
+      id: member.user_id,
+      name: member.user.name,
+      email: member.user.email,
+      location: member.user.location,
+      birth_date: member.user.birth_date,
+      profile_picture: member.user.profile_picture,
+      skills: member.user.skills,
+      accumulated_time: member.accumulated_time,
+    }));
   } catch (error) {
     console.error('Error getting users by group:', error.message);
   }
 }
 
-export const addUserToGroup = async (userId, groupId) => {
+export const getAllJoinRequestUsersFromGroup = async (groupId) => {
   try {
-    const user = await User.update({ grupoId: groupId }, { where: { id: userId } });
-    return user;
+    const users = await Member.findAll({
+      where: { group_id: groupId, status: 'Solicitud' },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+    return users;
   } catch (error) {
-    console.error('Error getting user by email:', error.message);
-  }
-}
-
-export const removeUserFromGroup = async (userId) => {
-  try {
-    const user = await User.update({ grupoId: null }, { where: { id: userId } });
-    return user;
-  } catch (error) {
-    console.error('Error getting user by email:', error.message);
+    console.error('Error getting users by group:', error.message);
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   offersList,
   requestsList,
@@ -9,16 +9,18 @@ import {
   myAcceptedRequests,
   login,
   newRequest,
-  nuevoGrupo,
   nuevoMensaje,
   personalProfile,
   register,
   newOffer,
   myOffers,
   myAcceptedOffers,
-  listaGrupos,
   listaMensajes,
+  newGroup,
+  groupsList,
+  userGroupDetails,
 } from '../routeNames.js';
+import api from '../api';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -26,6 +28,8 @@ const NavBar = () => {
   const isAuthenticated = !!token;
   const [openMenu, setOpenMenu] = useState(null);
   const navRef = useRef(null);
+  const userId = localStorage.getItem('userId');
+  const [userGroup, setUserGroup] = useState(null);
 
   const toggleMenu = (menu) => {
     setOpenMenu((prev) => (prev === menu ? null : menu));
@@ -37,6 +41,7 @@ const NavBar = () => {
         setOpenMenu(null);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -44,10 +49,10 @@ const NavBar = () => {
   return (
     <nav className="navbar" ref={navRef}>
       {!isAuthenticated && (
-        <>
+        <div className="navbar-center">
           <li onClick={() => navigate(login)}>Iniciar Sesión</li>
           <li onClick={() => navigate(register)}>Registro</li>
-        </>
+        </div>
       )}
 
       {isAuthenticated && (
@@ -91,8 +96,9 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('grupos')}>Grupos</button>
               {openMenu === 'grupos' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(listaGrupos)}>Ver Grupos</li>
-                  <li onClick={() => navigate(nuevoGrupo)}>Nuevo Grupo</li>
+                  <li onClick={() => navigate(userGroupDetails)}>Mi grupo</li>
+                  <li onClick={() => navigate(groupsList)}>Ver Grupos</li>
+                  <li onClick={() => navigate(newGroup)}>Nuevo Grupo</li>
                 </ul>
               )}
             </div>

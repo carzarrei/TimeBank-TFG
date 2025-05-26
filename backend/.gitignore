@@ -25,3 +25,4 @@ yarn-error.log*
 
 # Profile photos local
 /uploads/profile_pictures
+/uploads

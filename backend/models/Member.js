@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
+import { DataTypes } from 'sequelize';
 import db from '../database/db.js';
-const User = require('./User');
-const Group = require('./Group');
+import User from './User.js';
+import Group from './Group.js';
 
 const Member = db.define('members', {
     id: {
@@ -12,6 +12,7 @@ const Member = db.define('members', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unique: true,
         references: {
             model: User,
             key: 'id'
@@ -27,7 +28,11 @@ const Member = db.define('members', {
     },
     accumulated_time: {
         type: DataTypes.INTEGER,
-        defaultValue: 0
+        defaultValue: 1
+    },
+    status: {
+        type: DataTypes.ENUM('Solicitud', 'Miembro'),
+        defaultValue: 'Solicitud'
     }
 }, {
     tableName: 'MEMBERS',
@@ -37,4 +42,4 @@ const Member = db.define('members', {
 Member.belongsTo(User, { foreignKey: 'user_id' });
 Member.belongsTo(Group, { foreignKey: 'group_id' });
 
-module.exports = Member;
+export default Member;

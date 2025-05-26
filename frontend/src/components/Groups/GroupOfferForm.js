@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../api';
-import { login, requestsList } from '../../routeNames';
+import { login } from '../../routeNames';
 import '../../styles/Requests/requestForm.css';
+import { useParams } from 'react-router-dom';
 
-const RequestForm = () => {
+const GroupOfferForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [requestedTime, setRequestedTime] = useState('');
+  const [offeredTime, setOfferedTime] = useState('');
   const token = localStorage.getItem('token');
+  const {groupId} = useParams();
 
   useEffect(() => {
     if (!token) {
@@ -21,24 +23,24 @@ const RequestForm = () => {
     e.preventDefault();
     try {
       const response = await api.post(
-        '/requests',
-        { title, description, requestedTime },
+        `/groups/${groupId}/offers/new`,
+        { title, description, offeredTime },
         { headers: { Authorization: token } }
       );
       alert(response.data.message);
       setTitle('');
       setDescription('');
-      setRequestedTime('');
-      window.location.href = requestsList;
+      setOfferedTime('');
+      window.location.href = `/groups/${groupId}/offers`;
     } catch (error) {
-      console.error('Error al crear la solicitud:', error.response?.data || error.message);
+      console.error('Error al crear la oferta:', error.response?.data || error.message);
     }
   };
 
   return (
-    <div className="request-form-container">
-      <h1 className="request-form-title">Crear Nueva Solicitud</h1>
-      <form className="request-form" onSubmit={handleSubmit}>
+    <div className="offer-form-container">
+      <h1 className="offer-form-title">Crear Nueva Oferta</h1>
+      <form className="offer-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Título:</label>
           <input
@@ -59,12 +61,12 @@ const RequestForm = () => {
           ></textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="requestedTime">Tiempo a Intercambiar (horas):</label>
+          <label htmlFor="offeredTime">Tiempo a Intercambiar (horas):</label>
           <input
-            id="requestedTime"
+            id="offeredTime"
             type="number"
-            value={requestedTime}
-            onChange={(e) => setRequestedTime(e.target.value)}
+            value={offeredTime}
+            onChange={(e) => setOfferedTime(e.target.value)}
             required
           />
         </div>
@@ -74,4 +76,4 @@ const RequestForm = () => {
   );
 };
 
-export default RequestForm;
+export default GroupOfferForm;

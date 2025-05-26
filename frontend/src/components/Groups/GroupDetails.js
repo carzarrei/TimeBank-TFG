@@ -103,7 +103,7 @@ useEffect(() => {
       <div className="group-summary">
         <p><strong>Administrador:</strong> {group.admin_name}</p>
         <p><strong>Número de miembros:</strong> {members.length}</p>
-        <p><strong>Loacalización:</strong> {group.location}</p>
+        <p><strong>Localización:</strong> {group.location}</p>
       </div>
 
       

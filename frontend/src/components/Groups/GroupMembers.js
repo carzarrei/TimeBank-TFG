@@ -12,7 +12,7 @@ const GroupMembers = () => {
 
   if (!token) {
     alert('No estás autenticado. Por favor, inicia sesión.');
-    window.location.href = '/login';
+    window.location.href = login;
   }
 
   useEffect(() => {

@@ -4,8 +4,6 @@ import db from '../database/db.js';
 import User from '../models/User.js';
 import Member from '../models/Member.js';
 import { exchangeTimeBetweenMembers } from './groupController.js';
-import e from 'cors';
-
 export const createRequest = async (req, res) => {
   const { title, description, requestedTime } = req.body;
   const userId = req.user.id;

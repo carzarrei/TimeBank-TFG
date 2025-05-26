@@ -12,7 +12,7 @@ const Member = db.define('members', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: 'true',
+        unique: true,
         references: {
             model: User,
             key: 'id'

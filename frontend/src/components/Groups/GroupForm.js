@@ -34,10 +34,10 @@ const GroupForm = () => {
     <div className="group-form-container">
       <h2 className="group-form-title">Crear Nuevo Grupo</h2>
       <form onSubmit={handleSubmit} className="group-form">
-        <label htmlFor="nombre">Nombre del grupo:</label>
+        <label htmlFor="name">Nombre del grupo:</label>
         <input
           type="text"
-          id="nombre"
+          id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required

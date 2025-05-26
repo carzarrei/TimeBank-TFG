@@ -199,7 +199,7 @@ const removeUserFromGroup = async (userId) => {
   try {
     const member = await Member.findOne({ where: { user_id: userId } });
     if (!member) {
-      return res.status(404).json({ message: 'El usuario no pertenece a ningun grupo' });
+      return;
     }
     await member.destroy();
   } catch (error) {

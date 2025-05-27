@@ -7,10 +7,12 @@ export const createMessage = async (req, res) => {
   
   try {
     const receiver = await getUserByEmail(destinationEmail);
-    const receiverId = receiver.id;
-
-    if (!destinatario) {
+    const receiverId = receiver?receiver.id: null;
+    if (!receiver) {
       res.status(404).json({ message: 'Destinatario no encontrado' });
+    }
+    else if (receiverId === userId) {
+      res.status(400).json({ message: 'No puedes enviarte un mensaje a ti mismo' });
     }
     else{
       const mensaje = await Message.create({
@@ -55,7 +57,6 @@ export const getReceivedMessages = async (req, res) => {
       where: {
         receiver_id: userId
       },
-      order: [['date', 'ASC']],
     });
     res.status(200).json(messages);
   } catch (error) {

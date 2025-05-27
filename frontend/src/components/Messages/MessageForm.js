@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api'; // Asegúrate de que la ruta sea correcta
+import { login } from '../../routeNames';
 
 const MessageForm = () => {
-    const [asunto, setAsunto] = useState('');
-    const [cuerpo, setCuerpo] = useState('');
-    const [correoDestino, setCorreoDestino] = useState('');
+    const [subject, setSubject] = useState('');
+    const [body, setBody] = useState('');
+    const [destinationEmail, setDestinationEmail] = useState('');
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         if (!token) {
           alert('No estás autenticado. Por favor, inicia sesión.');
-          window.location.href = '/login'; // Redirigir al login si no hay token
+          window.location.href = login; // Redirigir al login si no hay token
           return;
         }
       }, [token]);
@@ -19,9 +20,9 @@ const MessageForm = () => {
         e.preventDefault();
         try {
             const response = await api.post('/messages', {
-              correoDestino,
-              asunto,
-              cuerpo,
+              destinationEmail,
+              subject,
+              body,
             }, {
               headers: {
                 Authorization: token,
@@ -29,9 +30,9 @@ const MessageForm = () => {
             });
             console.log('Mensaje enviado:', response.data);
             alert('Mensaje enviado con éxito');
-            setAsunto('');
-            setCuerpo('');
-            setCorreoDestino('');
+            setSubject('');
+            setBody('');
+            setDestinationEmail('');
           } catch (error) {
             console.error('Error sending message:', error.response ? error.response.data : error.message);
             }
@@ -41,30 +42,30 @@ const MessageForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="destinatario">Correo Destinatario:</label>
+                <label htmlFor="receiver">Correo Destinatario:</label>
                 <input
                     type="text"
-                    id="destinatario"
-                    value={correoDestino}
-                    onChange={(e) => setCorreoDestino(e.target.value)}
+                    id="receiver"
+                    value={destinationEmail}
+                    onChange={(e) => setDestinationEmail(e.target.value)}
                     required
                 />
             </div>
             <div>
-                <label htmlFor="asunto">Asunto:</label>
+                <label htmlFor="subject">Asunto:</label>
                 <textarea
-                    id="asunto"
-                    value={asunto}
-                    onChange={(e) => setAsunto(e.target.value)}
+                    id="subject"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
                     required
                 />
             </div>
             <div>
-                <label htmlFor="cuerpo">Cuerpo:</label>
+                <label htmlFor="body">Cuerpo:</label>
                 <textarea
-                    id="cuerpo"
-                    value={cuerpo}
-                    onChange={(e) => setCuerpo(e.target.value)}
+                    id="body"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
                     required
                 />
             </div>

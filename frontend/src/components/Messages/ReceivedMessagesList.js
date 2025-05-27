@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api';
+import { login } from '../../routeNames';
 
 const ReceivedMessageList = () => {
     const [messages, setMessages] = useState([]);
@@ -9,7 +10,7 @@ const ReceivedMessageList = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('No estás autenticado. Por favor, inicia sesión.');
-            window.location.href = '/login'; // Redirigir al login si no hay token
+            window.location.href = login; // Redirigir al login si no hay token
             return;
         }
         const fetchMessages = async () => {
@@ -20,14 +21,14 @@ const ReceivedMessageList = () => {
                 }
             });
             const messagesWithNames = await Promise.all(response.data.map(async (message) => {
-                const userResponse = await api.get(`/users/${message.remitenteId}`, {
+                const userResponse = await api.get(`/users/${message.sender_id}`, {
                 headers: {
                     Authorization: token,
                 },
                 });
                 return {
                 ...message,
-                remitenteNombre: userResponse.data.nombreCompleto || userResponse.data.correoElectronico,
+                senderEmail: userResponse.data.email,
                 };
             }));
             setMessages(messagesWithNames);
@@ -44,9 +45,9 @@ const ReceivedMessageList = () => {
             {messages.length > 0 ? (
                 messages.map((message) => (
                     <div key={message.id}>
-                        <Link to={`/profile/${message.remitenteId}`}><h2>De: {message.remitenteNombre}</h2></Link>
-                        <p>{message.asunto}</p>
-                        <p>{message.cuerpo}</p>
+                        <Link to={`/profile/${message.sender_id}`}><h2>De: {message.senderEmail}</h2></Link>
+                        <p>{message.subject}</p>
+                        <p>{message.body}</p>
                     </div>
                 ))
             ) : (

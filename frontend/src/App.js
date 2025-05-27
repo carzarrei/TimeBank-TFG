@@ -49,7 +49,10 @@ import {
   groupOffers,
   newGroupOffer,
   userGroupDetails,
-  groupMembers
+  groupMembers,
+  receivedMessages,
+  sentMessages,
+  newMessage
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -84,9 +87,9 @@ function App() {
         <Route path={requestDetails} element={<RequestDetails />} />
         <Route path={newRequest} element={<RequestForm />} />
         <Route path={editRequest} element={<RequestUpdateForm />} />
-        <Route path="/messages/received" element={<ReceivedMessageList />} />
-        <Route path="/messages/sent" element={<SentMessageList />} />
-        <Route path="/messages/new" element={<MessageForm />} />
+        <Route path={receivedMessages} element={<ReceivedMessageList />} />
+        <Route path={sentMessages} element={<SentMessageList />} />
+        <Route path={newMessage} element={<MessageForm />} />
         <Route path={groupsList} element={<GroupsList />} />
         <Route path={groupDetails} element={<GroupDetails />} />
         <Route path={userGroupDetails} element={<UserGroupDetails />} />

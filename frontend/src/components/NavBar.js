@@ -19,6 +19,8 @@ import {
   newGroup,
   groupsList,
   userGroupDetails,
+  receivedMessages,
+  newMessage,
 } from '../routeNames.js';
 import api from '../api';
 
@@ -86,8 +88,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('mensajes')}>Mensajes</button>
               {openMenu === 'mensajes' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(listaMensajes)}>Ver Mensajes</li>
-                  <li onClick={() => navigate(nuevoMensaje)}>Nuevo Mensaje</li>
+                  <li onClick={() => navigate(receivedMessages)}>Ver Mensajes</li>
+                  <li onClick={() => navigate(newMessage)}>Nuevo Mensaje</li>
                 </ul>
               )}
             </div>

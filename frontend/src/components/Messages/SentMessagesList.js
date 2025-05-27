@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api';
+import { login } from '../../routeNames';
 
-const ReceivedMessageList = () => {
+const SentMessageList = () => {
     const [messages, setMessages] = useState([]);
     
 
@@ -10,7 +11,7 @@ const ReceivedMessageList = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('No estás autenticado. Por favor, inicia sesión.');
-            window.location.href = '/login'; // Redirigir al login si no hay token
+            window.location.href = login; // Redirigir al login si no hay token
             return;
         }
         const fetchMessages = async () => {
@@ -21,14 +22,14 @@ const ReceivedMessageList = () => {
                 }
             });
             const messagesWithNames = await Promise.all(response.data.map(async (message) => {
-                const userResponse = await api.get(`/users/${message.destinatarioId}`, {
+                const userResponse = await api.get(`/users/${message.receiver_id}`, {
                 headers: {
                     Authorization: token,
                 },
                 });
                 return {
                 ...message,
-                destinatarioNombre: userResponse.data.nombreCompleto || userResponse.data.correoElectronico,
+                destinationEmail: userResponse.data.email,
                 };
             }));
             setMessages(messagesWithNames);
@@ -45,9 +46,9 @@ const ReceivedMessageList = () => {
             {messages.length > 0 ? (
                 messages.map((message) => (
                     <div key={message.id}>
-                        <Link to={`/profile/${message.destinatarioId}`}><h2>Para: {message.destinatarioNombre}</h2></Link>
-                        <p>{message.asunto}</p>
-                        <p>{message.cuerpo}</p>
+                        <Link to={`/profile/${message.receiver_id}`}><h2>Para: {message.destinationEmail}</h2></Link>
+                        <p>{message.subject}</p>
+                        <p>{message.body}</p>
                     </div>
                 ))
             ) : (
@@ -57,4 +58,4 @@ const ReceivedMessageList = () => {
     );
 };
 
-export default ReceivedMessageList;
+export default SentMessageList;

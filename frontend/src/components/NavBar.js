@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   offersList,
   requestsList,
@@ -9,20 +9,17 @@ import {
   myAcceptedRequests,
   login,
   newRequest,
-  nuevoMensaje,
   personalProfile,
   register,
   newOffer,
   myOffers,
   myAcceptedOffers,
-  listaMensajes,
   newGroup,
   groupsList,
   userGroupDetails,
   receivedMessages,
   newMessage,
 } from '../routeNames.js';
-import api from '../api';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -30,8 +27,6 @@ const NavBar = () => {
   const isAuthenticated = !!token;
   const [openMenu, setOpenMenu] = useState(null);
   const navRef = useRef(null);
-  const userId = localStorage.getItem('userId');
-  const [userGroup, setUserGroup] = useState(null);
 
   const toggleMenu = (menu) => {
     setOpenMenu((prev) => (prev === menu ? null : menu));

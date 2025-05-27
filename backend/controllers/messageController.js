@@ -2,23 +2,23 @@ import Message from '../models/Message.js';
 import { getUserByEmail } from './userController.js';
 
 export const createMessage = async (req, res) => {
-  const { correoDestino, asunto, cuerpo } = req.body;
+  const { destinationEmail, subject, body } = req.body;
   const userId = req.user.id;
   
   try {
-    const destinatario = await getUserByEmail(correoDestino);
-    const destinatarioId = destinatario.id;
+    const receiver = await getUserByEmail(destinationEmail);
+    const receiverId = receiver.id;
 
     if (!destinatario) {
       res.status(404).json({ message: 'Destinatario no encontrado' });
     }
     else{
       const mensaje = await Message.create({
-        remitenteId: userId,
-        destinatarioId: destinatarioId,
-        asunto,
-        cuerpo,
-        fechaEnvio: new Date(),
+        sender_id: userId,
+        receiver_id: receiverId,
+        subject,
+        body,
+        date: new Date(),
       });
       res.status(201).json(mensaje);
     }
@@ -29,17 +29,20 @@ export const createMessage = async (req, res) => {
 };
 
 export const getMessagesBetweenUsers = async (req, res) => {
-  const { remitenteId, destinatarioId } = req.params;
+  const { senderId, receiverId } = req.params;
 
   try {
-    const mensajes = await Message.findAll({
+    const messages = await Message.findAll({
       where: {
-        remitenteId,
-        destinatarioId
+        sender_id: senderId,
+        receiver_id: receiverId
+      } || {
+        sender_id: receiverId,
+        receiver_id: senderId
       },
-      order: [['fechaEnvio', 'ASC']],
+      order: [['date', 'ASC']],
     });
-    res.status(200).json(mensajes);
+    res.status(200).json(messages);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -47,15 +50,14 @@ export const getMessagesBetweenUsers = async (req, res) => {
 
 export const getReceivedMessages = async (req, res) => {
   const userId = req.user.id;
-
   try {
-    const mensajes = await Message.findAll({
+    const messages = await Message.findAll({
       where: {
-        destinatarioId: userId
+        receiver_id: userId
       },
-      order: [['fechaEnvio', 'ASC']],
+      order: [['date', 'ASC']],
     });
-    res.status(200).json(mensajes);
+    res.status(200).json(messages);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -65,13 +67,13 @@ export const getSentMessages = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const mensajes = await Message.findAll({
+    const messages = await Message.findAll({
       where: {
-        remitenteId: userId
+        sender_id: userId
       },
-      order: [['fechaEnvio', 'ASC']],
+      order: [['date', 'ASC']],
     });
-    res.status(200).json(mensajes);
+    res.status(200).json(messages);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

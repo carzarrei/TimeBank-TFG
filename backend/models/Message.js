@@ -25,7 +25,8 @@ const Message = db.define('messages', {
       }
   },
   subject: {
-      type: DataTypes.STRING(255)
+      type: DataTypes.STRING(255),
+      allowNull: false 
   },
   body: {
       type: DataTypes.TEXT,

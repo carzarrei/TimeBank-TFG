@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f3f4f6; /* gray-100 */
+    background-color: #f3f4f6;
   }
   
   .login-form {
@@ -20,7 +20,7 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #1f2937; /* gray-800 */
+    color: #1f2937;
     margin-bottom: 1.5rem;
   }
   
@@ -31,7 +31,7 @@
   .input-field {
     width: 93%;
     padding: 0.75rem;
-    border: 1px solid #d1d5db; /* gray-300 */
+    border: 1px solid #d1d5db; 
     border-radius: 0.75rem;
     font-size: 1rem;
     outline: none;
@@ -39,7 +39,7 @@
   }
   
   .input-field:focus {
-    border-color: #3b82f6; /* blue-500 */
+    border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   }
   
@@ -56,5 +56,5 @@
   }
   
   .login-button:hover {
-    background-color: #2563eb; /* blue-600 */
+    background-color: #2563eb;
   }

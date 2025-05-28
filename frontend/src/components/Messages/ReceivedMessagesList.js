@@ -1,39 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { login } from '../../routeNames';
+import '../../styles/Messages/messageList.css';
 
-const ReceivedMessageList = () => {
+const ReceivedMessagesList = () => {
     const [messages, setMessages] = useState([]);
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('No estás autenticado. Por favor, inicia sesión.');
-            window.location.href = login; // Redirigir al login si no hay token
+            window.location.href = login;
             return;
         }
+
         const fetchMessages = async () => {
             try {
-            const response = await api.get('/messages/received', {
-                headers: {
-                Authorization: token,
-                }
-            });
-            const messagesWithNames = await Promise.all(response.data.map(async (message) => {
-                const userResponse = await api.get(`/users/${message.sender_id}`, {
-                headers: {
-                    Authorization: token,
-                },
+                const response = await api.get('/messages/received', {
+                    headers: { Authorization: token }
                 });
-                return {
-                ...message,
-                senderEmail: userResponse.data.email,
-                };
-            }));
-            setMessages(messagesWithNames);
+
+                const messagesWithSenders = await Promise.all(
+                    response.data.map(async (msg) => {
+                        const userResponse = await api.get(`/users/${msg.sender_id}`, {
+                            headers: { Authorization: token }
+                        });
+                        return {
+                            ...msg,
+                            senderEmail: userResponse.data.email
+                        };
+                    })
+                );
+
+                setMessages(messagesWithSenders);
             } catch (error) {
-            console.error('Error fetching received messages:', error);
+                console.error('Error fetching received messages:', error);
             }
         };
 
@@ -41,20 +44,28 @@ const ReceivedMessageList = () => {
     }, []);
 
     return (
-        <div className="received-message-list">
+        <div className="message-list-container">
+            <div className="message-list-header">
+                <h2 className="message-list-title">Mensajes Recibidos</h2>
+                <button className="switch-button" onClick={() => navigate('/messages/sent')}>
+                    Ver enviados
+                </button>
+            </div>
             {messages.length > 0 ? (
                 messages.map((message) => (
-                    <div key={message.id}>
-                        <Link to={`/profile/${message.sender_id}`}><h2>De: {message.senderEmail}</h2></Link>
-                        <p>{message.subject}</p>
-                        <p>{message.body}</p>
+                    <div key={message.id} className="message-card">
+                        <Link to={`/profile/${message.sender_id}`} className="message-sender">
+                            De: {message.senderEmail}
+                        </Link>
+                        <p className="message-subject">{message.subject}</p>
+                        <p className="message-body">{message.body}</p>
                     </div>
                 ))
             ) : (
-                <p>No hay mensajes recibidos</p>
+                <p className="no-messages">No hay mensajes recibidos</p>
             )}
         </div>
     );
 };
 
-export default ReceivedMessageList;
+export default ReceivedMessagesList;

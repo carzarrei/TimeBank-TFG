@@ -43,6 +43,24 @@ const SentMessagesList = () => {
         fetchMessages();
     }, []);
 
+    const handleDeleteMessage = async (messageId) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('No estás autenticado. Por favor, inicia sesión.');
+            window.location.href = login;
+            return;
+        }
+        try {
+            const deleteResponse= await api.delete(`/messages/sent/${messageId}`, {
+                headers: { Authorization: token }
+            });
+            alert(deleteResponse.data.message);
+            setMessages(messages.filter(msg => msg.id !== messageId));
+        } catch (error) {
+            console.error('Error deleting message:', error);
+        }
+    }
+
     return (
         <div className="message-list-container">
             <div className="message-list-header">
@@ -54,11 +72,19 @@ const SentMessagesList = () => {
             {messages.length > 0 ? (
                 messages.map((message) => (
                     <div key={message.id} className="message-card">
-                        <Link to={`/profile/${message.receiver_id}`} className="message-sender">
+                        <p className="message-sender">
                             Para: {message.destinationEmail}
-                        </Link>
+                        </p>
                         <p className="message-subject">{message.subject}</p>
-                        <p className="message-body">{message.body}</p>
+                        <p className="message-date">
+                            Fecha: {new Date(message.date).toLocaleDateString()}
+                        </p>
+                        <Link to={`/messages/${message.id}`} className="message-link"> Ver Detalles</Link>
+                        <div>
+                            <button className="delete-button" onClick={() => handleDeleteMessage(message.id)}>
+                                Cancelar Envio
+                            </button>
+                        </div>
                     </div>
                 ))
             ) : (

@@ -32,6 +32,7 @@ const newGroupOffer = '/groups/:groupId/offers/new';
 const receivedMessages = '/messages/received';
 const sentMessages = '/messages/sent';
 const newMessage = '/messages/new';
+const messageDetails = '/messages/:messageId';
 
 export { offersList, 
     myOffers, 
@@ -66,5 +67,6 @@ export { offersList,
     groupMembers,
     receivedMessages,
     sentMessages,
-    newMessage
+    newMessage,
+    messageDetails
 };

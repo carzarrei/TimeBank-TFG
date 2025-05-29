@@ -79,3 +79,70 @@ export const getSentMessages = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getMessageById = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const message = await Message.findOne({
+      where: {
+        id
+      }
+    });
+
+    if (message.receiver_id !== userId && message.sender_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para ver este mensaje' });
+    }
+    if (!message) {
+      return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const deleteReceivedMessage = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const message = await Message.findOne({
+      where: {
+        id,
+        receiver_id: userId
+      }
+    });
+
+    if (!message) {
+      return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+    await message.destroy();
+    res.status(200).json({ message: 'Mensaje eliminado correctamente' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export const cancelSentMessage = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const message = await Message.findOne({
+      where: {
+        id,
+        sender_id: userId
+      }
+    });
+
+    if (!message) {
+      return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+    await message.destroy();
+    res.status(200).json({ message: 'Mensaje cancelado correctamente' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

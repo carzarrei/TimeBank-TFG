@@ -52,7 +52,8 @@ import {
   groupMembers,
   receivedMessages,
   sentMessages,
-  newMessage
+  newMessage,
+  messageDetails
 } from './routeNames.js';
 import ForgotPassword from './components/Auth/ForgotPassword.js';
 import UserOffersList from './components/Offers/UserOffersList';
@@ -67,6 +68,7 @@ import UserGroupDetails from './components/Groups/UserGroupDetails.js';
 import GroupOfferForm from './components/Groups/GroupOfferForm.js';
 import GroupOffersList from './components/Groups/GroupOffersList.js';
 import GroupMembers from './components/Groups/GroupMembers.js';
+import MessageDetails from './components/Messages/MessageDetails.js';
 
 
 
@@ -90,6 +92,7 @@ function App() {
         <Route path={receivedMessages} element={<ReceivedMessageList />} />
         <Route path={sentMessages} element={<SentMessageList />} />
         <Route path={newMessage} element={<MessageForm />} />
+        <Route path={messageDetails} element={<MessageDetails />} />
         <Route path={groupsList} element={<GroupsList />} />
         <Route path={groupDetails} element={<GroupDetails />} />
         <Route path={userGroupDetails} element={<UserGroupDetails />} />

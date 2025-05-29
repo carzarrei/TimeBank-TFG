@@ -28,7 +28,6 @@ const MessageForm = () => {
                     Authorization: token,
                 },
             });
-            console.log('Mensaje enviado:', response.data);
             alert('Mensaje enviado con éxito');
             setSubject('');
             setBody('');

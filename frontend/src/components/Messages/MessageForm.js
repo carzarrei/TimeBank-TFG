@@ -2,19 +2,29 @@ import { useState, useEffect } from 'react';
 import api from '../../api';
 import { login } from '../../routeNames';
 import '../../styles/Messages/messageForm.css';
+import { useLocation } from 'react-router-dom';
 
 const MessageForm = () => {
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
     const [destinationEmail, setDestinationEmail] = useState('');
     const token = localStorage.getItem('token');
+    const location = useLocation();
+    const emailFromState = location.state?.email ?? '';
+    const subjectFromState = location.state?.subject ?? '';
 
     useEffect(() => {
         if (!token) {
             alert('No estás autenticado. Por favor, inicia sesión.');
             window.location.href = login;
         }
-    }, [token]);
+        if (emailFromState) {
+            setDestinationEmail(emailFromState);
+        }
+        if (subjectFromState) {
+            setSubject(subjectFromState);
+        }
+    }, [token, emailFromState, subjectFromState]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +38,7 @@ const MessageForm = () => {
                     Authorization: token,
                 },
             });
-            alert('Mensaje enviado con éxito');
+            alert(response.data.message);
             setSubject('');
             setBody('');
             setDestinationEmail('');

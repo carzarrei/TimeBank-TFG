@@ -51,7 +51,7 @@ const ReceivedMessagesList = () => {
             return;
         }
         try {
-            const deleteResponse= await api.delete(`/messages/received/${messageId}`, {
+            const deleteResponse = await api.delete(`/messages/received/${messageId}`, {
                 headers: { Authorization: token }
             });
             alert(deleteResponse.data.message);
@@ -59,7 +59,7 @@ const ReceivedMessagesList = () => {
         } catch (error) {
             console.error('Error deleting message:', error);
         }
-    }
+    };
 
     return (
         <div className="message-list-container">
@@ -72,12 +72,13 @@ const ReceivedMessagesList = () => {
             {messages.length > 0 ? (
                 messages.map((message) => (
                     <div key={message.id} className="message-card">
-                        <p className="message-sender">
-                            De: {message.senderEmail}
-                        </p>
-                        <p className="message-subject">{message.subject}</p>
-                        <Link to={`/messages/${message.id}`} className="message-link"> Ver Detalles</Link>
-                        <div>
+                        <div className="message-info">
+                            <p className="message-sender">De: {message.senderEmail}</p>
+                            <p className="message-subject">{message.subject}</p>
+                            <p className="message-date">Fecha: {new Date(message.date).toLocaleDateString()}</p>
+                        </div>
+                        <div className="message-actions">
+                            <Link to={`/messages/${message.id}`} className="message-link">Ver Detalles</Link>
                             <button className="delete-button" onClick={() => handleDeleteMessage(message.id)}>
                                 Eliminar Mensaje
                             </button>

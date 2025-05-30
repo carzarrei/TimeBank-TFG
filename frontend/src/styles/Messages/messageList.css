@@ -36,6 +36,9 @@
 }
 
 .message-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -48,16 +51,24 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.message-info {
+  flex: 1;
+}
+
+.message-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
 .message-sender {
   font-weight: bold;
   color: #1976D2;
   text-decoration: none;
   display: block;
   margin-bottom: 0.5rem;
-}
-
-.message-sender:hover {
-  text-decoration: underline;
+  cursor: default;
 }
 
 .message-subject {
@@ -75,4 +86,37 @@
   text-align: center;
   color: #777;
   font-style: italic;
+}
+
+.message-link {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: #1976D2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.message-link:hover {
+  background-color: #1565c0;
+}
+
+.delete-button {
+  padding: 0.4rem 0.8rem;
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
 }

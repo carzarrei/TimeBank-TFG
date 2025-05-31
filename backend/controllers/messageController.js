@@ -87,12 +87,11 @@ export const getMessageById = async (req, res) => {
         id
       }
     });
-
-    if (message.receiver_id !== userId && message.sender_id !== userId) {
-      return res.status(403).json({ message: 'No tienes permiso para ver este mensaje' });
-    }
     if (!message) {
       return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+    if (message.receiver_id !== userId && message.sender_id !== userId) {
+      return res.status(403).json({ message: 'No tienes permiso para ver este mensaje' });
     }
     res.status(200).json(message);
   } catch (error) {

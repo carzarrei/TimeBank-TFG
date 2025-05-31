@@ -36,11 +36,10 @@ export const getMessagesBetweenUsers = async (req, res) => {
   try {
     const messages = await Message.findAll({
       where: {
-        sender_id: senderId,
-        receiver_id: receiverId
-      } || {
-        sender_id: receiverId,
-        receiver_id: senderId
+        [Op.or]: [
+          { sender_id: senderId, receiver_id: receiverId },
+          { sender_id: receiverId, receiver_id: senderId }
+        ]
       },
       order: [['date', 'ASC']],
     });

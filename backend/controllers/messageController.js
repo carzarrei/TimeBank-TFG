@@ -21,7 +21,7 @@ export const createMessage = async (req, res) => {
         body,
         date: new Date(),
       });
-      res.status(201).json({message: 'Mensaje enviado correctamente'}, mensaje);
+      res.status(201).json({message: 'Mensaje enviado correctamente' , mensaje});
     }
   } catch (error) {
     res.status(400).json({ error: error.message });

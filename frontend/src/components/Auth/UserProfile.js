@@ -4,10 +4,16 @@ import { login, personalProfile } from '../../routeNames.js';
 import { calculateAge } from '../../helpers/calculateAge';
 import '../../styles/Auth/personalProfile.css';
 import UserNotFound from './UserNotFound.js';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(null);
     const [userNotFound, setUserNotFound] = useState(false);
+    const {userId} = useParams();
+    const navigate = useNavigate();
+    const localUserId = JSON.parse(localStorage.getItem('userId'));
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -15,9 +21,7 @@ const UserProfile = () => {
           window.location.href = login; // Redirigir al login si no hay token
           return;
         }
-        const userId = window.location.pathname.split('/').pop();
-        if (!(typeof userId !== 'undefined' && userId !== null && userId !== '')) {
-          alert('No se ha especificado un usuario.');
+        if (!userId || Number(userId) === localUserId) {
           window.location.href = personalProfile; // Redirigir alperfil personal si no hay id
           return;
         }
@@ -41,7 +45,7 @@ const UserProfile = () => {
           }
         };
         fetchUser();
-    }, []);
+    }, [userId, localUserId]);
     var page;
     if (userNotFound) {
       page=<UserNotFound />;
@@ -73,7 +77,7 @@ const UserProfile = () => {
           </div>
     
           <div className="profile-actions">
-            <button className="btn-contact">Contactar a {user.name}</button>
+            <button className="btn-contact" onClick={() => navigate('/messages/new', { state: { email: user.email } })}>Contactar a {user.name}</button>
             <button className="btn-offers">Ver ofertas de {user.name}</button>
           </div>
         </div>

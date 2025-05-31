@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../styles/navBar.css';
 import handleLogout from './Auth/Logout';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   offersList,
   requestsList,
@@ -9,18 +9,17 @@ import {
   myAcceptedRequests,
   login,
   newRequest,
-  nuevoMensaje,
   personalProfile,
   register,
   newOffer,
   myOffers,
   myAcceptedOffers,
-  listaMensajes,
   newGroup,
   groupsList,
   userGroupDetails,
+  receivedMessages,
+  newMessage,
 } from '../routeNames.js';
-import api from '../api';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -28,8 +27,6 @@ const NavBar = () => {
   const isAuthenticated = !!token;
   const [openMenu, setOpenMenu] = useState(null);
   const navRef = useRef(null);
-  const userId = localStorage.getItem('userId');
-  const [userGroup, setUserGroup] = useState(null);
 
   const toggleMenu = (menu) => {
     setOpenMenu((prev) => (prev === menu ? null : menu));
@@ -62,8 +59,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('ofertas')}>Ofertas</button>
               {openMenu === 'ofertas' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(offersList)}>Ver Ofertas</li>
                   <li onClick={() => navigate(newOffer)}>Nueva Oferta</li>
+                  <li onClick={() => navigate(offersList)}>Ver Ofertas</li>
                   <li onClick={() => navigate(myOffers)}>Mis Ofertas</li>
                   <li onClick={() => navigate(myAcceptedOffers)}>Mis Ofertas Aceptadas</li>
                 </ul>
@@ -86,8 +83,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('mensajes')}>Mensajes</button>
               {openMenu === 'mensajes' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(listaMensajes)}>Ver Mensajes</li>
-                  <li onClick={() => navigate(nuevoMensaje)}>Nuevo Mensaje</li>
+                  <li onClick={() => navigate(newMessage)}>Nuevo Mensaje</li>
+                  <li onClick={() => navigate(receivedMessages)}>Ver Mensajes</li>
                 </ul>
               )}
             </div>

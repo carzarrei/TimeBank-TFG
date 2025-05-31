@@ -36,19 +36,17 @@ const MessageDetails = () => {
     }, [token, messageId]);
 
     useEffect(() => {
-        if (!message) return;
+        if (!message?.sender_id || !message?.receiver_id) return;
 
         const fetchMessageUsers = async () => {
             try {
-                const senderResponse = await api.get(`/users/${message.sender_id}`, {
-                    headers: { Authorization: token }
-                });
-                const receiverResponse = await api.get(`/users/${message.receiver_id}`, {
-                    headers: { Authorization: token }
-                });
+                const [senderResponse, receiverResponse] = await Promise.all([
+                    api.get(`/users/${message.sender_id}`, { headers: { Authorization: token } }),
+                    api.get(`/users/${message.receiver_id}`, { headers: { Authorization: token } })
+                ]);
 
-                setMessage(prevMessage => ({
-                    ...prevMessage,
+                setMessage(prev => ({
+                    ...prev,
                     senderEmail: senderResponse.data.email,
                     receiverEmail: receiverResponse.data.email
                 }));
@@ -56,8 +54,12 @@ const MessageDetails = () => {
                 console.error('Error fetching message users:', error);
             }
         };
-        fetchMessageUsers();
-    }, [message, token]);
+
+        if (!message.senderEmail || !message.receiverEmail) {
+            fetchMessageUsers();
+        }
+    }, [message?.sender_id, message?.receiver_id, message?.senderEmail, message?.receiverEmail, token]);
+
 
     console.log(JSON.parse(localStorage.getItem('userId')))
     return (

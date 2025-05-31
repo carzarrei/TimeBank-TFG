@@ -61,7 +61,7 @@ const MessageDetails = () => {
     }, [message?.sender_id, message?.receiver_id, message?.senderEmail, message?.receiverEmail, token]);
 
 
-    console.log(JSON.parse(localStorage.getItem('userId')))
+    
     return (
         <div className="message-details-container">
             <h2 className="message-details-title">Detalles del Mensaje</h2>

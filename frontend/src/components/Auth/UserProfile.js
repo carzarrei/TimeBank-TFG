@@ -77,7 +77,7 @@ const UserProfile = () => {
           </div>
     
           <div className="profile-actions">
-            <button className="btn-contact" onClick={() => navigate('/messages/new', { state: { toEmail: user.email } })}>Contactar a {user.name}</button>
+            <button className="btn-contact" onClick={() => navigate('/messages/new', { state: { email: user.email } })}>Contactar a {user.name}</button>
             <button className="btn-offers">Ver ofertas de {user.name}</button>
           </div>
         </div>

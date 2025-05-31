@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(null);
     const [userNotFound, setUserNotFound] = useState(false);
     const {userId} = useParams();
     const navigate = useNavigate();

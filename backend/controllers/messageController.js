@@ -22,7 +22,7 @@ export const createMessage = async (req, res) => {
         body,
         date: new Date(),
       });
-      res.status(201).json(mensaje);
+      res.status(201).json({message: 'Mensaje enviado correctamente'});
     }
     
   } catch (error) {

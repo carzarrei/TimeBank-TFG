@@ -1,5 +1,6 @@
 import Message from '../models/Message.js';
 import { getUserByEmail } from './userController.js';
+import { Op } from 'sequelize';
 
 export const createMessage = async (req, res) => {
   const { destinationEmail, subject, body } = req.body;

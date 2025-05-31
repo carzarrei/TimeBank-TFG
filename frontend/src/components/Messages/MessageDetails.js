@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import api from '../../api';
 import { login } from '../../routeNames';
 import { useParams, Link } from 'react-router-dom';
-import '../../styles/Messages/messageForm.css';
 import '../../styles/Messages/messageDetails.css';
 import { useNavigate } from 'react-router-dom';
 

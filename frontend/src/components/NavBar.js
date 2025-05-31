@@ -59,8 +59,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('ofertas')}>Ofertas</button>
               {openMenu === 'ofertas' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(offersList)}>Ver Ofertas</li>
                   <li onClick={() => navigate(newOffer)}>Nueva Oferta</li>
+                  <li onClick={() => navigate(offersList)}>Ver Ofertas</li>
                   <li onClick={() => navigate(myOffers)}>Mis Ofertas</li>
                   <li onClick={() => navigate(myAcceptedOffers)}>Mis Ofertas Aceptadas</li>
                 </ul>
@@ -83,8 +83,8 @@ const NavBar = () => {
               <button className="navbar-item" onClick={() => toggleMenu('mensajes')}>Mensajes</button>
               {openMenu === 'mensajes' && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate(receivedMessages)}>Ver Mensajes</li>
                   <li onClick={() => navigate(newMessage)}>Nuevo Mensaje</li>
+                  <li onClick={() => navigate(receivedMessages)}>Ver Mensajes</li>
                 </ul>
               )}
             </div>

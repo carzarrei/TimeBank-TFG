@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api';
-import { login } from '../../routeNames';
+import { login, receivedMessages } from '../../routeNames';
 import '../../styles/Messages/messageList.css';
 
 const SentMessagesList = () => {
@@ -65,7 +65,7 @@ const SentMessagesList = () => {
         <div className="message-list-container">
             <div className="message-list-header">
                 <h2 className="message-list-title">Mensajes Enviados</h2>
-                <button className="switch-button" onClick={() => navigate('/messages/received')}>
+                <button className="switch-button" onClick={() => navigate(receivedMessages)}>
                     Ver recibidos
                 </button>
             </div>

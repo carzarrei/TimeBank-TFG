@@ -118,6 +118,9 @@ export const deleteReceivedMessage = async (req, res) => {
     if (!message) {
       return res.status(404).json({ message: 'Mensaje no encontrado' });
     }
+    if (userId !== message.receiver_id) {
+      return res.status(403).json({ message: 'No tienes permiso para eliminar este mensaje' });
+    }
     await message.destroy();
     res.status(200).json({ message: 'Mensaje eliminado correctamente' });
   } catch (error) {
@@ -139,6 +142,9 @@ export const cancelSentMessage = async (req, res) => {
 
     if (!message) {
       return res.status(404).json({ message: 'Mensaje no encontrado' });
+    }
+    if (userId !== message.sender_id) {
+      return res.status(403).json({ message: 'No tienes permiso para cancelar este mensaje' });
     }
     await message.destroy();
     res.status(200).json({ message: 'Mensaje cancelado correctamente' });

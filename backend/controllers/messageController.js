@@ -10,11 +10,9 @@ export const createMessage = async (req, res) => {
     const receiverId = receiver?receiver.id: null;
     if (!receiver) {
       res.status(404).json({ message: 'Destinatario no encontrado' });
-    }
-    else if (receiverId === userId) {
+    } else if (receiverId === userId) {
       res.status(400).json({ message: 'No puedes enviarte un mensaje a ti mismo' });
-    }
-    else{
+    } else {
       const mensaje = await Message.create({
         sender_id: userId,
         receiver_id: receiverId,
@@ -22,9 +20,8 @@ export const createMessage = async (req, res) => {
         body,
         date: new Date(),
       });
-      res.status(201).json({message: 'Mensaje enviado correctamente'});
+      res.status(201).json({message: 'Mensaje enviado correctamente'}, mensaje);
     }
-    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

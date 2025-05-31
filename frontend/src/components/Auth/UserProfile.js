@@ -21,7 +21,7 @@ const UserProfile = () => {
           window.location.href = login; // Redirigir al login si no hay token
           return;
         }
-        if (!(typeof userId !== 'undefined' && userId !== null && userId !== '') || Number(userId) === Number(localUserId)) {
+        if (!userId || Number(userId) === localUserId) {
           window.location.href = personalProfile; // Redirigir alperfil personal si no hay id
           return;
         }

@@ -22,7 +22,7 @@ const UserProfile = () => {
           return;
         }
         if (!userId || Number(userId) === localUserId) {
-          window.location.href = personalProfile; // Redirigir alperfil personal si no hay id
+          window.location.href = personalProfile; 
           return;
         }
         const fetchUser = async () => {
@@ -49,6 +49,12 @@ const UserProfile = () => {
     var page;
     if (userNotFound) {
       page=<UserNotFound />;
+    } else if (!user) {
+      page = (
+        <div className="loading-container">
+          <h1>Cargando perfil...</h1>
+        </div>
+      );
     } else {
       page= (
         <div className="profile-container">

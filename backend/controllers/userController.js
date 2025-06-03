@@ -165,7 +165,7 @@ export const editUser = async (req, res) => {
     res.status(200).json({ user: updatedUser, message: 'Usuario actualizado' });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Error al editar el usuario" });
   }
 };
 

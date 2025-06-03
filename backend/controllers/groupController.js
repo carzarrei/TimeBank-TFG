@@ -1,5 +1,4 @@
-import Group from '../models/Group.js';
-import Member from '../models/Member.js';
+import {Group, Member} from '../models/index.js';
 import { createGroupRequest, getGroupRequests } from './requestController.js';
 import {getAllJoinRequestUsersFromGroup, getAllUsersFromGroup} from './userController.js';
 import { createGroupOffer, getGroupOffers } from './offerController.js';

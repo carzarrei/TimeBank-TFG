@@ -1,7 +1,7 @@
 import * as userController from '../../controllers/userController.js';
-import User from '../../models/User.js';
+import {User} from '../../models/index.js';
 
-jest.mock('../../models/User.js');
+jest.mock('../../models/index.js');
 
 describe('User Controller', () => {
   let req, res;

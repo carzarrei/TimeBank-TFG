@@ -1,11 +1,10 @@
-import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import { Op } from 'sequelize';
 import { wrongCredentials, userNotFound } from "../errorMessages.js"
-import Member from '../models/Member.js';
+import {Member, User} from '../models/index.js'
 
 
 const transporter = nodemailer.createTransport({

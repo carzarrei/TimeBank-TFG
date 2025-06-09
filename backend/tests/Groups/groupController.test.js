@@ -1,6 +1,5 @@
 import * as groupController from '../../controllers/groupController.js';
-import { Group, Member, User } from '../../models/index.js';
-import Request from '../../models/Request.js';
+import { Group, Member, User, Request } from '../../models/index.js';
 import { expect } from '@jest/globals';
 
 jest.mock('../../models/index.js');

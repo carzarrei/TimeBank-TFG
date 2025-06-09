@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
 import db from '../database/db.js';
-import User from './User.js';
-import Group from './Group.js';
+import {User , Group} from './index.js';
 
 const Request = db.define('requests', {
   id: {
@@ -57,9 +56,6 @@ const Request = db.define('requests', {
   tableName: 'REQUESTS',
   timestamps: false
 });
-
-Request.belongsTo(User, { foreignKey: 'creator_id', allowNull: true });
-Request.belongsTo(Group, { foreignKey: 'group_id', allowNull: true });
 
 
 export default Request;

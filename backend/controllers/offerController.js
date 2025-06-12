@@ -1,6 +1,5 @@
 import db from '../database/db.js';
-import Member from '../models/Member.js';
-import Offer from '../models/Offer.js';
+import { Member, Offer } from '../models/index.js';
 import { exchangeTimeBetweenMembers } from './groupController.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 

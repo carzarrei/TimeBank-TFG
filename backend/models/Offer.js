@@ -58,7 +58,4 @@ const Offer = db.define('offers', {
   timestamps: false
 });
 
-Offer.belongsTo(User, { foreignKey: 'creator_id' });
-Offer.belongsTo(Group, { foreignKey: 'group_id', allowNull: true });
-
 export default Offer;

@@ -1,4 +1,4 @@
-import Message from '../models/Message.js';
+import {Message} from '../models/index.js';
 import { getUserByEmail } from './userController.js';
 import { Op } from 'sequelize';
 

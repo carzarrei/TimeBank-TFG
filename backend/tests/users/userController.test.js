@@ -8,7 +8,7 @@ describe('User Controller', () => {
 
   beforeEach(() => {
     req = {
-      user: { id: 1 }, // para editUser
+      user: { id: 1 },
       body: {},
       params: {},
     };

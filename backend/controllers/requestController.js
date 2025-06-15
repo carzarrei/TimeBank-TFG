@@ -1,9 +1,7 @@
-import Request from '../models/Request.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 import db from '../database/db.js';
-import User from '../models/User.js';
-import Member from '../models/Member.js';
 import { exchangeTimeBetweenMembers } from './groupController.js';
+import { Request, User, Member } from '../models/index.js';
 export const createRequest = async (req, res) => {
   const { title, description, requestedTime } = req.body;
   const userId = req.user.id;
@@ -196,7 +194,7 @@ export const confirmRequest = async (req, res) => {
       return res.status(404).json({ message: 'Solicitud no encontrada' });
     }
     if (request.creator_id !== userId) {
-      return res.status(403).json({ message: 'No tienes permiso para confirmar esta request' });
+      return res.status(403).json({ message: 'No tienes permiso para confirmar esta solicitud' });
     }
     await request.update({ status: 'Confirmada' });
     res.status(200).json({ message: 'Solicitud confirmada' });

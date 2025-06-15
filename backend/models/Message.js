@@ -41,8 +41,4 @@ const Message = db.define('messages', {
   timestamps: false
 });
 
-
-Message.belongsTo(User, { as: 'sender', foreignKey: 'sender_id' });
-Message.belongsTo(User, { as: 'receiver', foreignKey: 'receiver_id' });
-
 export default Message;

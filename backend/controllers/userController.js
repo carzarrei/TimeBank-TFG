@@ -1,11 +1,10 @@
-import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import { Op } from 'sequelize';
 import { wrongCredentials, userNotFound } from "../errorMessages.js"
-import Member from '../models/Member.js';
+import {Member, User} from '../models/index.js'
 
 
 const transporter = nodemailer.createTransport({
@@ -165,7 +164,7 @@ export const editUser = async (req, res) => {
     res.status(200).json({ user: updatedUser, message: 'Usuario actualizado' });
 
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Error al editar el usuario" });
   }
 };
 

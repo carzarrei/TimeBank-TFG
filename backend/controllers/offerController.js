@@ -1,6 +1,5 @@
 import db from '../database/db.js';
-import Member from '../models/Member.js';
-import Offer from '../models/Offer.js';
+import { Member, Offer } from '../models/index.js';
 import { exchangeTimeBetweenMembers } from './groupController.js';
 import { exchangeTimeBetweenUsers } from './userController.js';
 
@@ -85,11 +84,10 @@ export const updateOffer = async (req, res) => {
     if (offer.creator_id !== userId) {
       return res.status(403).json({ message: 'You are not authorized to update this offer' });
     }
-    if (title !== undefined && title !== null && title !== '' && description !== undefined && description !== null && description !== '' && offeredTime !== undefined && offeredTime !== null) {      
-    await offer.update({ title, description, offered_time: offeredTime });   
-    } else {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
+    if (title) offer.title = title;
+    if (description) offer.description = description;
+    if (offeredTime) offer.offered_time = offeredTime;
+    await offer.save();
     res.status(200).json({ message: 'Offer updated' });
   } catch (error) {
     res.status(400).json({ error: error.message });

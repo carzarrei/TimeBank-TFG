@@ -39,7 +39,4 @@ const Member = db.define('members', {
     timestamps: false
 });
 
-Member.belongsTo(User, { foreignKey: 'user_id' });
-Member.belongsTo(Group, { foreignKey: 'group_id' });
-
 export default Member;

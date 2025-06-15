@@ -46,8 +46,9 @@ const UserProfile = () => {
         };
         fetchUser();
     }, [userId, localUserId]);
+    
     var page;
-    if (userNotFound) {
+    if (userNotFound || !user) {
       page=<UserNotFound />;
     } else if (!user) {
       page = (
@@ -89,6 +90,7 @@ const UserProfile = () => {
         </div>
       );
     }
+
     return page;
     
    };

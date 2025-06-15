@@ -1,5 +1,4 @@
-import Group from '../models/Group.js';
-import Member from '../models/Member.js';
+import {Group, Member} from '../models/index.js';
 import { createGroupRequest, getGroupRequests } from './requestController.js';
 import {getAllJoinRequestUsersFromGroup, getAllUsersFromGroup} from './userController.js';
 import { createGroupOffer, getGroupOffers } from './offerController.js';
@@ -112,8 +111,8 @@ export const requestJoinGroup = async (req, res) => {
     if (!group) {
       return res.status(404).json({ message: 'Grupo no encontrado' });
     }
-    await createUnionRequest(userId, id);
-    res.status(200).json({ message: 'Usuario añadido al grupo' });
+    await createJoinRequest(userId, id);
+    res.status(201).json({ message: 'Solicitud de union enviada' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -182,7 +181,7 @@ export const leaveGroup = async (req, res) => {
   }
 }
 
-const createUnionRequest = async (userId, groupId) => {
+const createJoinRequest = async (userId, groupId) => {
   try {
     const member = await Member.create({
       user_id: userId,

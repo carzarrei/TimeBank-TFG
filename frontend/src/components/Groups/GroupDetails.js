@@ -45,7 +45,6 @@ useEffect(() => {
   fetchGroupMembers();
 }, [groupId, token]);
 
-// Segundo useEffect: espera a que group esté disponible para traer el admin
 useEffect(() => {
   if (!group || !group.admin_id) return;
 
@@ -64,7 +63,10 @@ useEffect(() => {
     }
   };
 
-  fetchGroupAdmin();
+  if (!group.admin_name && group.admin_id && token) {
+    fetchGroupAdmin();
+  }
+  
 }, [group, token]);
 
 

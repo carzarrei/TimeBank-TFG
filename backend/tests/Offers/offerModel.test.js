@@ -87,7 +87,7 @@ describe('Offer Model', () => {
                 }
             }            
         }, {
-            tableName: 'REQUESTS',
+            tableName: 'OFFERS',
             timestamps: false
         });
 

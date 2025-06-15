@@ -86,7 +86,7 @@ export const updateOffer = async (req, res) => {
     }
     if (title) offer.title = title;
     if (description) offer.description = description;
-    if (offeredTime) offer.requested_time = offeredTime;+
+    if (offeredTime) offer.offered_time = offeredTime;
     await offer.save();
     res.status(200).json({ message: 'Offer updated' });
   } catch (error) {

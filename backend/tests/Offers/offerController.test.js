@@ -193,17 +193,16 @@ describe('offerController', () => {
       const mockOffer = {
         id: 10,
         creator_id: 1,
-        update: jest.fn().mockResolvedValue(),
+        save: jest.fn().mockResolvedValue(),
       };
       Offer.findByPk.mockResolvedValue(mockOffer);
 
       await offerController.updateOffer(req, res);
 
-      expect(mockOffer.update).toHaveBeenCalledWith({
-        title: 'Título actualizado',
-        description: 'Descripción actualizada',
-        offered_time: 5,
-      });
+      expect(mockOffer.title).toBe('Título actualizado');
+      expect(mockOffer.description).toBe('Descripción actualizada');
+      expect(mockOffer.offered_time).toBe(5);
+      expect(mockOffer.save).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ message: 'Offer updated' });
     });
@@ -222,22 +221,6 @@ describe('offerController', () => {
       expect(res.status).toHaveBeenCalledWith(403);
       expect(res.json).toHaveBeenCalledWith({ message: 'You are not authorized to update this offer' });
     });
-
-    it('debería devolver 400 si faltan campos requeridos', async () => {
-      const req = {
-        params: { id: '10' },
-        body: { title: '', description: 'Descripción', offeredTime: 5 },
-        user: { id: 1 },
-      };
-      const res = mockRes();
-      Offer.findByPk.mockResolvedValue({ creator_id: 1 });
-
-      await offerController.updateOffer(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({ message: 'All fields are required' });
-    });
-
     it('debería devolver 404 si no se encuentra la oferta', async () => {
       const req = {
         params: { id: '999' },

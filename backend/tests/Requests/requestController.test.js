@@ -96,7 +96,7 @@ describe('requestController', () => {
     it('debería devolver la solicitud si existe y el usuario es miembro del grupo', async () => {
       const req = { user: { id: 1 }, params: { id: '5' } };
       const res = mockRes();
-      Request.findByPk.mockResolvedValue({ id: 5, groupId: 10 });
+      Request.findByPk.mockResolvedValue({ id: 5, group_id: 10 });
       Member.findOne.mockResolvedValue({ id: 1 });
 
       await requestController.getRequestById(req, res);
@@ -107,7 +107,7 @@ describe('requestController', () => {
     it('debería devolver 403 si el usuario no es miembro del grupo', async () => {
       const req = { user: { id: 1 }, params: { id: '5' } };
       const res = mockRes();
-      Request.findByPk.mockResolvedValue({ id: 5, groupId: 10 });
+      Request.findByPk.mockResolvedValue({ id: 5, group_id: 10 });
       Member.findOne.mockResolvedValue(null);
 
       await requestController.getRequestById(req, res);

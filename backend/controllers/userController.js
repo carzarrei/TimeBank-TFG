@@ -171,9 +171,6 @@ export const editUser = async (req, res) => {
 export const getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(400).json({ message: wrongCredentials });
-    }
     return user;
   } catch (error) {
     console.error('Error getting user by email:', error.message);

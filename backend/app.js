@@ -7,6 +7,11 @@ import requestRoutes from './routes/requestRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import groupRoutes from './routes/groupRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -27,6 +32,7 @@ app.use('/requests', requestRoutes);
 app.use('/messages', messageRoutes);
 app.use('/users', userRoutes);
 app.use('/groups', groupRoutes);
+app.use('/uploads/profile_pictures', express.static(path.join(__dirname, 'uploads/profile_pictures')));
 
 // Iniciar el servidor
 app.listen(4000, () => {

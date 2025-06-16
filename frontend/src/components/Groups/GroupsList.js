@@ -1,48 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import '../../styles/Groups/groupsList.css';
+import { login } from '../../routeNames';
 
 const GroupsList = () => {
-    const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('No estás autenticado. Por favor, inicia sesión.');
-                window.location.href = '/login'; // Redirigir al login si no hay token
-                return;
-            }
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('No estás autenticado. Por favor, inicia sesión.');
+      window.location.href = login;
+      return;
+    }
 
-            const fetchGroups = async () => {
-                try {
-                    const response = await api.get('/groups', {
-                        headers: {
-                            Authorization: token,
-                        },
-                    });
-                    setGroups(response.data);
-                } catch (error) {
-                    console.error('Error fetching groups:', error);
-                }
-            };
+    const fetchGroups = async () => {
+      try {
+        const response = await api.get('/groups', {
+          headers: { Authorization: token },
+        });
+        setGroups(response.data);
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      }
+    };
 
-            fetchGroups();
-        } catch (error) {
-            console.error('Error fetching groups:', error);
-        }      
-    }, []);
+    fetchGroups();
+  }, []);
 
-    return (
-        <div>
-            <h1>Groups List</h1>
-            <ul>
-                {groups.map(group => (
-                    <Link to= {`/groups/details/${group.id}`}><li key={group.id}>{group.nombre}</li></Link>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="groups-container">
+      <h1 className="groups-title">Lista de Grupos</h1>
+      <ul className="groups-list">
+        {groups.map((group) => (
+          <li
+            key={group.id}
+            className="group-item"
+            onClick={() => navigate(`/groups/${group.id}`)}
+          >
+            {group.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default GroupsList;

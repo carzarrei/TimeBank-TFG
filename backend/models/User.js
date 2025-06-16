@@ -29,7 +29,7 @@ const User = db.define('users', {
   },
   accumulated_time: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   skills: {
     type: DataTypes.TEXT,
@@ -39,6 +39,14 @@ const User = db.define('users', {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
+  reset_token: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  reset_token_expiry: {
+    type: DataTypes.DATE,
+    allowNull: true
+  }
 }, {
   tableName: 'USERS',
   timestamps: false,

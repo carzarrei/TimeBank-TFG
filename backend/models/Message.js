@@ -25,7 +25,8 @@ const Message = db.define('messages', {
       }
   },
   subject: {
-      type: DataTypes.STRING(255)
+      type: DataTypes.STRING(255),
+      allowNull: false 
   },
   body: {
       type: DataTypes.TEXT,
@@ -39,9 +40,5 @@ const Message = db.define('messages', {
   tableName: 'MESSAGES',
   timestamps: false
 });
-
-
-Message.belongsTo(User, { as: 'remitente', foreignKey: 'remitenteId' });
-Message.belongsTo(User, { as: 'destinatario', foreignKey: 'destinatarioId' });
 
 export default Message;

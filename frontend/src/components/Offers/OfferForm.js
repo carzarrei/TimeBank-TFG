@@ -1,81 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api'; // Asegúrate de que la ruta sea correcta
+import api from '../../api';
+import { login, offersList } from '../../routeNames';
+import '../../styles/Offers/offerForm.css';
 
 const OfferForm = () => {
-  // Estado para los campos del formulario
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [tiempoIntercambio, setTiempoIntercambio] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [offeredTime, setOfferedTime] = useState('');
   const token = localStorage.getItem('token');
+
   useEffect(() => {
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = '/login'; // Redirigir al login si no hay token
+      window.location.href = login;
       return;
     }
   }, [token]);
-  // Función para manejar el envío del formulario
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     try {
-      // Enviar los datos al backend
-      const response = await api.post('/offers', {
-        titulo,
-        descripcion,
-        tiempoIntercambio,
-      }, {
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      // Manejar la respuesta del backend (por ejemplo, mostrar un mensaje o redirigir)
-      console.log('Oferta creada:', response.data);
-      alert('Oferta creada con éxito');
-      // Opcional: Limpiar el formulario
-      setTitulo('');
-      setDescripcion('');
-      setTiempoIntercambio('');
+      const response = await api.post(
+        '/offers',
+        { title, description, offeredTime },
+        { headers: { Authorization: token } }
+      );
+      alert(response.data.message || 'Solicitud creada con éxito');
+      setTitle('');
+      setDescription('');
+      setOfferedTime('');
+      window.location.href = offersList;
     } catch (error) {
-      console.error('Error al crear la oferta:', error.response ? error.response.data : error.message);
+      console.error('Error al crear la oferta:', error.response?.data || error.message);
     }
   };
 
   return (
-    <div>
-      <h1>Crear Nueva Oferta</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="titulo">Título:</label>
+    <div className="offer-form-container">
+      <h1 className="offer-form-title">Crear Nueva Oferta</h1>
+      <form className="offer-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Título:</label>
           <input
-            id="titulo"
+            id="title"
             type="text"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label htmlFor="descripcion">Descripción:</label>
+        <div className="form-group">
+          <label htmlFor="description">Descripción:</label>
           <textarea
-            id="descripcion"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           ></textarea>
         </div>
-        <div>
-          <label htmlFor="tiempoIntercambio">Tiempo a Intercambiar (horas):</label>
+        <div className="form-group">
+          <label htmlFor="offeredTime">Tiempo a Intercambiar (horas):</label>
           <input
-            id="tiempoIntercambio"
+            id="offeredTime"
             type="number"
-            value={tiempoIntercambio}
-            onChange={(e) => setTiempoIntercambio(e.target.value)}
+            value={offeredTime}
+            onChange={(e) => setOfferedTime(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Crear Oferta</button>
+        <button className="submit-button" type="submit">Crear Oferta</button>
       </form>
     </div>
   );

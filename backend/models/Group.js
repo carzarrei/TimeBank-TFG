@@ -18,7 +18,7 @@ const Group = db.define('groups', {
   },
 }, {
   tableName: 'GROUPS',
-  timestamps: true,
+  timestamps: false,
 });
 
 export default Group;

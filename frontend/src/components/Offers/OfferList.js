@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
+import { login, newOffer } from '../../routeNames';
+import { Link } from 'react-router-dom';
+import '../../styles/Offers/offersList.css';
 
 const OfferList = () => {
   const [offers, setOffers] = useState([]);
@@ -8,15 +11,14 @@ const OfferList = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = '/login'; // Redirigir al login si no hay token
+      window.location.href = login;
       return;
     }
+
     const fetchOffers = async () => {
       try {
         const response = await api.get('/offers', {
-          headers: {
-            Authorization: token,
-          },
+          headers: { Authorization: token },
         });
         setOffers(response.data);
       } catch (error) {
@@ -28,20 +30,24 @@ const OfferList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Ofertas</h1>
-      <ul>
+    <div className="offer-list-container">
+      <div className="offer-list-header">
+        <h1>Ofertas Abiertas</h1>
+        <div className="offer-list-actions">
+          <Link to={newOffer} className="btn primary">Crear nueva oferta</Link>
+          <Link to="/offers/filters" className="btn secondary">Filtros avanzados</Link>
+        </div>
+      </div>
+
+      <div className="offer-grid">
         {offers.map((offer) => (
-          <li key={offer.id}>
-            <a href={`/offers/details/${offer.id}`}>
-              <h2>{offer.titulo}</h2>
-              <p>{offer.descripcion}</p>
-              <p>Tiempo a intercambiar: {offer.tiempoIntercambio}</p>
-              <p>Fecha de publicación: {new Date(offer.fechaPublicacion).toLocaleDateString()}</p>
-            </a>
-          </li>
+          <Link to={`/offers/details/${offer.id}`} key={offer.id} className="offer-card">
+            <h3>{offer.title}</h3>
+            <p>{offer.description.slice(0, 80)}...</p>
+            <p><strong>{offer.offered_time} h</strong></p>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

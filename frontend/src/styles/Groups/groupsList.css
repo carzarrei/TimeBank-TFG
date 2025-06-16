@@ -1,0 +1,35 @@
+.groups-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #1e1e2f;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  
+  .groups-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #f0f0f0;
+  }
+  
+  .groups-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .group-item {
+    background-color: #2c2c3a;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .group-item:hover {
+    background-color: #3a3a4f;
+  }
+  

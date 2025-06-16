@@ -1,0 +1,128 @@
+.message-list-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.message-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.message-list-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.switch-button {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.switch-button:hover {
+  background-color: #1976D2;
+}
+
+.message-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.message-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.message-info {
+  flex: 1;
+}
+
+.message-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.message-sender {
+  font-weight: bold;
+  color: #1976D2;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+  cursor: default;
+}
+
+.message-subject {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.message-body {
+  color: #555;
+  line-height: 1.5;
+}
+
+.message-date {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.no-messages {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+.message-link {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: #1976D2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.message-link:hover {
+  background-color: #1565c0;
+}
+
+.delete-button {
+  padding: 0.4rem 0.8rem;
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}

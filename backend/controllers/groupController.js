@@ -267,7 +267,7 @@ export const newGroupOffer = async (req, res) => {
       creatorId: userId
     };
     const offer= await createGroupOffer(offerData, id);
-    res.status(201).json({offer, message: 'Solicitud grupal creada con éxito' });
+    res.status(201).json({offer, message: 'Oferta grupal creada con éxito' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

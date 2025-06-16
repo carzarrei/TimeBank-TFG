@@ -87,8 +87,8 @@ export const getRequestById = async (req, res) => {
     if (!request) {
       return res.status(404).json({ message: 'Solicitud no encontrada' });
     }
-    if (request.groupId) {
-      const member = await Member.findOne({ where: { user_id: req.user.id, group_id: request.groupId, status: 'Miembro' } });
+    if (request.group_id) {
+      const member = await Member.findOne({ where: { user_id: req.user.id, group_id: request.group_id, status: 'Miembro' } });
       if (!member) {
         return res.status(403).json({ message: 'No tienes permiso para ver esta solicitud' });
       }

@@ -18,7 +18,7 @@
 /*Creation of the user used by the application to connect to the database*/
 
 CREATE USER IF NOT EXISTS 'app_simbiotime'@'localhost' IDENTIFIED BY '12345';
-GRANT ALL PRIVILEGES ON simbiotime.* TO 'app_simbiotime'@'localhost';
+GRANT ALL PRIVILEGES ON dev_simbiotime.* TO 'app_simbiotime'@'localhost';
 FLUSH PRIVILEGES;
 
 --

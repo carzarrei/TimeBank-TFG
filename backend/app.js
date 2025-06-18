@@ -35,8 +35,8 @@ app.use('/groups', groupRoutes);
 app.use('/uploads/profile_pictures', express.static(path.join(__dirname, 'uploads/profile_pictures')));
 
 // Iniciar el servidor
-app.listen(4000, () => {
-  console.log('Servidor corriendo en el puerto 4000');
+app.listen(process.env.BACKEND_PORT, () => {
+  console.log('Servidor corriendo en el puerto ' + process.env.BACKEND_PORT);
 });
 
 // Servir archivos estáticos del frontend

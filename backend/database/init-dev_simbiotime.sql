@@ -15,7 +15,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-/*Creation of the user used by the application to connect to the database*/
+-- Creation of the database
+DROP DATABASE IF EXISTS dev_simbiotime;
+CREATE DATABASE dev_simbiotime CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE dev_simbiotime;
+
+-- Creation of the user used by the application to connect to the database
 
 CREATE USER IF NOT EXISTS 'app_simbiotime'@'localhost' IDENTIFIED BY '12345';
 GRANT ALL PRIVILEGES ON dev_simbiotime.* TO 'app_simbiotime'@'localhost';

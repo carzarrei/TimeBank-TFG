@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import api from '../../api';
 import { calculateAge } from '../../helpers/calculateAge';
 import '../../styles/Auth/personalProfile.css';
+import { useNavigate } from 'react-router-dom';
+import { login, editProfile } from '../../routeNames';
 
 const PersonalProfile = () => {
   const [user, setUser] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       alert('No estás autenticado. Por favor, inicia sesión.');
-      window.location.href = '/login';
+      window.location.href = login;
       return;
     }
 
@@ -55,6 +57,11 @@ const PersonalProfile = () => {
           ))}
         </div>
       </div>
+      <div className="profile-actions">
+          <button className="btn-edit" onClick={() => navigate(editProfile)}>
+            Editar Perfil
+          </button>
+        </div>
     </div>
   );
 };

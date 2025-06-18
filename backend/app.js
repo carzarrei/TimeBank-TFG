@@ -38,3 +38,11 @@ app.use('/uploads/profile_pictures', express.static(path.join(__dirname, 'upload
 app.listen(4000, () => {
   console.log('Servidor corriendo en el puerto 4000');
 });
+
+// Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Redirigir cualquier otra ruta al index.html (React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+});

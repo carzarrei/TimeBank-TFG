@@ -86,39 +86,34 @@ INSERT INTO `members` VALUES (2,2,1,-4,'Miembro'),(5,1,1,6,'Miembro');
 UNLOCK TABLES;
 
 --
--- Table structure for table `negotiations`
+-- Table structure for table `messages`
 --
 
-DROP TABLE IF EXISTS `negotiations`;
+DROP TABLE IF EXISTS `messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `negotiations` (
+CREATE TABLE `messages` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `offer_id` int DEFAULT NULL,
-  `request_id` int DEFAULT NULL,
   `sender_id` int DEFAULT NULL,
   `receiver_id` int DEFAULT NULL,
-  `negotiated_time` int DEFAULT NULL,
-  `message` text,
+  `subject` varchar(255) DEFAULT NULL,
+  `body` text,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `offer_id` (`offer_id`),
-  KEY `request_id` (`request_id`),
   KEY `sender_id` (`sender_id`),
   KEY `receiver_id` (`receiver_id`),
-  CONSTRAINT `negotiations_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`),
-  CONSTRAINT `negotiations_ibfk_2` FOREIGN KEY (`request_id`) REFERENCES `requests` (`id`),
-  CONSTRAINT `negotiations_ibfk_3` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `negotiations_ibfk_4` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `negotiations`
+-- Dumping data for table `messages`
 --
 
-LOCK TABLES `negotiations` WRITE;
-/*!40000 ALTER TABLE `negotiations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `negotiations` ENABLE KEYS */;
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
